@@ -1,0 +1,66 @@
+{
+  "name": "SONAVERSE Admin",
+  "short_name": "SONAVERSE",
+  "description": "SONAVERSE 관리자 대시보드",
+  "start_url": "/admin",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#1f2937",
+  "orientation": "portrait-primary",
+  "scope": "/admin",
+  "categories": ["productivity", "business"],
+  "lang": "ko",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/logo/logo192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo/logo512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "제품 관리",
+      "short_name": "제품",
+      "url": "/admin/diaper-products",
+      "icons": [
+        {
+          "src": "/logo/logo192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "언론보도",
+      "short_name": "언론보도",
+      "url": "/admin/press",
+      "icons": [
+        {
+          "src": "/logo/logo192.png",
+          "sizes": "192x192", 
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "소나버스 스토리",
+      "short_name": "스토리",
+      "url": "/admin/sonaverse-story",
+      "icons": [
+        {
+          "src": "/logo/logo192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
