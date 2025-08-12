@@ -282,7 +282,7 @@ const ManboWalkerPage: React.FC = () => {
                   <div className="w-6 sm:w-8 h-0.5 bg-slate-300 mb-3"></div>
                   <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
                     {language === 'en'
-                      ? (<>Lack of consideration for seniors' emotional stability and self-esteem leads to <strong>a design that feels out of place</strong> in daily life</>)
+                      ? (<>Lack of consideration for seniors&apos; emotional stability and self-esteem leads to <strong>a design that feels out of place</strong> in daily life</>)
                       : (<>시니어의 정서적 안정과 자존감을 고려하지 않아 일상에서 <strong>이질감이 드는 외관 디자인</strong></>)}
                   </p>
                 </div>
@@ -305,7 +305,7 @@ const ManboWalkerPage: React.FC = () => {
                 <div className="w-6 sm:w-8 h-0.5 bg-slate-300 mb-3"></div>
                 <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
                   {language === 'en'
-                    ? (<>Design that fails to reflect seniors' body types, motor abilities, and usage habits leads to <strong>fatigue accumulation during long-term use</strong> and difficulty in continued use</>)
+                    ? (<>Design that fails to reflect seniors&apos; body types, motor abilities, and usage habits leads to <strong>fatigue accumulation during long-term use</strong> and difficulty in continued use</>)
                     : (<>시니어의 체형과 운동 능력, 사용 습관을 반영하지 못한 설계로 <strong>장시간 사용 시 피로 누적 및 지속 사용 곤란</strong></>)}
                 </p>
               </div>
