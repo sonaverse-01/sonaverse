@@ -33,7 +33,7 @@ const AuthManager: React.FC<AuthManagerProps> = ({ children }) => {
     // 페이지가 숨겨졌을 때 타이머 설정
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden' && !isLoggingOut.current) {
-        // 30초 후에도 페이지가 숨겨져 있으면 비활성 상태로 간주
+        // 2시간 후에도 페이지가 숨겨져 있으면 비활성 상태로 간주
         visibilityTimer.current = setTimeout(() => {
           if (document.visibilityState === 'hidden') {
             try {
@@ -44,7 +44,7 @@ const AuthManager: React.FC<AuthManagerProps> = ({ children }) => {
               console.error('Long inactivity logout error:', error);
             }
           }
-        }, 30000); // 30초 후 비활성 로그아웃
+        }, 2 * 60 * 60 * 1000); // 2시간 후 비활성 로그아웃
       } else if (document.visibilityState === 'visible') {
         // 페이지가 다시 보이면 타이머 취소
         if (visibilityTimer.current) {
