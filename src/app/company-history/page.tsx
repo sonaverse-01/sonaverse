@@ -101,7 +101,7 @@ const CompanyHistoryPage: React.FC = () => {
       {
         year: '2025',
         title: 'Product Commercialization Year',
-        events: ['Korea Credit Guarantee Fund Startup-NEST 17th Selection', 'Startup-Centered University Selection', 'Little Penguin Guarantee Secured', 'Global MOU Signing', 'Bodume Diaper Launch', 'Crowdfunding Campaign', 'Alibaba Platform Entry'],
+        events: ['Korea Credit Guarantee Fund Startup-NEST 17th Selection', 'Startup-Centered University Selection', 'Little Penguin Guarantee Secured', 'Global MOU Signing', 'BO DUME Diaper Launch', 'Crowdfunding Campaign', 'Alibaba Platform Entry'],
         description: 'First product launch and full-scale market entry'
       },
       {

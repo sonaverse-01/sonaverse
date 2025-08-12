@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev:*)",
+      "Bash(node:*)",
+      "Bash(rm:*)",
+      "Bash(pkill:*)",
+      "Bash(npm install:*)",
+      "Bash(npx next:*)",
+      "Bash(npm:*)",
+      "Bash(ls:*)",
+      "Bash(curl:*)",
+      "Bash(npx tsc:*)",
+      "Bash(timeout 30 npm run dev:*)",
+      "Bash(timeout 60 npm run build)",
+      "Bash(timeout 30 npx next lint:*)",
+      "Bash(kill:*)",
+      "Bash(echo \"브라우저 개발자 도구 콘솔에서 다음 명령을 실행하여 기존 인증 데이터를 정리하세요:\n\n// 세션 스토리지 정리\nsessionStorage.removeItem(''admin_authenticated'');\n\n// 로컬 스토리지 정리  \nlocalStorage.removeItem(''adminToken'');\nlocalStorage.removeItem(''adminUser'');\n\n// 쿠키 정리\ndocument.cookie = ''admin-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'';\ndocument.cookie = ''admin-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/admin;'';\n\n// 또는 페이지 새로고침\nlocation.reload();\")",
+      "Bash(mkdir:*)",
+      "Bash(true)",
+      "Bash(sudo npm install -g @anthropic-ai/claude-code)",
+      "Bash(find:*)",
+      "Bash(timeout 10 npm run dev)",
+      "Bash(git add:*)",
+      "Bash(taskkill:*)",
+      "Bash(timeout 10 npm run build)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(copy:*)",
+      "Bash(cp:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git config:*)",
+      "Bash(ssh-keygen:*)",
+      "Bash(cat:*)"
+    ],
+    "deny": []
+  }
+}

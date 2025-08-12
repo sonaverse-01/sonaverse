@@ -85,7 +85,7 @@ const brandStories = [
           Our products are made through strict quality control and continuous research and development.</p>
           
           <h3>The Beginning of Innovation</h3>
-          <p>Our first product, 'Bodume Diaper', was made with special materials considering children's skin health. 
+          <p>Our first product, 'BO DUME Diaper', was made with special materials considering children's skin health. 
           This is not just a diaper, but a scientific solution for children's comfort.</p>
         `,
         thumbnail_url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop'

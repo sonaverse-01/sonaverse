@@ -252,7 +252,7 @@ const BodeumDiaperPage: React.FC = () => {
               <div className="grid grid-cols-5 gap-2 sm:gap-4 md:gap-6 mt-6 sm:mt-16">
                 <div 
                   className="flex flex-col items-center group cursor-pointer"
-                  onMouseEnter={() => setHoveredImage('/product/bodume/Disposable Underpads_f.jpg')}
+                  onMouseEnter={() => setHoveredImage('/product/Bbodume/Disposable Underpads_f.jpg')}
                   onMouseLeave={() => setHoveredImage('/product/bodume/pd_bodume_set.jpg')}
                   onClick={(e) => handleImageClick('/product/bodume/Disposable Underpads_f.jpg', e)}
                 >

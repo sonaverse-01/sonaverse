@@ -77,6 +77,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        {/* Preload LCP hero image */}
+        <link rel="preload" as="image" href="/hero.png" fetchPriority="high" />
+      </head>
       <body className="font-sans antialiased">
         <LanguageProvider>
           <ToastProvider>

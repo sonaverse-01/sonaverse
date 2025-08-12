@@ -73,8 +73,8 @@ const Header: React.FC = () => {
       <div className="absolute left-0 right-0 bottom-0 h-6 pointer-events-none" style={{background: 'linear-gradient(to bottom, rgba(240,236,233,0) 0%, rgba(240,236,233,0.7) 60%, rgba(240,236,233,1) 100%)'}} />
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-2 min-h-[3rem]">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-2 flex-shrink-0">
-          <img src={logoSrc} alt="SONAVERSE Logo" className="h-6 sm:h-8 w-auto" />
+        <a href="/" className="flex items-center gap-2 flex-shrink-0" aria-label="SONAVERSE Home">
+          <img src={logoSrc} alt="" role="presentation" className="h-6 sm:h-8 w-auto" />
         </a>
         
         {/* Desktop Navigation */}
@@ -98,7 +98,7 @@ const Header: React.FC = () => {
               </a>
               <a href="/products/bodeum-diaper" className="flex-1 flex flex-col items-center justify-center gap-2 px-3 xl:px-6 py-3 rounded-xl hover:bg-[#f0ece9] hover:text-[#bda191] transition-colors duration-200 text-sm xl:text-base font-medium shadow-sm">
                 <svg width="24" height="24" className="xl:w-8 xl:h-8" fill="none" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="4" stroke="#bda191" strokeWidth="1.5"/><path d="M8 8V6a4 4 0 0 1 8 0v2" stroke="#bda191" strokeWidth="1.5"/></svg>
-                <span className="text-center leading-tight">{language === 'en' ? 'Bodume Diaper' : '보듬 기저귀'}</span>
+                <span className="text-center leading-tight">{language === 'en' ? 'BO DUME Diaper' : '보듬 기저귀'}</span>
               </a>
             </div>
           </div>
@@ -130,7 +130,11 @@ const Header: React.FC = () => {
         </nav>
         
         {/* Language Dropdown */}
+        <label htmlFor="language-select" className="sr-only">
+          {language === 'en' ? 'Select language' : '언어 선택'}
+        </label>
         <select
+          id="language-select"
           className="hidden lg:block border border-[#e5e0db] rounded-lg px-2 xl:px-3 py-1.5 xl:py-2 bg-white/80 shadow-sm text-xs xl:text-sm focus:ring-2 focus:ring-[#bda191] focus:border-[#bda191] transition flex-shrink-0"
           value={language}
           onChange={e => setLanguage(e.target.value as 'ko' | 'en')}
@@ -145,7 +149,7 @@ const Header: React.FC = () => {
           onClick={toggleMobileMenu}
           aria-label="메뉴 열기"
         >
-          <span className="text-lg">{isMobileMenuOpen ? '✕' : '☰'}</span>
+          <span className="text-lg" aria-hidden="true">{isMobileMenuOpen ? '✕' : '☰'}</span>
         </button>
       </div>
 
@@ -181,7 +185,7 @@ const Header: React.FC = () => {
                   </a>
                   <a href="/products/bodeum-diaper" className="flex items-center gap-3 py-2 px-2 hover:bg-gray-50 rounded text-gray-600" onClick={toggleMobileMenu}>
                     <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="4" stroke="#bda191" strokeWidth="1.5"/><path d="M8 8V6a4 4 0 0 1 8 0v2" stroke="#bda191" strokeWidth="1.5"/></svg>
-                    {language === 'en' ? 'Bodume Diaper' : '보듬 기저귀'}
+                    {language === 'en' ? 'BO DUME Diaper' : '보듬 기저귀'}
                   </a>
                 </div>
               </div>
@@ -222,8 +226,9 @@ const Header: React.FC = () => {
             
             {/* Mobile Language Selection */}
             <div className="pt-3 border-t border-gray-200">
-              <div className="text-sm font-medium text-gray-700 mb-2">언어 선택 / Language</div>
+              <label htmlFor="mobile-language-select" className="text-sm font-medium text-gray-700 mb-2 block">언어 선택 / Language</label>
               <select
+                id="mobile-language-select"
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#bda191] focus:border-[#bda191] bg-white"
                 value={language}
                 onChange={e => setLanguage(e.target.value as 'ko' | 'en')}

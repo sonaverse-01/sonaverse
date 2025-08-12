@@ -159,7 +159,7 @@ const ManboWalkerPage: React.FC = () => {
                   MANBO
                 </h3>
                 <h4 className="text-sm sm:text-lg md:text-xl font-normal">
-                  하이브리드형 워크메이트
+                  {language === 'en' ? 'Hybrid Walkmate' : '하이브리드형 워크메이트'}
                 </h4>
                 <h1 className="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold leading-none mt-4 sm:mt-8">
                   만보
@@ -171,35 +171,46 @@ const ManboWalkerPage: React.FC = () => {
               
               {/* Product Description */}
               <div className="space-y-2 sm:space-y-4 text-sm sm:text-lg md:text-xl leading-relaxed">
-                <p>바형 손잡이와 통 프레임의 차별화된 설계로 안전성을 갖춘,</p>
-                <p>경사시 제어를 포함한 스마트 기능의 편의성을 갖춘,</p>
-                <p>사용자 만족도를 극대화한</p>
-                <p>국내 유일 하이브리드형 <span className="text-red-400 font-semibold">워크메이트</span>.</p>
+                {language === 'en' ? (
+                  <>
+                    <p>Enhanced safety with a differentiated bar-handle and single-frame design,</p>
+                    <p>Convenience with smart functions including slope control,</p>
+                    <p>Maximized user satisfaction,</p>
+                    <p>The only hybrid <span className="text-red-400 font-semibold">Walkmate</span> in Korea.</p>
+                  </>
+                ) : (
+                  <>
+                    <p>바형 손잡이와 통 프레임의 차별화된 설계로 안전성을 갖춘,</p>
+                    <p>경사시 제어를 포함한 스마트 기능의 편의성을 갖춘,</p>
+                    <p>사용자 만족도를 극대화한</p>
+                    <p>국내 유일 하이브리드형 <span className="text-red-400 font-semibold">워크메이트</span>.</p>
+                  </>
+                )}
               </div>
               
               {/* Features Icons - Bottom of left panel */}
               <div className="grid grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-6 sm:mt-16">
                 <div className="flex flex-col items-center">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 bg-white rounded-full flex items-center justify-center mb-2">
-                    <img src="/product/manbo/pd_manbo_sub1.png" alt="손잡이 조절" className="w-full h-full object-cover rounded-full" />
+                    <img src="/product/manbo/pd_manbo_sub1.png" alt={language === 'en' ? 'Handle adjustment' : '손잡이 조절'} className="w-full h-full object-cover rounded-full" />
                   </div>
                 </div>
                 
                 <div className="flex flex-col items-center">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 bg-white rounded-full flex items-center justify-center mb-2">
-                    <img src="/product/manbo/pd_manbo_sub2.png" alt="프레임 구조" className="w-full h-full object-cover rounded-full" />
+                    <img src="/product/manbo/pd_manbo_sub2.png" alt={language === 'en' ? 'Frame structure' : '프레임 구조'} className="w-full h-full object-cover rounded-full" />
                   </div>
                 </div>
                 
                 <div className="flex flex-col items-center">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 bg-white rounded-full flex items-center justify-center mb-2">
-                    <img src="/product/manbo/pd_manbo_sub3.png" alt="브레이크 시스템" className="w-full h-full object-cover rounded-full" />
+                    <img src="/product/manbo/pd_manbo_sub3.png" alt={language === 'en' ? 'Brake system' : '브레이크 시스템'} className="w-full h-full object-cover rounded-full" />
                   </div>
                 </div>
                 
                 <div className="flex flex-col items-center">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 bg-white rounded-full flex items-center justify-center mb-2">
-                    <img src="/product/manbo/pd_manbo_sub4.png" alt="다층 수납" className="w-full h-full object-cover rounded-full" />
+                    <img src="/product/manbo/pd_manbo_sub4.png" alt={language === 'en' ? 'Multi-layer storage' : '다층 수납'} className="w-full h-full object-cover rounded-full" />
                   </div>
                 </div>
               </div>
@@ -351,10 +362,10 @@ const ManboWalkerPage: React.FC = () => {
           <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-slate-200">
             <div className="text-center mb-8 sm:mb-12">
               <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-4 sm:mb-6">
-                듀얼 구동 방식을 적용한 차세대 하이브리드 워크 메이트
+                {language === 'en' ? 'Next-Generation Hybrid Walkmate with Dual Drive' : '듀얼 구동 방식을 적용한 차세대 하이브리드 워크 메이트'}
               </h2>
               <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-600">
-                바람 손잡이와 통 프레임의 차별화된 설계로 안전성을 강화
+                {language === 'en' ? 'Enhanced safety with a differentiated bar handle and single frame design' : '바람 손잡이와 통 프레임의 차별화된 설계로 안전성을 강화'}
               </p>
             </div>
             

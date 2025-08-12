@@ -154,7 +154,7 @@ const DiaperProductDetailPage: React.FC = () => {
             {/* 구매 버튼 */}
             <div className="pt-6">
               <a
-                href="https://bodume.com/"
+                href="https://BO DUME.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center w-full bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg"

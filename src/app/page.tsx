@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '../contexts/LanguageContext';
 import ScrollToTop from '../components/ScrollToTop';
 
@@ -140,7 +141,7 @@ const problemsToSolve = {
     },
     {
       title: 'Technology Blind Spots in an Aging Era',
-      description: 'Market development is delayed because AI, sensors, and other modern technologies are not adapted to seniors\' adoption pace, and the daily-life technologies they need remain unapplied',
+      description: 'Market development is delayed because AI, sensors, and other modern technologies are not adapted to seniors\' adoption pace,\n and the daily-life technologies they need remain unapplied',
       icon: '/logo/symbol_logo.png'
     }
   ]
@@ -245,10 +246,10 @@ const bodeumDetails = {
     business: '한번 사용하면 계속 구매하게 되는 상품으로 브랜딩 후 지속적인 매출 가능.\n이후 수출 국가에 맞는 다양한 사이즈, 품목 지속적으로 증가 계획'
   },
   en: {
-    title: 'BODUME',
+    title: 'BO DUME',
     subtitle: 'Small Consideration for Parents',
     description: 'Created through real field experience of actual buyers and users of adult diapers. Developed in partnership with active caregivers to reflect improvements from actual users and buyers.',
-    meaning: '"Bodume" means caring for parents\' daily life with love.',
+    meaning: '"BO DUME" means caring for parents\' daily life with love.',
     features: [
       {
         title: 'Reliable Core Design',
@@ -339,7 +340,7 @@ const companyHistory = {
     {
       year: '2025',
       title: 'Product Commercialization Year',
-      events: ['Korea Credit Guarantee Fund Startup-NEST 17th Selection', 'Startup-Centered University Selection', 'Little Penguin Guarantee Secured', 'Global MOU Signing', 'Bodume Diaper Launch', 'Crowdfunding Campaign', 'Alibaba Platform Entry'],
+      events: ['Korea Credit Guarantee Fund Startup-NEST 17th Selection', 'Startup-Centered University Selection', 'Little Penguin Guarantee Secured', 'Global MOU Signing', 'BO DUME Diaper Launch', 'Crowdfunding Campaign', 'Alibaba Platform Entry'],
       description: 'First product launch and full-scale market entry'
     },
     {
@@ -754,6 +755,8 @@ const HomePage: React.FC = () => {
                       src={thumbnailUrl}
                       alt={title}
                       className="w-full h-40 object-cover rounded-lg mb-4"
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
                     />
                     <h3 className="text-lg font-bold mb-2 text-slate-800 line-clamp-2">
@@ -782,21 +785,26 @@ const HomePage: React.FC = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="w-full bg-white">
-      {/* Hero Section - 전체화면 */}
+      {/* Hero Section - 전체화면 (Next/Image로 LCP 최적화) */}
       <section 
         id="hero" 
         data-section 
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
-        style={{
-          backgroundImage: `url('/hero.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
       >
-        {/* 배경 오버레이 */}
-        <div className="absolute inset-0 bg-black/40"></div>
-        
+        {/* 배경 이미지 */}
+        <div className="absolute inset-0">
+          <Image
+            src="/hero.png"
+            alt=""
+            fill
+            priority
+            fetchPriority="high"
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
+
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center text-white">
           <div className={`transform transition-all duration-1000 ${isVisible.hero ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
             <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 text-white leading-tight">
@@ -817,18 +825,18 @@ const HomePage: React.FC = () => {
             <div className="flex flex-row gap-2 sm:gap-4 justify-center mb-12 sm:mb-16">
               <button 
                 onClick={() => {
-                  const manboSection = document.getElementById('manbo');
-                  if (manboSection) {
-                    manboSection.scrollIntoView({ behavior: 'smooth' });
+                  const productsSection = document.getElementById('products');
+                  if (productsSection) {
+                    productsSection.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className="px-4 py-2 sm:px-8 sm:py-4 bg-white text-slate-900 rounded-xl font-semibold hover:bg-slate-100 transition-all duration-300 shadow-lg text-xs sm:text-base flex-1"
+                className="px-4 py-2 sm:px-8 sm:py-4 bg-[#EFD1BD] text-gray-900 rounded-xl font-semibold hover:bg-[#e8c4a4] transition-all duration-300 shadow-lg text-xs sm:text-base flex-1 border border-[#e8c4a4]"
               >
 {language === 'en' ? 'Explore Products' : '제품 둘러보기'}
               </button>
               <button 
                 onClick={() => window.location.href = '/inquiry'}
-                className="px-4 py-2 sm:px-8 sm:py-4 bg-[#bda191] text-white rounded-xl font-semibold hover:bg-[#a68b7a] transition-all duration-300 shadow-lg text-xs sm:text-base flex-1"
+                className="px-4 py-2 sm:px-8 sm:py-4 bg-[#0B3877] text-white rounded-xl font-semibold hover:bg-[#092f66] transition-all duration-300 shadow-lg text-xs sm:text-base flex-1"
               >
 {language === 'en' ? 'Contact Us' : '문의하기'}
               </button>
@@ -843,6 +851,7 @@ const HomePage: React.FC = () => {
         data-section 
         className="py-8 sm:py-14 lg:py-20 bg-white relative overflow-hidden"
       >
+        <h2 className="sr-only">{language === 'en' ? 'Problems We Aim to Solve' : '우리가 해결하고자 하는 문제들'}</h2>
         {/* 배경 장식 요소 */}
         <div className="absolute top-0 right-0 w-48 sm:w-72 lg:w-96 h-48 sm:h-72 lg:h-96 bg-[#bda191]/5 rounded-full -translate-y-24 sm:-translate-y-36 lg:-translate-y-48 translate-x-24 sm:translate-x-36 lg:translate-x-48"></div>
         <div className="absolute bottom-0 left-0 w-36 sm:w-56 lg:w-72 h-36 sm:h-56 lg:h-72 bg-slate-100 rounded-full translate-y-18 sm:translate-y-28 lg:translate-y-36 -translate-x-18 sm:-translate-x-28 lg:-translate-x-36"></div>
@@ -872,7 +881,7 @@ const HomePage: React.FC = () => {
                     <h3 className="text-lg sm:text-2xl md:text-3xl font-bold mb-4 text-slate-900 leading-tight">
                       {problem.title}
                     </h3>
-                    <p className={`text-lg text-slate-600 leading-relaxed ${[1,3].includes(idx) ? 'max-w-none lg:whitespace-nowrap' : 'max-w-2xl'}`}>
+                    <p className={`text-lg text-slate-600 leading-relaxed whitespace-pre-line ${[1,3].includes(idx) ? (idx === 3 ? 'max-w-none lg:whitespace-pre-line' : 'max-w-none lg:whitespace-nowrap') : 'max-w-2xl'}`}>
                       {problem.description}
                     </p>
                     {/* 데코레이션 라인 */}
@@ -887,6 +896,7 @@ const HomePage: React.FC = () => {
 
       {/* 제품 섹션 (만보 + 보듬 통합) */}
       <section id="products" data-section className="py-16 lg:py-20 bg-white">
+        <h2 className="sr-only">{language === 'en' ? 'Products' : '제품'}</h2>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Mobile horizontal scroll */}
           <div className="lg:hidden">
@@ -927,7 +937,7 @@ const HomePage: React.FC = () => {
                   </ul>
                 </div>
                 <div className="flex items-center justify-center">
-                  <img src="/product/manbo/pd_manbo_main.png" alt="만보" className="w-full h-40 object-contain" />
+                  <Image src="/product/manbo/pd_manbo_main.png" alt="만보" className="w-full h-40 object-contain" loading="lazy" decoding="async" width={320} height={160} />
                 </div>
               </div>
               <div className="flex gap-2 justify-center mt-auto">
@@ -961,7 +971,7 @@ const HomePage: React.FC = () => {
                   </ul>
                 </div>
                 <div className="flex items-center justify-center">
-                  <img src="/product/bodume/main_section_diapers.jpg" alt="보듬" className="w-full h-40 object-contain" />
+                  <Image src="/product/bodume/main_section_diapers.jpg" alt="보듬" className="w-full h-40 object-contain" loading="lazy" decoding="async" width={320} height={160} />
                 </div>
               </div>
               <div className="flex gap-2 justify-center mt-auto">
@@ -1002,12 +1012,13 @@ const HomePage: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-start justify-center pt-2">
-                  <img
+                  <Image
                     src="/product/manbo/pd_manbo_main.png"
                     alt="만보 워크메이트 - 하이브리드 보행보조기 제품 이미지"
                     className="w-[250px] h-[250px] object-contain rounded-lg shadow-lg"
                     loading="lazy"
-                    onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
+                    width={250}
+                    height={250}
                   />
                 </div>
               </div>
@@ -1056,12 +1067,13 @@ const HomePage: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-start justify-center pt-2">
-                  <img
+                  <Image
                     src="/product/bodume/main_section_diapers.jpg"
                     alt="보듬 기저귀 - 프리미엄 성인용 기저귀 제품 이미지"
                     className="w-[250px] h-[250px] object-contain rounded-lg shadow-lg"
                     loading="lazy"
-                    onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
+                    width={250}
+                    height={250}
                   />
                 </div>
               </div>
@@ -1130,6 +1142,8 @@ const HomePage: React.FC = () => {
                               src={thumbnailUrl}
                               alt={title}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                              loading="lazy"
+                              decoding="async"
                               onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/70 transition-all duration-500"></div>
@@ -1397,15 +1411,7 @@ const HomePage: React.FC = () => {
                       {/* 주요 이벤트들 */}
                       {item.events && Array.isArray(item.events) && (
                         <div className="space-y-3 md:space-y-4">
-                          <h4 className={`text-sm sm:text-lg font-semibold text-slate-800 mb-3 md:mb-4 flex items-center justify-start ${idx % 2 === 0 ? '' : 'md:justify-end'}`}>
-                            <div
-                              className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${idx % 2 === 0 ? 'mr-2 md:mr-3' : 'mr-2 md:ml-3 md:mr-0 md:order-2'}`}
-                              style={{ backgroundColor: getYearColor(history.length - 1, history.length) }}
-                            ></div>
-                            <span className={idx % 2 === 0 ? '' : 'md:order-1'}>
-                              {language === 'ko' ? '주요 성과' : 'Key Achievements'}
-                            </span>
-                          </h4>
+                          {/* 제목 제거: '주요 성과' / 'Key Achievements' */}
                           
                           <div className="space-y-1.5 md:space-y-3">
                             {item.events.map((event: string, eventIdx: number) => (
@@ -1481,6 +1487,7 @@ const HomePage: React.FC = () => {
         data-section 
         className="py-6 lg:py-20 bg-white relative overflow-hidden"
       >
+        <h2 className="sr-only">{language === 'en' ? 'Press Coverage' : '언론보도'}</h2>
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-8 lg:mb-16">
@@ -1525,6 +1532,8 @@ const HomePage: React.FC = () => {
                               src={thumbnailUrl}
                               alt={title}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                              loading="lazy"
+                              decoding="async"
                               onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -1582,6 +1591,8 @@ const HomePage: React.FC = () => {
                               src={thumbnailUrl}
                               alt={title}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                              loading="lazy"
+                              decoding="async"
                               onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
                             />
                           </div>
@@ -1627,12 +1638,14 @@ const HomePage: React.FC = () => {
                       <div className="flex h-full">
                         {/* 왼쪽 썸네일 */}
                         <div className="w-24 flex-shrink-0 bg-gray-200 rounded-l-2xl relative overflow-hidden">
-                          <img 
-                            src={thumbnailUrl}
-                            alt={title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
-                          />
+                            <img 
+                              src={thumbnailUrl}
+                              alt={title}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                              loading="lazy"
+                              decoding="async"
+                              onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
+                            />
                         </div>
                         
                         {/* 오른쪽 콘텐츠 */}
