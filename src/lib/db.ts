@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
  * - 환경 변수 MONGODB_URI를 사용
  * - Next.js 환경에서 연결 재사용(핫 리로드 시 중복 연결 방지)
  */
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://sonaverse:sonaverse123@cluster0.mongodb.net/sonaverse?retryWrites=true&w=majority';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
   throw new Error('MONGODB_URI 환경 변수가 설정되어 있지 않습니다.');

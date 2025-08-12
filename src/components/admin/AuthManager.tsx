@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { logoutClient } from '../../lib/auth';
 
 interface AuthManagerProps {
   children: React.ReactNode;
@@ -9,89 +8,64 @@ interface AuthManagerProps {
 
 /**
  * 인증 관리 컴포넌트
- * 브라우저 탭이 닫힐 때만 토큰을 해제하는 기능을 제공합니다.
- * 보안과 사용자 경험을 모두 고려합니다.
+ * 브라우저가 완전히 닫힐 때만 로그아웃을 처리합니다.
+ * 새로고침이나 탭 이동은 허용합니다.
  */
 const AuthManager: React.FC<AuthManagerProps> = ({ children }) => {
   const isLoggingOut = useRef(false);
+  const visibilityTimer = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    // 브라우저 종료 감지를 위한 다중 이벤트 처리
+    // 브라우저 완전 종료 시에만 세션 스토리지 정리
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (!isLoggingOut.current) {
-        try {
-          // 세션 스토리지에서 인증 상태 제거
-          sessionStorage.removeItem('admin_authenticated');
-          
-          // Navigator.sendBeacon을 사용하여 확실한 로그아웃 요청
-          if (navigator.sendBeacon) {
-            navigator.sendBeacon('/api/auth/logout', JSON.stringify({ reason: 'browser_close' }));
-          }
-          
-          // 백업으로 클라이언트 로그아웃도 실행
-          logoutClient();
-        } catch (error) {
-          console.error('Beforeunload logout error:', error);
+      // 새로고침이나 일반 페이지 이동은 허용
+      // 오직 브라우저 종료시에만 정리
+      try {
+        // 세션 스토리지 정리는 브라우저가 자동으로 처리
+        if (navigator.sendBeacon && event.type === 'beforeunload') {
+          navigator.sendBeacon('/api/auth/logout', JSON.stringify({ reason: 'browser_close' }));
         }
+      } catch (error) {
+        console.error('Beforeunload cleanup error:', error);
       }
     };
 
-    // 페이지 언로드 시 확실한 정리
-    const handleUnload = () => {
-      if (!isLoggingOut.current) {
-        try {
-          sessionStorage.removeItem('admin_authenticated');
-          logoutClient();
-          
-          if (navigator.sendBeacon) {
-            navigator.sendBeacon('/api/auth/logout', JSON.stringify({ reason: 'page_unload' }));
-          }
-        } catch (error) {
-          console.error('Unload logout error:', error);
-        }
-      }
-    };
-
-    // 페이지 숨김 감지 (탭 닫기, 브라우저 최소화 등)
+    // 페이지가 숨겨졌을 때 타이머 설정
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden' && !isLoggingOut.current) {
-        // 페이지가 숨겨진 상태에서 일정 시간 후 로그아웃
-        setTimeout(() => {
-          if (document.visibilityState === 'hidden' && !document.hasFocus()) {
+        // 30초 후에도 페이지가 숨겨져 있으면 비활성 상태로 간주
+        visibilityTimer.current = setTimeout(() => {
+          if (document.visibilityState === 'hidden') {
             try {
-              sessionStorage.removeItem('admin_authenticated');
-              
               if (navigator.sendBeacon) {
-                navigator.sendBeacon('/api/auth/logout', JSON.stringify({ reason: 'page_hidden' }));
+                navigator.sendBeacon('/api/auth/logout', JSON.stringify({ reason: 'long_inactive' }));
               }
-              
-              logoutClient();
             } catch (error) {
-              console.error('Visibility change logout error:', error);
+              console.error('Long inactivity logout error:', error);
             }
           }
-        }, 2000); // 2초 지연으로 탭 전환과 구분
+        }, 30000); // 30초 후 비활성 로그아웃
+      } else if (document.visibilityState === 'visible') {
+        // 페이지가 다시 보이면 타이머 취소
+        if (visibilityTimer.current) {
+          clearTimeout(visibilityTimer.current);
+          visibilityTimer.current = undefined;
+        }
       }
     };
 
-    // 페이지 포커스 복원 시 토큰 유효성 확인
-    const handleFocus = () => {
-      // 세션 쿠키 기반이므로 별도 확인 불필요
-    };
-
-    // 이벤트 리스너 등록
+    // 이벤트 리스너 등록 (beforeunload만 사용)
     window.addEventListener('beforeunload', handleBeforeUnload);
-    window.addEventListener('unload', handleUnload);
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('focus', handleFocus);
 
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    // 컴포넌트 언마운트 시 정리
     return () => {
       isLoggingOut.current = true;
+      if (visibilityTimer.current) {
+        clearTimeout(visibilityTimer.current);
+      }
       window.removeEventListener('beforeunload', handleBeforeUnload);
-      window.removeEventListener('unload', handleUnload);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('focus', handleFocus);
     };
   }, []);
 

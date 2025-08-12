@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
     try {
       body = await request.json();
     } catch (error) {
-      console.error('JSON parsing error:', error);
       return NextResponse.json(
         { success: false, error: '잘못된 요청 형식입니다.' }, 
         { status: 400 }
