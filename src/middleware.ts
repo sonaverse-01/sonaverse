@@ -76,6 +76,7 @@ export async function middleware(request: NextRequest) {
     try {
       // 쿠키에서 토큰 가져오기 (COOKIE_NAME 상수 사용)
       const token = request.cookies.get(COOKIE_NAME)?.value;
+      console.log(`[Middleware] Path: ${pathname}, Token exists: ${!!token}`);
 
       // 토큰이 없거나 유효하지 않은 경우 로그인 페이지로 리다이렉트
       if (!token || !(await verifyToken(token))) {

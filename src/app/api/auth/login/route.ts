@@ -102,7 +102,10 @@ export async function POST(request: NextRequest) {
     });
 
     // 쿠키에 토큰 설정
-    return setAuthCookie(response, token);
+    console.log('Setting auth cookie with token length:', token.length);
+    const responseWithCookie = setAuthCookie(response, token);
+    console.log('Cookie set successfully');
+    return responseWithCookie;
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(

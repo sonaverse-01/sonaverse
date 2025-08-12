@@ -93,6 +93,8 @@ export async function getTokenFromCookie(): Promise<string | null> {
     const cookieStore = await cookies();
     const token = cookieStore.get(COOKIE_NAME)?.value;
     
+    console.log('Getting token from cookie:', token ? `Token exists (length: ${token.length})` : 'No token found');
+    
     if (!token) {
       return null;
     }
