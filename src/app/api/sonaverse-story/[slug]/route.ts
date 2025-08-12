@@ -45,7 +45,7 @@ export async function PUT(request: NextRequest, { params }: Props) {
     // 인증 체크
     const authHeader = request.headers.get('authorization');
     const token = authHeader?.replace('Bearer ', '');
-    if (!token || !verifyToken(token)) {
+    if (!token || !(await verifyToken(token))) {
       return NextResponse.json({ error: '인증이 필요합니다.' }, { status: 401 });
     }
 
@@ -101,7 +101,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
     // 인증 체크
     const authHeader = request.headers.get('authorization');
     const token = authHeader?.replace('Bearer ', '');
-    if (!token || !verifyToken(token)) {
+    if (!token || !(await verifyToken(token))) {
       return NextResponse.json({ error: '인증이 필요합니다.' }, { status: 401 });
     }
 

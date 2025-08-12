@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
   try {
     // 인증 체크 - 쿠키에서 토큰 가져오기
     const token = request.cookies.get('admin-token')?.value;
-    if (!token || !verifyToken(token)) {
+    if (!token || !(await verifyToken(token))) {
       return NextResponse.json({ error: '인증이 필요합니다.' }, { status: 401 });
     }
 
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
     }
     
     // 토큰에서 사용자 정보 추출
-    const decoded = verifyToken(token);
+    const decoded = await verifyToken(token);
     if (!decoded || !decoded.id) {
       return NextResponse.json(
         { error: '유효하지 않은 토큰입니다.' },

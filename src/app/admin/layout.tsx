@@ -44,7 +44,7 @@ const AdminLayoutContent: React.FC<AdminLayoutProps> = ({ children }) => {
           return;
         }
 
-        // 서버에서 인증 상태 확인
+        // 서버에서 인증 상태 확인 (캐시 방지)
         const authResult = await checkAuthClient();
 
         if (authResult.success && authResult.user) {

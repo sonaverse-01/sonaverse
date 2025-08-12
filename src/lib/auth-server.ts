@@ -44,7 +44,7 @@ export async function verifyToken(token: string): Promise<User | null> {
       audience: 'admin-users'
     });
     
-    return payload as User;
+    return payload as unknown as User;
   } catch (error) {
     console.error('Token verification failed:', error);
     return null;
