@@ -71,6 +71,17 @@ const AdminLoginContent: React.FC = () => {
         throw new Error(data.error || '로그인에 실패했습니다.');
       }
 
+      // 로그인 성공시 localStorage에 토큰 백업 저장
+      if (data.token) {
+        try {
+          localStorage.setItem('admin_token_backup', data.token);
+          localStorage.setItem('admin_token_time', Date.now().toString());
+          console.log('Token backup saved to localStorage');
+        } catch (error) {
+          console.error('Failed to backup token:', error);
+        }
+      }
+
       // 로그인 성공 토스터 표시
       addToast({
         type: 'success',

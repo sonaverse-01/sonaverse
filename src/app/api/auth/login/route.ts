@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
 
     const token = await generateToken(tokenPayload);
 
-    // 응답 생성
+    // 응답 생성 (토큰도 포함하여 클라이언트에서 localStorage 저장 가능)
     const response = NextResponse.json({
       success: true,
       user: {
@@ -98,7 +98,8 @@ export async function POST(request: NextRequest) {
         email: user.email,
         username: user.username,
         role: user.role
-      }
+      },
+      token: token // 클라이언트에서 localStorage 백업용
     });
 
     // 쿠키에 토큰 설정

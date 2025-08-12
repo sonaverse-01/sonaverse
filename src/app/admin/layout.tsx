@@ -28,12 +28,40 @@ const AdminLayoutContent: React.FC<AdminLayoutProps> = ({ children }) => {
     const checkAuth = async () => {
       try {
         // 세션 스토리지에서 인증 상태 확인
-        const sessionAuth = sessionStorage.getItem('admin_authenticated');
+        let sessionAuth = sessionStorage.getItem('admin_authenticated');
+        
+        // 세션 스토리지에 없으면 localStorage 백업 확인
+        if (!sessionAuth) {
+          try {
+            const tokenBackup = localStorage.getItem('admin_token_backup');
+            const tokenTime = localStorage.getItem('admin_token_time');
+            
+            if (tokenBackup && tokenTime) {
+              const tokenAge = Date.now() - parseInt(tokenTime);
+              const eightHours = 8 * 60 * 60 * 1000;
+              
+              // 8시간 이내이면 유효한 토큰으로 간주
+              if (tokenAge < eightHours) {
+                console.log('Found valid backup token, restoring session');
+                sessionStorage.setItem('admin_authenticated', 'true');
+                sessionAuth = 'true';
+                
+                // 쿠키도 복원 시도
+                document.cookie = `admin_token=${tokenBackup}; path=/; max-age=${8*60*60}; samesite=lax`;
+              } else {
+                // 만료된 백업 토큰 제거
+                localStorage.removeItem('admin_token_backup');
+                localStorage.removeItem('admin_token_time');
+              }
+            }
+          } catch (error) {
+            console.error('Failed to restore from backup:', error);
+          }
+        }
         
         if (!sessionAuth) {
-          // 세션 스토리지에 인증 상태가 없으면 로그인 페이지로 리다이렉트
+          // 세션 스토리지와 백업 모두 없으면 로그인 페이지로 리다이렉트
           if (pathname !== '/admin/login') {
-            // URL 인코딩 문제 수정: 이미 인코딩된 URL이 아닌 원본 pathname 사용
             const returnUrl = pathname;
             router.push(`/admin/login?returnUrl=${encodeURIComponent(returnUrl)}`);
           }
