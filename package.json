@@ -30,6 +30,7 @@
     "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.1",
+    "git": "^0.1.5",
     "i18next": "^25.3.2",
     "jose": "^6.0.12",
     "jsonwebtoken": "^9.0.2",
@@ -52,15 +53,15 @@
     "eslint-config-next": "15.4.3",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
-  ,
+  },
   "browserslist": {
     "production": [
-      ">=0.5%",
-      "not dead",
-      "not op_mini all",
+      "last 2 Chrome versions",
+      "last 2 Edge versions",
+      "last 2 Firefox versions",
+      "last 2 Safari versions",
       "not IE 11",
-      "not safari <= 12"
+      "not dead"
     ],
     "development": [
       "last 1 chrome version",

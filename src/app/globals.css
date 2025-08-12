@@ -10,6 +10,7 @@
   --color-card-glass: rgba(255,255,255,0.9);
   --color-text: #1e293b;
   --color-text-light: #64748b;
+  --header-accent: #bda191;
 }
 
 * {
@@ -32,6 +33,10 @@ body {
   word-break: keep-all;
   word-wrap: break-word;
 }
+
+/* Year badge text inherits dynamic color from inline style */
+.year-badge-text { color: inherit; }
+.header-accent-text { color: var(--header-accent); }
 
 /* 시각적으로 숨김 (접근성용) */
 .sr-only {

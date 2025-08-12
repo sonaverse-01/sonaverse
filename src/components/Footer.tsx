@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import PrivacyPolicyModal from './PrivacyPolicyModal';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -34,9 +35,17 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-10 lg:gap-12">
                       {/* 좌측: 로고 + 사업자 정보 */}
             <div className="flex flex-col md:col-span-6">
-            {/* 로고 */}
+            {/* 로고 (next/image로 최적화, lazy) */}
             <a href="/" className="mb-3 sm:mb-4" aria-label="SONAVERSE Home">
-              <img src="/logo/symbol_logo.png" alt="" role="presentation" className="h-10 sm:h-12 w-auto" />
+              <Image
+                src="/logo/symbol_logo.png"
+                alt={language === 'en' ? 'SONAVERSE symbol logo' : '소나버스 심볼 로고'}
+                width={56}
+                height={64}
+                loading="lazy"
+                sizes="(max-width: 640px) 35px, 56px"
+                className="w-auto h-10 sm:h-12"
+              />
             </a>
             {/* 사업자 정보입니다. */}
             <div className="text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-1.5">

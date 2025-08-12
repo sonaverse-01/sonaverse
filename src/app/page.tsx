@@ -436,6 +436,23 @@ const HomePage: React.FC = () => {
     
     return `rgb(${newR}, ${newG}, ${newB})`;
   };
+
+  // 배경색 대비에 따라 텍스트 색상을 자동으로 선택 (흰/검)
+  const getAccessibleTextColor = (rgbString: string): string => {
+    const match = rgbString.match(/rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/i);
+    if (!match) return '#000000';
+    const r = parseInt(match[1], 10) / 255;
+    const g = parseInt(match[2], 10) / 255;
+    const b = parseInt(match[3], 10) / 255;
+    const toLinear = (c: number) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+    const R = toLinear(r);
+    const G = toLinear(g);
+    const B = toLinear(b);
+    const L = 0.2126 * R + 0.7152 * G + 0.0722 * B;
+    const contrastWhite = 1.05 / (L + 0.05);
+    const contrastBlack = (L + 0.05) / 0.05;
+    return contrastWhite >= contrastBlack ? '#ffffff' : '#000000';
+  };
   
   // JSON-LD 구조화된 데이터
   const jsonLd = {
@@ -503,11 +520,18 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries: any[]) => {
-        entries.forEach((entry: any) => {
-          if (entry.isIntersecting) {
-            setIsVisible((prev: any) => ({ ...prev, [entry.target.id]: true }));
+        // 배치 업데이트로 레이아웃 스래싱 방지
+        const visibleIds: Record<string, boolean> = {};
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.target && (entry.target as HTMLElement).id) {
+            visibleIds[(entry.target as HTMLElement).id] = true;
           }
-        });
+        }
+        if (Object.keys(visibleIds).length) {
+          requestAnimationFrame(() => {
+            setIsVisible((prev: any) => ({ ...prev, ...visibleIds }));
+          });
+        }
       },
       { threshold: 0.3, rootMargin: '0px 0px -10% 0px' }
     );
@@ -524,7 +548,7 @@ const HomePage: React.FC = () => {
     fetch('/api/press?pageSize=6&active=true')
       .then(res => res.json())
       .then(data => {
-        setPressData(data.results || []);
+        requestAnimationFrame(() => setPressData(data.results || []));
       })
       .catch(err => console.error('Error fetching press:', err));
 
@@ -541,7 +565,7 @@ const HomePage: React.FC = () => {
           // 나머지는 생성일 기준으로 정렬
           return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
         });
-        setBlogData(sortedPosts);
+        requestAnimationFrame(() => setBlogData(sortedPosts));
       })
       .catch(err => console.error('Error fetching sonaverse stories:', err));
 
@@ -572,11 +596,11 @@ const HomePage: React.FC = () => {
           };
         });
         
-        setBrandStoryData(sonaverseStories);
+        requestAnimationFrame(() => setBrandStoryData(sonaverseStories));
       })
       .catch(err => {
         console.error('Error fetching sonaverse stories:', err);
-        setBrandStoryData([]);
+        requestAnimationFrame(() => setBrandStoryData([]));
       });
   }, [language]);
 
@@ -624,15 +648,15 @@ const HomePage: React.FC = () => {
     const diffX = startX - endX;
     const threshold = 50; // 최소 드래그 거리
 
-    if (Math.abs(diffX) > threshold) {
-      if (diffX > 0) {
-        // 왼쪽으로 스와이프 - 다음 슬라이드
-        nextSlide();
-      } else {
-        // 오른쪽으로 스와이프 - 이전 슬라이드
-        prevSlide();
+    requestAnimationFrame(() => {
+      if (Math.abs(diffX) > threshold) {
+        if (diffX > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
       }
-    }
+    });
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -652,13 +676,15 @@ const HomePage: React.FC = () => {
     const diffX = startX - endX;
     const threshold = 50;
 
-    if (Math.abs(diffX) > threshold) {
-      if (diffX > 0) {
-        nextSlide();
-      } else {
-        prevSlide();
+    requestAnimationFrame(() => {
+      if (Math.abs(diffX) > threshold) {
+        if (diffX > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
       }
-    }
+    });
   };
 
   const nextSlide = () => {
@@ -696,13 +722,13 @@ const HomePage: React.FC = () => {
 
     return (
       <div 
-        className="relative"
+        className="relative will-change-transform"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <div className="overflow-hidden">
           <div 
-            className="flex transition-transform duration-500 ease-in-out"
+            className="flex transition-transform duration-500 ease-in-out will-change-transform"
             style={{ transform: `translateX(-${currentIndex * 33.333}%)` }}
           >
             {items.map((item: any, idx: any) => {
@@ -718,12 +744,15 @@ const HomePage: React.FC = () => {
                       onClick={() => window.location.href = `/sonaverse-story/${item.slug}`}
                       className="bg-white/90 backdrop-blur-lg rounded-2xl p-6 border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 h-full cursor-pointer"
                     >
-                      <img 
+                      <Image 
                         src={thumbnailUrl}
                         alt={`${title} - 소나버스 스토리 썸네일`}
+                        width={320}
+                        height={160}
                         className="w-full h-40 object-cover rounded-lg mb-4"
                         loading="lazy"
-                        onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
+                        sizes="(max-width: 640px) 145px, 320px"
+                        onError={() => {}}
                       />
                       <h3 className="text-lg font-bold mb-2 text-slate-800 line-clamp-2">
                         {title}
@@ -751,13 +780,14 @@ const HomePage: React.FC = () => {
                     onClick={() => window.location.href = `/${type}/${item.slug}`}
                     className="bg-white/90 backdrop-blur-lg rounded-2xl p-6 border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 h-full cursor-pointer"
                   >
-                    <img 
+                    <Image 
                       src={thumbnailUrl}
                       alt={title}
+                      width={320}
+                      height={160}
                       className="w-full h-40 object-cover rounded-lg mb-4"
                       loading="lazy"
-                      decoding="async"
-                      onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
+                      sizes="(max-width: 640px) 145px, 320px"
                     />
                     <h3 className="text-lg font-bold mb-2 text-slate-800 line-clamp-2">
                       {title}
@@ -799,6 +829,7 @@ const HomePage: React.FC = () => {
             fill
             priority
             fetchPriority="high"
+            quality={70}
             sizes="100vw"
             className="object-cover"
           />
@@ -871,9 +902,9 @@ const HomePage: React.FC = () => {
                 }`}>
                   {/* 아이콘 영역 */}
                   <div className="flex-shrink-0">
-                    <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-gradient-to-br from-[#bda191] to-[#a68b7a] rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-105 transition-transform duration-500">
-                      <img src={problem.icon} alt={`${problem.title} 문제 해결 아이콘`} className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 object-contain" loading="lazy" />
-                    </div>
+                      <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-gradient-to-br from-[#bda191] to-[#a68b7a] rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-105 transition-transform duration-500">
+                        <Image src={problem.icon} alt={`${problem.title} 문제 해결 아이콘`} width={56} height={56} className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 object-contain" loading="lazy" sizes="(max-width: 640px) 35px, 56px" />
+                      </div>
                   </div>
                   
                   {/* 텍스트 영역 */}
@@ -1138,13 +1169,14 @@ const HomePage: React.FC = () => {
                           className="group relative overflow-hidden rounded-3xl shadow-2xl cursor-pointer transform hover:-translate-y-2 transition-all duration-500"
                         >
                           <div className="aspect-[4/3] relative">
-                            <img 
+                            <Image 
                               src={thumbnailUrl}
                               alt={title}
+                              width={640}
+                              height={480}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                               loading="lazy"
-                              decoding="async"
-                              onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
+                              sizes="(max-width: 1024px) 100vw, 640px"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/70 transition-all duration-500"></div>
                           </div>
@@ -1227,11 +1259,14 @@ const HomePage: React.FC = () => {
                               <div className="h-full flex flex-col">
                                 {/* 이미지 영역 */}
                                 <div className="w-full h-32 bg-gradient-to-br from-rose-400 to-pink-500 rounded-t-2xl flex-shrink-0 overflow-hidden">
-                                  <img 
+                                  <Image 
                                     src={thumbnailUrl}
                                     alt={title}
+                                    width={320}
+                                    height={128}
                                     className="w-full h-full object-cover"
-                                    onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
+                                    loading="lazy"
+                                    sizes="(max-width: 1024px) 100vw, 320px"
                                   />
                                 </div>
                                 
@@ -1286,11 +1321,14 @@ const HomePage: React.FC = () => {
                                   <div className="h-full flex flex-col">
                                     {/* 이미지 영역 */}
                                     <div className="w-full h-32 bg-gradient-to-br from-rose-400 to-pink-500 rounded-t-2xl flex-shrink-0 overflow-hidden">
-                                      <img 
+                                      <Image 
                                         src={thumbnailUrl}
                                         alt={title}
+                                        width={320}
+                                        height={128}
                                         className="w-full h-full object-cover"
-                                        onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
+                                        loading="lazy"
+                                        sizes="(max-width: 640px) 145px, 320px"
                                       />
                                     </div>
                                     
@@ -1391,7 +1429,13 @@ const HomePage: React.FC = () => {
                     className="absolute left-1/2 transform -translate-x-1/2 -translate-y-4 md:-translate-y-4 w-12 h-12 md:w-24 md:h-24 rounded-full flex items-center justify-center shadow-2xl z-30 border-2 md:border-4 border-white transition-all duration-500"
                     style={{ backgroundColor: getYearColor(originalIndex, history.length) }}
                   >
-                    <span className="text-white font-bold text-xs md:text-xl">{item.year}</span>
+                    {(() => {
+                      const bg = getYearColor(originalIndex, history.length);
+                      const textColor = getAccessibleTextColor(bg);
+                      return (
+                        <span className="year-badge-text font-bold text-xs md:text-xl" style={{ color: textColor }}>{item.year}</span>
+                      );
+                    })()}
                   </div>
                   
                   
@@ -1523,19 +1567,20 @@ const HomePage: React.FC = () => {
                       const date = new Date(mainPress.published_date || mainPress.created_at || Date.now()).toLocaleDateString(language === 'ko' ? 'ko-KR' : 'en-US');
                       
                       return (
-                        <div 
-                          onClick={() => window.location.href = `/press/${mainPress.slug}`}
-                          className="group bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-2 h-[580px]"
-                        >
-                          <div className="relative h-72 overflow-hidden">
-                            <img 
-                              src={thumbnailUrl}
-                              alt={title}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                              loading="lazy"
-                              decoding="async"
-                              onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
-                            />
+                          <div 
+                            onClick={() => window.location.href = `/press/${mainPress.slug}`}
+                            className="group bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-2 h-[580px]"
+                          >
+                            <div className="relative h-72 overflow-hidden">
+                              <Image 
+                                src={thumbnailUrl}
+                                alt={title}
+                                width={960}
+                                height={432}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                loading="lazy"
+                                sizes="(max-width: 1024px) 100vw, 960px"
+                              />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
                           </div>
@@ -1587,13 +1632,14 @@ const HomePage: React.FC = () => {
                       >
                         <div className="flex h-full">
                           <div className="w-2/5 h-full flex-shrink-0 relative overflow-hidden">
-                            <img 
+                            <Image 
                               src={thumbnailUrl}
                               alt={title}
+                              width={320}
+                              height={200}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                               loading="lazy"
-                              decoding="async"
-                              onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
+                              sizes="(max-width: 1024px) 100vw, 320px"
                             />
                           </div>
                           <div className="flex-1 p-4 flex flex-col">
@@ -1638,13 +1684,14 @@ const HomePage: React.FC = () => {
                       <div className="flex h-full">
                         {/* 왼쪽 썸네일 */}
                         <div className="w-24 flex-shrink-0 bg-gray-200 rounded-l-2xl relative overflow-hidden">
-                            <img 
+                            <Image 
                               src={thumbnailUrl}
                               alt={title}
+                              width={96}
+                              height={96}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                               loading="lazy"
-                              decoding="async"
-                              onError={(e) => { (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; }}
+                              sizes="(max-width: 640px) 96px, 128px"
                             />
                         </div>
                         

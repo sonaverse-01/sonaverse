@@ -78,6 +78,19 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
+        {/* Critical CSS inlining for fold content to reduce render-blocking */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              /* Critical styles for above-the-fold hero/header */
+              body{margin:0}
+              header{background-color:#f0ece9}
+              #hero{min-height:100vh;position:relative}
+              #hero h1{color:#fff}
+              #hero .cta{display:flex;gap:.5rem;justify-content:center}
+            `,
+          }}
+        />
         {/* Preload LCP hero image */}
         <link rel="preload" as="image" href="/hero.png" fetchPriority="high" />
       </head>

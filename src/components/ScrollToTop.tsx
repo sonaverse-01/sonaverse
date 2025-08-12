@@ -20,8 +20,8 @@ const ScrollToTop: React.FC<ScrollToTopProps> = ({ className = '' }) => {
       }
     };
 
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
+    return () => window.removeEventListener('scroll', toggleVisibility as any);
   }, []);
 
   const scrollToTop = () => {
@@ -48,6 +48,7 @@ const ScrollToTop: React.FC<ScrollToTopProps> = ({ className = '' }) => {
           fill
           className="object-contain"
           sizes="(max-width: 768px) 24px, 32px"
+          loading="lazy"
         />
       </div>
       

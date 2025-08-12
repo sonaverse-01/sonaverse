@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '../contexts/LanguageContext';
 
 /**
@@ -57,14 +58,21 @@ const Header: React.FC = () => {
   // Measure header height for positioning mobile drawer below the header
   useEffect(() => {
     if (!isClient) return;
+    let rafId: number | null = null;
     const updateHeight = () => {
-      if (headerRef.current) {
-        setHeaderHeight(headerRef.current.offsetHeight);
-      }
+      if (rafId) cancelAnimationFrame(rafId as any);
+      rafId = requestAnimationFrame(() => {
+        if (headerRef.current) {
+          setHeaderHeight(headerRef.current.offsetHeight);
+        }
+      });
     };
     updateHeight();
     window.addEventListener('resize', updateHeight);
-    return () => window.removeEventListener('resize', updateHeight);
+    return () => {
+      window.removeEventListener('resize', updateHeight);
+      if (rafId) cancelAnimationFrame(rafId as any);
+    };
   }, [isClient]);
 
   return (
@@ -72,9 +80,17 @@ const Header: React.FC = () => {
       {/* 헤더 하단 그라데이션 */}
       <div className="absolute left-0 right-0 bottom-0 h-6 pointer-events-none" style={{background: 'linear-gradient(to bottom, rgba(240,236,233,0) 0%, rgba(240,236,233,0.7) 60%, rgba(240,236,233,1) 100%)'}} />
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-2 min-h-[3rem]">
-        {/* Logo */}
+        {/* Logo (optimized with next/image) */}
         <a href="/" className="flex items-center gap-2 flex-shrink-0" aria-label="SONAVERSE Home">
-          <img src={logoSrc} alt="" role="presentation" className="h-6 sm:h-8 w-auto" />
+          <Image
+            src={logoSrc}
+            alt={language === 'en' ? 'SONAVERSE logo' : '소나버스 로고'}
+            width={95}
+            height={32}
+            priority={false}
+            sizes="(max-width: 640px) 72px, 95px"
+            className="w-auto h-6 sm:h-8"
+          />
         </a>
         
         {/* Desktop Navigation */}

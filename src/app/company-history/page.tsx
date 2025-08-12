@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '../../contexts/LanguageContext';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -135,6 +136,23 @@ const CompanyHistoryPage: React.FC = () => {
     return `rgb(${newR}, ${newG}, ${newB})`;
   };
 
+  // 배경색 대비에 따라 텍스트 색상을 자동으로 선택 (흰/검)
+  const getAccessibleTextColor = (rgbString: string): string => {
+    const match = rgbString.match(/rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/i);
+    if (!match) return '#000000';
+    const r = parseInt(match[1], 10) / 255;
+    const g = parseInt(match[2], 10) / 255;
+    const b = parseInt(match[3], 10) / 255;
+    const toLinear = (c: number) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+    const R = toLinear(r);
+    const G = toLinear(g);
+    const B = toLinear(b);
+    const L = 0.2126 * R + 0.7152 * G + 0.0722 * B;
+    const contrastWhite = 1.05 / (L + 0.05);
+    const contrastBlack = (L + 0.05) / 0.05;
+    return contrastWhite >= contrastBlack ? '#ffffff' : '#000000';
+  };
+
   const getPressReleases = async () => {
     try {
       const response = await fetch('/api/press?active=true&pageSize=3', {
@@ -168,16 +186,13 @@ const CompanyHistoryPage: React.FC = () => {
 
     const maxSlide = Math.max(0, pressReleases.length - 2);
     
-    const interval = setInterval(() => {
-      setCurrentSlide(prev => {
-        if (prev >= maxSlide) {
-          return 0;
-        }
-        return prev + 1;
+    const id = setInterval(() => {
+      requestAnimationFrame(() => {
+        setCurrentSlide(prev => (prev >= maxSlide ? 0 : prev + 1));
       });
     }, 3000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(id);
   }, [pressReleases.length, isHovered, isDragging]);
 
   // Touch/mouse handlers for press releases sliding
@@ -193,18 +208,15 @@ const CompanyHistoryPage: React.FC = () => {
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (!isDragging) return;
     setIsDragging(false);
-    
     const endX = e.changedTouches[0].clientX;
     const diffX = startX - endX;
     const threshold = 50;
-
-    if (Math.abs(diffX) > threshold) {
-      if (diffX > 0) {
-        nextSlide();
-      } else {
-        prevSlide();
+    requestAnimationFrame(() => {
+      if (Math.abs(diffX) > threshold) {
+        if (diffX > 0) nextSlide();
+        else prevSlide();
       }
-    }
+    });
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -219,18 +231,15 @@ const CompanyHistoryPage: React.FC = () => {
   const handleMouseUp = (e: React.MouseEvent) => {
     if (!isDragging) return;
     setIsDragging(false);
-    
     const endX = e.clientX;
     const diffX = startX - endX;
     const threshold = 50;
-
-    if (Math.abs(diffX) > threshold) {
-      if (diffX > 0) {
-        nextSlide();
-      } else {
-        prevSlide();
+    requestAnimationFrame(() => {
+      if (Math.abs(diffX) > threshold) {
+        if (diffX > 0) nextSlide();
+        else prevSlide();
       }
-    }
+    });
   };
 
   const nextSlide = () => {
@@ -275,7 +284,13 @@ const CompanyHistoryPage: React.FC = () => {
                     className="absolute left-0 md:left-0 w-3 h-3 md:w-12 md:h-12 rounded-sm md:rounded-2xl flex items-center justify-center shadow-lg"
                     style={{ backgroundColor: getYearColor(idx, history.length) }}
                   >
-                    <span className="text-white font-bold text-[6px] md:text-sm">{item.year}</span>
+                    {(() => {
+                      const bg = getYearColor(idx, history.length);
+                      const textColor = getAccessibleTextColor(bg);
+                      return (
+                        <span className="year-badge-text font-bold text-[6px] md:text-sm" style={{ color: textColor }}>{item.year}</span>
+                      );
+                    })()}
                   </div>
                   
                   {/* 내용 카드 - 반응형 여백 조정 */}
