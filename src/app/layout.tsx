@@ -65,7 +65,6 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
   },
-  manifest: '/manifest.json',
 };
 
 // themeColor 관련 viewport 객체 완전히 제거

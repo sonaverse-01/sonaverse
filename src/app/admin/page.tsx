@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useToast } from '../../components/Toast';
 import RecentPostModal from '../../components/admin/RecentPostModal';
+import PWAInstallButton from '../../components/admin/PWAInstallButton';
 
 interface DashboardStats {
   totalPress: number;
@@ -115,7 +116,11 @@ const AdminDashboard: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-white">관리자 대시보드</h1>
-        <p className="mt-2 text-gray-300">(주)소나버스 관리자 시스템에 오신 것을 환영합니다.</p>
+        <div className="mt-2 flex items-center gap-3 flex-wrap">
+          <p className="text-gray-300">(주)소나버스 관리자 시스템에 오신 것을 환영합니다.</p>
+          {/* PWA 설치 버튼: admin에서만 노출 */}
+          <PWAInstallButton />
+        </div>
       </div>
 
       {/* 통계 카드 */}

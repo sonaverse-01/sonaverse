@@ -310,12 +310,13 @@ const CompanyHistoryPage: React.FC = () => {
                       {item.events && Array.isArray(item.events) && (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-1.5 md:gap-4 auto-rows-fr">
                           {item.events.map((event: string, eventIdx: number) => (
-                            <div key={eventIdx} className="flex items-start p-1.5 md:p-4 bg-white rounded md:rounded-xl shadow-sm h-full min-h-[1.5rem] md:min-h-[3rem]">
-                    <div 
-                      className="w-0.5 h-0.5 md:w-2 md:h-2 rounded-full mt-[0.25rem] md:mt-[0.5rem] mr-1 md:mr-3 flex-shrink-0"
-                      style={{ backgroundColor: getYearColor(idx, history.length) }}
-                    ></div>
-                              <span className="text-[8px] md:text-sm text-slate-700 leading-relaxed flex-1 pt-0.5">{event}</span>
+                            <div key={eventIdx} className="flex items-center p-1.5 md:p-4 bg-white rounded md:rounded-xl shadow-sm h-full min-h-[1.5rem] md:min-h-[3rem]">
+                              <div 
+                                className="w-1 h-1 md:w-2 md:h-2 rounded-full mr-1.5 md:mr-3 flex-shrink-0"
+                                style={{ backgroundColor: '#0B3877' }}
+                                aria-hidden
+                              />
+                              <span className="text-[8px] md:text-sm text-slate-700 leading-relaxed flex-1">{event}</span>
                             </div>
                           ))}
                         </div>

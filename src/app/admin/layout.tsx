@@ -4,7 +4,7 @@ import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import AdminSidebar from '../../components/admin/AdminSidebar';
 import AuthManager from '../../components/admin/AuthManager';
-import PWAInstallPrompt from '../../components/admin/PWAInstallPrompt';
+// PWA 설치는 대시보드 내 버튼으로만 제공
 import ServiceWorkerRegistration from '../../components/admin/ServiceWorkerRegistration';
 import { logoutClient, checkAuthClient } from '../../lib/auth';
 import { User } from '../../lib/constants';
@@ -164,7 +164,6 @@ const AdminLayoutContent: React.FC<AdminLayoutProps> = ({ children }) => {
           </main>
         </div>
       </div>
-      <PWAInstallPrompt />
     </AuthManager>
   );
 };
