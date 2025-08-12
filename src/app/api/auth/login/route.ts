@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
     try {
       body = await request.json();
     } catch (error) {
+      console.error('JSON parsing error:', error);
       return NextResponse.json(
         { success: false, error: '잘못된 요청 형식입니다.' }, 
         { status: 400 }
@@ -88,7 +89,7 @@ export async function POST(request: NextRequest) {
       role: user.role
     };
 
-    const token = generateToken(tokenPayload);
+    const token = await generateToken(tokenPayload);
 
     // 응답 생성
     const response = NextResponse.json({

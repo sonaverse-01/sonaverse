@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import { SignJWT, jwtVerify } from 'jose';
 import bcrypt from 'bcryptjs';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
@@ -9,16 +9,21 @@ import { JWT_SECRET, COOKIE_NAME, COOKIE_OPTIONS, User } from './constants';
  * @param payload - 토큰에 포함할 사용자 정보
  * @returns JWT 토큰 문자열
  */
-export function generateToken(payload: Omit<User, 'iat' | 'exp'>): string {
+export async function generateToken(payload: Omit<User, 'iat' | 'exp'>): Promise<string> {
   if (!JWT_SECRET) {
     throw new Error('JWT_SECRET 환경변수가 설정되지 않았습니다.');
   }
   
-  return jwt.sign(payload, JWT_SECRET, { 
-    expiresIn: '8h', // 브라우저 세션과 맞춰서 8시간으로 단축
-    issuer: 'sonaverse-admin',
-    audience: 'admin-users'
-  });
+  const secret = new TextEncoder().encode(JWT_SECRET);
+  const token = await new SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setIssuer('sonaverse-admin')
+    .setAudience('admin-users')
+    .setExpirationTime('8h')
+    .sign(secret);
+    
+  return token;
 }
 
 /**
@@ -26,19 +31,20 @@ export function generateToken(payload: Omit<User, 'iat' | 'exp'>): string {
  * @param token - 검증할 JWT 토큰
  * @returns 검증된 사용자 정보 또는 null
  */
-export function verifyToken(token: string): User | null {
+export async function verifyToken(token: string): Promise<User | null> {
   if (!JWT_SECRET) {
     console.error('JWT_SECRET 환경변수가 설정되지 않았습니다.');
     return null;
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET, {
+    const secret = new TextEncoder().encode(JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret, {
       issuer: 'sonaverse-admin',
       audience: 'admin-users'
-    }) as User;
+    });
     
-    return decoded;
+    return payload as User;
   } catch (error) {
     console.error('Token verification failed:', error);
     return null;
@@ -153,7 +159,7 @@ export async function getCurrentUser(): Promise<User | null> {
       return null;
     }
     
-    const user = verifyToken(token);
+    const user = await verifyToken(token);
     if (!user) {
       return null;
     }
@@ -201,7 +207,7 @@ export function requireAuth(handler: Function) {
         });
       }
       
-      const user = verifyToken(token);
+      const user = await verifyToken(token);
       if (!user) {
         return res.status(401).json({ 
           success: false,
