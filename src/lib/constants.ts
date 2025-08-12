@@ -14,10 +14,10 @@ export const COOKIE_NAME = 'admin_token';
 export const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production', // 프로덕션에서만 HTTPS 강제
-  sameSite: 'lax' as const, // strict에서 lax로 변경하여 호환성 개선
+  sameSite: 'lax' as const, // 페이지 이동시 쿠키 유지를 위해 lax 사용
   path: '/',
-  // 명시적으로 세션 쿠키로 설정 (브라우저 종료 시 자동 삭제)
-  // maxAge나 expires를 설정하지 않으면 세션 쿠키가 됨
+  // 배포 환경에서 쿠키 지속성을 위해 maxAge 설정 (8시간)
+  maxAge: process.env.NODE_ENV === 'production' ? 8 * 60 * 60 : undefined, // 프로덕션: 8시간, 개발: 세션
   // 도메인은 기본적으로 호스트 한정 쿠키(HostOnly)로 두어 www/apex 불일치 이슈를 방지
   // 필요 시 환경변수로 강제 지정(.sonaverse.kr 형태 권장)  
   domain: process.env.COOKIE_DOMAIN || undefined

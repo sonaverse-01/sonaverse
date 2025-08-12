@@ -123,7 +123,13 @@ export function setAuthCookie(response: NextResponse, token: string): NextRespon
   }
   
   try {
+    console.log('Setting cookie with options:', JSON.stringify(COOKIE_OPTIONS));
     response.cookies.set(COOKIE_NAME, token, COOKIE_OPTIONS);
+    
+    // 추가적으로 Set-Cookie 헤더 확인
+    const setCookieHeader = response.headers.get('Set-Cookie');
+    console.log('Set-Cookie header:', setCookieHeader);
+    
     return response;
   } catch (error) {
     console.error('Failed to set auth cookie:', error);
