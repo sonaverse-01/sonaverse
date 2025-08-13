@@ -246,7 +246,7 @@ const BodeumDiaperPage: React.FC = () => {
                   <>
                     <p>Softer to the skin,</p>
                     <p>More flexible with movement,</p>
-                    <p>BO DUME briefs lighten your parents' day</p>
+                    <p>BO DUME briefs lighten your parents&apos; day</p>
                     <p>and make your day more comfortable.</p>
                   </>
                 ) : (
