@@ -460,8 +460,8 @@ const HomePage: React.FC = () => {
     '@type': 'Organization',
     name: 'SONAVERSE',
     alternateName: '소나버스',
-    url: 'https://sonaverse.com',
-    logo: 'https://sonaverse.com/logo/symbol_logo.png',
+    url: 'https://sonaverse.kr',
+    logo: 'https://sonaverse.kr/logo/symbol_logo.png',
     description: '시니어의 더 나은 내일을 위한 혁신적인 헬스케어 솔루션을 제공하는 기업',
     foundingDate: '2022',
     address: {

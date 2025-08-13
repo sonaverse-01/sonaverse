@@ -122,9 +122,11 @@ const InquiryPage: React.FC = () => {
         }
       }
 
-      // 문의 제출
+      // 문의 제출 (카테고리 한글 라벨 매핑 포함)
+      const selected = categories.find(c => c.key === form.category);
       const inquiryData = {
         inquiry_type: form.category,
+        inquiry_type_label: selected ? selected.ko : form.category,
         name: form.name,
         company_name: form.company,
         phone_number: form.phone,

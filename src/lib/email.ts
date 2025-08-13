@@ -50,7 +50,7 @@ export async function sendInquiryNotification(inquiryData: any): Promise<boolean
   `;
 
   return sendEmail({
-    to: process.env.ADMIN_EMAIL || 'admin@sonaverse.com',
+    to: process.env.ADMIN_EMAIL || 'admin@sonaverse.kr',
     subject,
     html
   });

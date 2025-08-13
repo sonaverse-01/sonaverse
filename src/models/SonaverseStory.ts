@@ -26,6 +26,7 @@ export interface ISonaverseStoryContent {
 export interface ISonaverseStory extends Document {
   slug: string;
   author?: Types.ObjectId;
+  thumbnail_url?: string; // 통합 썸네일 URL
   youtube_url?: string; // YouTube URL이 있으면 임베디드 영상을 최상단에 표시
   tags: string[];
   created_at: Date;
@@ -64,6 +65,7 @@ const SonaverseStorySchema = new Schema<ISonaverseStory>({
     lowercase: true
   },
   author: { type: Schema.Types.ObjectId, ref: 'AdminUser' },
+  thumbnail_url: { type: String },
   youtube_url: { 
     type: String,
     validate: {

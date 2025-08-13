@@ -162,7 +162,7 @@ const ManboWalkerPage: React.FC = () => {
                   {language === 'en' ? 'Hybrid Walkmate' : '하이브리드형 워크메이트'}
                 </h4>
                 <h1 className="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold leading-none mt-4 sm:mt-8">
-                  만보
+                  {language === 'en' ? 'MANBO' : '만보'}
                 </h1>
               </div>
               
@@ -274,11 +274,11 @@ const ManboWalkerPage: React.FC = () => {
             </div>
 
             <div className="bg-white rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105 overflow-hidden h-[440px] sm:h-[500px] flex flex-col justify-start relative">
-              <div className="h-[60%] sm:h-[70%] w-full">
+              <div className={`w-full ${language === 'en' ? 'h-[62%] sm:h-[72%]' : 'h-[60%] sm:h-[70%]'}`}>
                 <img src="/product/manbo/pd_manbo_pain_sub2.png" alt="기존 보행 보조기구 한계" className="w-full h-full object-cover" />
               </div>
               <div className="h-[30%] relative">
-                <div className="absolute -top-1/2 left-7 transform -translate-y-1/2">
+                <div className={`absolute ${language === 'en' ? '-top-[85%]' : '-top-1/2'} left-7 transform -translate-y-1/2`}>
                   <img src="/product/manbo/pd_manbo_pain_sub2_icon.svg" alt="아이콘" className="w-8 h-8" />
                 </div>
                 <div className="absolute bottom-10 left-7 right-7">
@@ -327,11 +327,11 @@ const ManboWalkerPage: React.FC = () => {
             </div>
 
             <div className="bg-white rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105 overflow-hidden h-[440px] sm:h-[500px] flex flex-col justify-start relative">
-              <div className="h-[60%] sm:h-[70%] w-full">
+              <div className={`w-full ${language === 'en' ? 'h-[62%] sm:h-[72%]' : 'h-[60%] sm:h-[70%]'}`}>
                 <img src="/product/manbo/pd_manbo_pain_sub4.png" alt="기존 보행 보조기구 한계" className="w-full h-full object-cover" />
               </div>
               <div className="h-[30%] relative">
-                <div className="absolute -top-1/2 left-7 transform -translate-y-1/2">
+                <div className={`absolute ${language === 'en' ? '-top-3/4' : '-top-1/2'} left-7 transform -translate-y-1/2`}>
                   <img src="/product/manbo/pd_manbo_pain_sub4_icon.svg" alt="아이콘" className="w-8 h-8" />
                 </div>
                 <div className="absolute bottom-6 left-7 right-7">
@@ -376,15 +376,15 @@ const ManboWalkerPage: React.FC = () => {
                     <span className="text-blue-700 font-bold">1</span>
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm sm:text-base md:text-lg mb-2 text-slate-900">하이브리드 주행 시스템</h3>
+                      <h3 className="font-bold text-sm sm:text-base md:text-lg mb-2 text-slate-900">{language === 'en' ? 'Hybrid Drive System' : '하이브리드 주행 시스템'}</h3>
                     <ul className="space-y-1 text-xs sm:text-sm text-slate-600">
                       <li className="flex items-center">
                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></div>
-                        전동과 비전동 모드 자유선택
+                          {language === 'en' ? 'Choose between powered and non-powered modes' : '전동과 비전동 모드 자유선택'}
                       </li>
                       <li className="flex items-center">
                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></div>
-                        다양한 보행환경 유연대응
+                          {language === 'en' ? 'Flexible across various walking environments' : '다양한 보행환경 유연대응'}
                       </li>
                     </ul>
                   </div>
@@ -395,19 +395,19 @@ const ManboWalkerPage: React.FC = () => {
                     <span className="text-blue-700 font-bold">2</span>
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm sm:text-base md:text-lg mb-2 text-slate-900">경사지 제어 기능</h3>
+                      <h3 className="font-bold text-sm sm:text-base md:text-lg mb-2 text-slate-900">{language === 'en' ? 'Slope Control Functions' : '경사지 제어 기능'}</h3>
                     <ul className="space-y-1 text-xs sm:text-sm text-slate-600">
                       <li className="flex items-center">
                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></div>
-                        오르막 추진력 제공
+                          {language === 'en' ? 'Uphill propulsion' : '오르막 추진력 제공'}
                       </li>
                       <li className="flex items-center">
                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></div>
-                        내리막 자동제동
+                          {language === 'en' ? 'Downhill auto-braking' : '내리막 자동제동'}
                       </li>
                       <li className="flex items-center">
                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></div>
-                        스마트 안전제어
+                          {language === 'en' ? 'Smart safety control' : '스마트 안전제어'}
                       </li>
                     </ul>
                   </div>
@@ -418,15 +418,15 @@ const ManboWalkerPage: React.FC = () => {
                     <span className="text-blue-700 font-bold">3</span>
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm sm:text-base md:text-lg mb-2 text-slate-900">미세 모터 적용</h3>
+                      <h3 className="font-bold text-sm sm:text-base md:text-lg mb-2 text-slate-900">{language === 'en' ? 'Micro Motor Application' : '미세 모터 적용'}</h3>
                     <ul className="space-y-1 text-xs sm:text-sm text-slate-600">
                       <li className="flex items-center">
                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></div>
-                        사용자 힘과 속도 연동
+                          {language === 'en' ? 'Responsive to user force and speed' : '사용자 힘과 속도 연동'}
                       </li>
                       <li className="flex items-center">
                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></div>
-                        미세 구동 제어
+                          {language === 'en' ? 'Precision drive control' : '미세 구동 제어'}
                       </li>
                     </ul>
                   </div>
@@ -445,10 +445,10 @@ const ManboWalkerPage: React.FC = () => {
                   {/* 하단 설명 문구 */}
                   <div className="absolute bottom-0 left-0 right-0 flex">
                     <div className="w-1/2 text-center py-1 sm:py-3 md:py-5">
-                      <span className="text-xs sm:text-sm md:text-lg font-semibold text-white">추진력 제공</span>
+                      <span className="text-xs sm:text-sm md:text-lg font-semibold text-white">{language === 'en' ? 'Propulsion' : '추진력 제공'}</span>
                     </div>
                     <div className="w-1/2 text-center py-1 sm:py-3 md:py-5">
-                      <span className="text-xs sm:text-sm md:text-lg font-semibold text-white">지지력·제동력 제공</span>
+                      <span className="text-xs sm:text-sm md:text-lg font-semibold text-white">{language === 'en' ? 'Support & Braking' : '지지력·제동력 제공'}</span>
                     </div>
                   </div>
                 </div>
@@ -469,16 +469,16 @@ const ManboWalkerPage: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">비상 시 자동 정지 기능</h3>
-              <p className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6 leading-relaxed">센서 반응형 브레이크 타이즈로 위급 상황 발생 시 즉각 정지하여, 돌발 사고를 효과적으로 차단하는 비상 대응 기능</p>
+               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">{language === 'en' ? 'Emergency Auto-Stop' : '비상 시 자동 정지 기능'}</h3>
+               <p className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6 leading-relaxed">{language === 'en' ? 'Sensor-responsive brake stops immediately in emergencies to prevent accidents' : '센서 반응형 브레이크 탑재로 위급 상황 발생 시 즉각 정지하여 돌발 사고를 효과적으로 차단'}</p>
               
               <div className="bg-slate-50 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-semibold text-slate-700">비전동모드</span>
+                  <span className="text-sm font-semibold text-slate-700">{language === 'en' ? 'Non-powered Mode' : '비전동모드'}</span>
                   <span className="px-3 py-1 bg-slate-200 text-slate-700 text-xs rounded-full">OFF</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-semibold text-slate-700">전동모드</span>
+                  <span className="text-sm font-semibold text-slate-700">{language === 'en' ? 'Powered Mode' : '전동모드'}</span>
                   <span className="px-3 py-1 bg-blue-500 text-white text-xs rounded-full">ON</span>
                 </div>
               </div>
@@ -489,8 +489,8 @@ const ManboWalkerPage: React.FC = () => {
             </div>
 
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">실종 방지 기능(GPS 프로토 완료)</h3>
-              <p className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6 leading-relaxed">GPS 기반 위치 추적 시스템을 통한 실시간 모니터링으로, 치매 등 고위험군의 실종 사고 예방</p>
+              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">{language === 'en' ? 'Missing Prevention (GPS prototype completed)' : '실종 방지 기능(GPS 프로토 완료)'}</h3>
+              <p className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6 leading-relaxed">{language === 'en' ? 'Real-time monitoring with GPS-based tracking to prevent missing incidents among high-risk groups such as dementia patients' : 'GPS 기반 위치 추적 시스템을 통한 실시간 모니터링으로, 치매 등 고위험군의 실종 사고 예방'}</p>
               
               <div className="bg-blue-50 rounded-lg p-6 flex items-center space-x-4">
                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
@@ -500,8 +500,8 @@ const ManboWalkerPage: React.FC = () => {
                   </svg>
                 </div>
                 <div>
-                  <div className="font-semibold text-blue-900">실시간 위치 추적</div>
-                  <div className="text-sm text-blue-700">가족과 보호자에게 실시간 알림</div>
+                   <div className="font-semibold text-blue-900">{language === 'en' ? 'Real-time Tracking' : '실시간 위치 추적'}</div>
+                   <div className="text-sm text-blue-700">{language === 'en' ? 'Instant alerts to family/caregivers' : '가족과 보호자에게 실시간 알림'}</div>
                 </div>
               </div>
               
@@ -532,15 +532,15 @@ const ManboWalkerPage: React.FC = () => {
               <ul className="text-slate-600 space-y-2 sm:space-y-3 text-xs sm:text-sm">
                 <li className="flex items-start">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#1C4376] rounded-full mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
-                  <span>기본 구조 설계 완료</span>
+                  <span>{language === 'en' ? 'Basic structure design completed' : '기본 구조 설계 완료'}</span>
                 </li>
                 <li className="flex items-start">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#1C4376] rounded-full mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
-                  <span>하이브리드 시스템 프로토타입</span>
+                  <span>{language === 'en' ? 'Hybrid system prototype' : '하이브리드 시스템 프로토타입'}</span>
                 </li>
                 <li className="flex items-start">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#1C4376] rounded-full mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
-                  <span>초기 사용자 테스트</span>
+                  <span>{language === 'en' ? 'Initial user testing' : '초기 사용자 테스트'}</span>
                 </li>
               </ul>
             </div>
@@ -551,15 +551,15 @@ const ManboWalkerPage: React.FC = () => {
               <ul className="text-slate-600 space-y-2 sm:space-y-3 text-xs sm:text-sm">
                 <li className="flex items-start">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#BDA191] rounded-full mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
-                  <span>GPS 시스템 통합</span>
+                  <span>{language === 'en' ? 'GPS system integration' : 'GPS 시스템 통합'}</span>
                 </li>
                 <li className="flex items-start">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#BDA191] rounded-full mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
-                  <span>스마트 제어 시스템 고도화</span>
+                  <span>{language === 'en' ? 'Advanced smart control system' : '스마트 제어 시스템 고도화'}</span>
                 </li>
                 <li className="flex items-start">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#BDA191] rounded-full mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
-                  <span>안전성 강화 설계</span>
+                  <span>{language === 'en' ? 'Enhanced safety design' : '안전성 강화 설계'}</span>
                 </li>
               </ul>
             </div>
@@ -570,15 +570,15 @@ const ManboWalkerPage: React.FC = () => {
               <ul className="text-slate-600 space-y-2 sm:space-y-3 text-xs sm:text-sm">
                 <li className="flex items-start">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#10B981] rounded-full mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
-                  <span>대량 생산 체계 구축</span>
+                  <span>{language === 'en' ? 'Establish mass production system' : '대량 생산 체계 구축'}</span>
                 </li>
                 <li className="flex items-start">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#10B981] rounded-full mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
-                  <span>B2B/B2C 판매 채널 오픈</span>
+                  <span>{language === 'en' ? 'Open B2B/B2C sales channels' : 'B2B/B2C 판매 채널 오픈'}</span>
                 </li>
                 <li className="flex items-start">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#10B981] rounded-full mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
-                  <span>글로벌 시장 진출</span>
+                  <span>{language === 'en' ? 'Expand into global markets' : '글로벌 시장 진출'}</span>
                 </li>
               </ul>
             </div>
@@ -592,18 +592,18 @@ const ManboWalkerPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center">
             <div className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 md:p-12 border border-slate-200">
-              <h2 className="text-base sm:text-xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 sm:mb-5">
-                혁신적인 보행 보조기구로 새로운 경험을 제공합니다
-              </h2>
-              <p className="text-xs sm:text-sm md:text-lg lg:text-xl text-slate-600 mb-5 sm:mb-7">
-                안전하고 편안한 보행을 위한 만보 워크메이트
-              </p>
+               <h2 className="text-base sm:text-xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 sm:mb-5">
+                 {language === 'en' ? 'Experience a new level of walking assistance' : '혁신적인 보행 보조기구로 새로운 경험을 제공합니다'}
+               </h2>
+               <p className="text-xs sm:text-sm md:text-lg lg:text-xl text-slate-600 mb-5 sm:mb-7">
+                 {language === 'en' ? 'MANBO Walkmate for safe and comfortable walking' : '안전하고 편안한 보행을 위한 만보 워크메이트'}
+               </p>
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                 <a 
                   href="/inquiry" 
                   className="inline-flex items-center justify-center bg-blue-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg text-sm sm:text-base font-semibold hover:bg-blue-700 transition-all shadow-lg"
                 >
-                  <span>제품 문의하기</span>
+                    <span>{language === 'en' ? 'Product Inquiry' : '제품 문의하기'}</span>
                 </a>
               </div>
             </div>
@@ -612,15 +612,15 @@ const ManboWalkerPage: React.FC = () => {
       </section>
 
       {/* 소나버스 스토리 섹션 - 풀 width */}
-      <div className="w-full bg-gradient-to-br from-[#f8f6f4] via-[#f0ece9] to-stone-100 py-12 sm:py-16 md:py-20">
+      <div className="w-full bg-gradient-to-br from-[#f8f6f4] via-[#f0ece9] to-stone-100 py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-              우리의 이야기를 만나보세요
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto">
-              소나버스의 혁신적인 여정과 다양한 이야기를 확인해보세요
-            </p>
+          <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                {language === 'en' ? 'Explore Our Stories' : '우리의 이야기를 만나보세요'}
+              </h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                {language === 'en' ? 'Discover SONAVERSE\'s innovative journey and stories' : '소나버스의 혁신적인 여정과 다양한 이야기를 확인해보세요'}
+              </p>
           </div>
 
           {stories.length > 0 ? (
@@ -665,16 +665,16 @@ const ManboWalkerPage: React.FC = () => {
                         <div className="p-6">
                           <div className="flex items-center gap-2 mb-4">
                             <div className="w-2 h-2 bg-[#bda191] rounded-full"></div>
-                            <span className="text-sm text-[#bda191] font-medium">소나버스 스토리</span>
+                            <span className="text-sm text-[#bda191] font-medium">{language === 'en' ? 'SONAVERSE Story' : '소나버스 스토리'}</span>
                           </div>
                           
                           <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 line-clamp-2 leading-tight group-hover:text-[#bda191] transition-colors duration-300">
-                            {story.content.ko.title}
+                          {story.content[language]?.title || story.content.ko.title}
                           </h3>
                           
                           <div className="flex items-center justify-between">
                             <time className="text-sm text-gray-500">
-                              {new Date(story.created_at).toLocaleDateString('ko-KR', {
+                               {new Date(story.created_at).toLocaleDateString(language === 'ko' ? 'ko-KR' : 'en-US', {
                                 year: 'numeric',
                                 month: 'long',
                                 day: 'numeric'
@@ -739,7 +739,7 @@ const ManboWalkerPage: React.FC = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                   </svg>
                                 </div>
-                                <span className="text-sm font-medium">SONAVERSE</span>
+                             <span className="text-sm font-medium">{language === 'ko' ? '소나버스' : 'SONAVERSE'}</span>
                               </div>
                             </div>
                           )}
@@ -752,16 +752,16 @@ const ManboWalkerPage: React.FC = () => {
                         <div className="flex-1 flex flex-col px-4 pb-4 pt-3">
                           <div className="flex items-center gap-2 mb-2">
                             <div className="w-1.5 h-1.5 bg-[#bda191] rounded-full"></div>
-                            <span className="text-xs text-[#bda191] font-medium">스토리</span>
+                             <span className="text-xs text-[#bda191] font-medium">{language === 'en' ? 'Story' : '스토리'}</span>
                           </div>
                           
                           <h5 className="text-sm font-semibold text-gray-900 mb-2 group-hover:text-[#bda191] transition-colors duration-300 line-clamp-2 leading-tight">
-                            {story.content.ko.title}
+                             {story.content[language]?.title || story.content.ko.title}
                           </h5>
                           
                           <div className="flex items-center justify-between mt-auto">
                             <time className="text-xs text-gray-500">
-                              {new Date(story.created_at).toLocaleDateString('ko-KR', {
+                               {new Date(story.created_at).toLocaleDateString(language === 'ko' ? 'ko-KR' : 'en-US', {
                                 year: 'numeric',
                                 month: 'short',
                                 day: 'numeric'
@@ -798,7 +798,7 @@ const ManboWalkerPage: React.FC = () => {
               <div className="text-center">
                 <Link href="/sonaverse-story">
                   <button className="inline-flex items-center px-10 py-4 bg-gradient-to-r from-[#bda191] to-[#a68b7a] text-white font-semibold rounded-2xl hover:from-[#a68b7a] hover:to-[#8f7a6b] transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl">
-                    <span className="mr-3">전체보기</span>
+                     <span className="mr-3">{language === 'en' ? 'View All' : '전체보기'}</span>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
@@ -808,7 +808,7 @@ const ManboWalkerPage: React.FC = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">스토리가 준비 중입니다.</p>
+              <p className="text-gray-500 text-lg">{language === 'en' ? 'Stories are being prepared.' : '스토리가 준비 중입니다.'}</p>
             </div>
           )}
         </div>

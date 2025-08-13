@@ -14,6 +14,9 @@ export async function GET(request: NextRequest, { params }: Props) {
   try {
     const { slug } = await params;
     await dbConnect();
+    const { searchParams } = new URL(request.url);
+    const lang = (searchParams.get('lang') || 'ko') as 'ko' | 'en';
+    const isAdmin = searchParams.get('admin') === 'true';
     
     const sonaverseStory = await SonaverseStory.findOne({ 
       slug, 
@@ -26,8 +29,26 @@ export async function GET(request: NextRequest, { params }: Props) {
         { status: 404 }
       );
     }
-    
-    return NextResponse.json(sonaverseStory);
+
+    // Admin/full data 응답 유지
+    if (isAdmin) {
+      return NextResponse.json(sonaverseStory);
+    }
+
+    // 일반 사용자: 다국어 콘텐츠 전체 제공 (클라이언트에서 언어 선택)
+    const story = sonaverseStory as any;
+    const result = {
+      _id: story._id,
+      slug: story.slug,
+      created_at: story.created_at,
+      updated_at: story.updated_at,
+      thumbnail_url: story.thumbnail_url,
+      youtube_url: story.youtube_url || '',
+      tags: story.tags || [],
+      is_published: story.is_published,
+      content: story.content || {}
+    };
+    return NextResponse.json({ story: result });
   } catch (error) {
     console.error('Error fetching sonaverse story:', error);
     return NextResponse.json(

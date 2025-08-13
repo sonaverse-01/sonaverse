@@ -140,10 +140,10 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
 
   if (loading) {
     return (
-      <div className="w-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-20 -mx-4">
-        <div className="max-w-7xl mx-auto px-4">
+      <div className="w-full bg-gradient-to-br from-[#f8f6f4] via-[#f0ece9] to-stone-100 py-20">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#bda191] mx-auto"></div>
             <p className="mt-4 text-gray-600">
               {language === 'ko' ? '게시물을 불러오는 중...' : 'Loading posts...'}
             </p>
@@ -158,8 +158,8 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
   }
 
   return (
-    <div className="w-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-20 -mx-4">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="w-full bg-gradient-to-br from-[#f8f6f4] via-[#f0ece9] to-stone-100 py-20">
+      <div className="max-w-7xl mx-auto px-6">
         {/* 섹션 헤더 */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -183,7 +183,7 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                 className="group block bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
               >
                 {/* 이미지 */}
-                <div className="relative h-64 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 overflow-hidden">
+                <div className="relative h-48 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] overflow-hidden">
                   {content.thumbnail_url ? (
                     <img
                       src={content.thumbnail_url}
@@ -203,7 +203,7 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                       <div className="text-white text-center">
                         <div className="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
                           <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                           </svg>
                         </div>
                         <span className="text-lg font-semibold">SONAVERSE Story</span>
@@ -212,33 +212,21 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                   )}
                   
                   {/* 호버 오버레이 */}
-                  <div className="absolute inset-0 bg-blue-600 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center">
-                    <div className="transform scale-0 group-hover:scale-100 transition-transform duration-300 bg-white/90 backdrop-blur-sm rounded-full p-3">
-                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
+                  <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                 </div>
 
                 {/* 콘텐츠 */}
                 <div className="p-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm text-blue-600 font-medium">
+                    <div className="w-2 h-2 bg-[#bda191] rounded-full"></div>
+                    <span className="text-sm text-[#bda191] font-medium">
                       {language === 'ko' ? '소나버스 스토리' : 'SONAVERSE Story'}
                     </span>
                   </div>
                   
-                  <h3 className="font-bold text-xl text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300 leading-tight">
+                  <h3 className="font-bold text-lg sm:text-xl text-gray-900 mb-4 line-clamp-2 group-hover:text-[#bda191] transition-colors duration-300 leading-tight">
                     {content.title}
                   </h3>
-                  
-                  {content.subtitle && (
-                    <p className="text-gray-600 mb-4 line-clamp-2 leading-relaxed text-sm">
-                      {content.subtitle}
-                    </p>
-                  )}
                   
                   <div className="flex items-center justify-between">
                     <time className="text-gray-500 text-sm">
@@ -248,7 +236,7 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                         day: 'numeric'
                       })}
                     </time>
-                    <div className="w-6 h-6 text-gray-400 group-hover:text-blue-500 transition-colors duration-300">
+                    <div className="w-6 h-6 text-gray-400 group-hover:text-[#bda191] transition-colors duration-300">
                       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
@@ -290,7 +278,7 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                     className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer h-full"
                   >
                     {/* 이미지 영역 */}
-                    <div className="relative h-32 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 overflow-hidden">
+                    <div className="relative h-32 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] overflow-hidden">
                       {content.thumbnail_url ? (
                         <img
                           src={content.thumbnail_url}
@@ -319,19 +307,19 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                       )}
                       
                       {/* 호버 오버레이 */}
-                      <div className="absolute inset-0 bg-blue-600 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+                      <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                     </div>
                     
                     {/* 텍스트 영역 */}
                     <div className="flex-1 flex flex-col px-4 pb-4 pt-3">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-                        <span className="text-xs text-blue-500 font-medium">
+                        <div className="w-1.5 h-1.5 bg-[#bda191] rounded-full"></div>
+                        <span className="text-xs text-[#bda191] font-medium">
                           {language === 'ko' ? '스토리' : 'Story'}
                         </span>
                       </div>
                       
-                      <h5 className="text-sm font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2 leading-tight">
+                      <h5 className="text-sm font-semibold text-gray-900 mb-2 group-hover:text-[#bda191] transition-colors duration-300 line-clamp-2 leading-tight">
                         {content.title}
                       </h5>
                       
@@ -343,7 +331,7 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                             day: 'numeric'
                           })}
                         </time>
-                        <div className="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors duration-300">
+                        <div className="w-4 h-4 text-gray-400 group-hover:text-[#bda191] transition-colors duration-300">
                           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                           </svg>
@@ -364,7 +352,7 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                   key={index}
                   onClick={() => setCurrentSlide(index)}
                   className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                    index === currentSlide ? 'bg-blue-500' : 'bg-gray-300 hover:bg-gray-400'
+                    index === currentSlide ? 'bg-[#bda191]' : 'bg-gray-300 hover:bg-gray-400'
                   }`}
                 />
               ))}

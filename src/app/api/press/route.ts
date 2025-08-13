@@ -48,6 +48,7 @@ export async function GET(request: NextRequest) {
       _id: item._id,
       slug: item.slug,
       press_name: item.press_name,
+      thumbnail: item.thumbnail,
       content: item.content,
       is_active: item.is_active,
       created_at: item.created_at,
@@ -92,6 +93,7 @@ export async function POST(request: NextRequest) {
     const newPress = await PressRelease.create({
       slug: body.slug,
       press_name: body.press_name,
+      thumbnail: body.content?.ko?.thumbnail_url || body.content?.en?.thumbnail_url || '',
       external_link: body.external_link,
       content: body.content,
       tags: body.tags || [],

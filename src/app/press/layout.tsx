@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: '언론보도 - 소나버스의 소식과 뉴스 | SONAVERSE',
     description: '소나버스의 최신 소식과 언론에서 다룬 주요 뉴스를 확인해보세요.',
-    url: 'https://sonaverse.com/press',
+    url: 'https://sonaverse.kr/press',
     siteName: 'SONAVERSE',
     images: [
       {
-        url: 'https://sonaverse.com/logo/symbol_logo.png',
+        url: '/logo/symbol_logo.png',
         width: 1200,
         height: 630,
         alt: 'SONAVERSE 언론보도',
@@ -24,10 +24,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '언론보도 - 소나버스의 소식과 뉴스 | SONAVERSE',
     description: '소나버스의 최신 소식과 언론에서 다룬 주요 뉴스를 확인해보세요.',
-    images: ['https://sonaverse.com/logo/symbol_logo.png'],
+    images: ['/logo/symbol_logo.png'],
   },
   alternates: {
-    canonical: 'https://sonaverse.com/press',
+    canonical: 'https://sonaverse.kr/press',
   },
 }
 
@@ -41,12 +41,12 @@ export default function PressLayout({
     '@type': 'CollectionPage',
     name: '소나버스 언론보도',
     description: '소나버스의 최신 소식과 언론에서 다룬 주요 뉴스',
-    url: 'https://sonaverse.com/press',
+    url: 'https://sonaverse.kr/press',
     publisher: {
       '@type': 'Organization',
       name: 'SONAVERSE',
-      url: 'https://sonaverse.com',
-      logo: 'https://sonaverse.com/logo/symbol_logo.png'
+      url: 'https://sonaverse.kr',
+      logo: '/logo/symbol_logo.png'
     }
   }
 

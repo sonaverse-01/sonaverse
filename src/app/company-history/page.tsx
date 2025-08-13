@@ -281,7 +281,7 @@ const CompanyHistoryPage: React.FC = () => {
                 >
                   {/* 년도 표시 - 반응형 위치와 크기 조정 */}
                   <div 
-                    className="absolute left-0 md:left-0 w-3 h-3 md:w-12 md:h-12 rounded-sm md:rounded-2xl flex items-center justify-center shadow-lg"
+                    className="absolute left-1.5 md:left-6 -translate-x-1/2 w-6 h-6 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-lg"
                     style={{ backgroundColor: getYearColor(idx, history.length) }}
                   >
                     {(() => {
@@ -329,8 +329,8 @@ const CompanyHistoryPage: React.FC = () => {
             
             {/* 미래 포인트 - 반응형 조정 */}
             <div className="relative mt-6 md:mt-12">
-              <div className="absolute left-0 md:left-0 w-3 h-3 md:w-12 md:h-12 bg-slate-300 rounded-sm md:rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-[6px] md:text-sm">∞</span>
+              <div className="absolute left-1.5 md:left-6 -translate-x-1/2 w-6 h-6 md:w-16 md:h-16 bg-slate-300 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-[8px] md:text-base">∞</span>
               </div>
               <div className="ml-5 md:ml-20">
                 <div className="bg-gradient-to-r from-[#bda191] to-[#a68b7a] rounded-lg md:rounded-3xl p-2 md:p-8 text-white">

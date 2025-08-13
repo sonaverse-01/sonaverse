@@ -89,7 +89,8 @@ const Header: React.FC = () => {
             height={32}
             priority={false}
             sizes="(max-width: 640px) 72px, 95px"
-            className="w-auto h-6 sm:h-8"
+            className="h-6 sm:h-8"
+            style={{ width: 'auto', height: 'auto' }}
           />
         </a>
         

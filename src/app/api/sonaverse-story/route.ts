@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dbConnect } from '../../../lib/db';
 import SonaverseStory from '../../../models/SonaverseStory';
-import { verifyToken } from '../../../lib/auth-server';
+import { verifyToken, getCurrentUser } from '../../../lib/auth-server';
 
 /**
  * 소나버스 스토리 목록 조회 (GET)
@@ -74,9 +74,9 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    // 인증 체크 - 쿠키에서 토큰 가져오기
-    const token = request.cookies.get('admin-token')?.value;
-    if (!token || !(await verifyToken(token))) {
+    // 쿠키 기반 인증 체크
+    const user = await getCurrentUser();
+    if (!user) {
       return NextResponse.json({ error: '인증이 필요합니다.' }, { status: 401 });
     }
 
@@ -100,15 +100,6 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // 토큰에서 사용자 정보 추출
-    const decoded = await verifyToken(token);
-    if (!decoded || !decoded.id) {
-      return NextResponse.json(
-        { error: '유효하지 않은 토큰입니다.' },
-        { status: 401 }
-      );
-    }
-    
     // 메인 게시물로 설정할 경우, 기존 메인 게시물 해제
     if (body.is_main) {
       await SonaverseStory.updateMany(
@@ -120,8 +111,9 @@ export async function POST(request: NextRequest) {
     // 소나버스 스토리 생성
     const sonaverseStory = new SonaverseStory({
       ...body,
-      author: decoded.id,
-      created_at: new Date(),
+      author: user.id,
+      updated_by: user.id,
+      created_at: body.created_at ? new Date(body.created_at) : new Date(),
       last_updated: new Date()
     });
     

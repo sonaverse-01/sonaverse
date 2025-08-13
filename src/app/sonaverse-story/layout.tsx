@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: '소나버스 스토리 - 혁신 여정과 시니어 라이프 인사이트 | SONAVERSE',
     description: '소나버스의 혁신 여정과 시니어 라이프에 대한 깊이 있는 통찰을 만나보세요.',
-    url: 'https://sonaverse.com/sonaverse-story',
+    url: 'https://sonaverse.kr/sonaverse-story',
     siteName: 'SONAVERSE',
     images: [
       {
-        url: 'https://sonaverse.com/logo/symbol_logo.png',
+        url: '/logo/symbol_logo.png',
         width: 1200,
         height: 630,
         alt: 'SONAVERSE 스토리',
@@ -24,10 +24,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '소나버스 스토리 - 혁신 여정과 시니어 라이프 인사이트 | SONAVERSE',
     description: '소나버스의 혁신 여정과 시니어 라이프에 대한 깊이 있는 통찰을 만나보세요.',
-    images: ['https://sonaverse.com/logo/symbol_logo.png'],
+    images: ['/logo/symbol_logo.png'],
   },
   alternates: {
-    canonical: 'https://sonaverse.com/sonaverse-story',
+    canonical: 'https://sonaverse.kr/sonaverse-story',
   },
 }
 
@@ -41,12 +41,12 @@ export default function SonaverseStoryLayout({
     '@type': 'Blog',
     name: '소나버스 스토리',
     description: '소나버스의 혁신 여정과 시니어 라이프에 대한 깊이 있는 통찰',
-    url: 'https://sonaverse.com/sonaverse-story',
+    url: 'https://sonaverse.kr/sonaverse-story',
     publisher: {
       '@type': 'Organization',
       name: 'SONAVERSE',
-      url: 'https://sonaverse.com',
-      logo: 'https://sonaverse.com/logo/symbol_logo.png'
+      url: 'https://sonaverse.kr',
+      logo: '/logo/symbol_logo.png'
     }
   }
 

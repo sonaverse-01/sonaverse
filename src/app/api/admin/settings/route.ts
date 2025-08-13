@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
       settings = new AdminSetting({
         siteName: { ko: '소나버스', en: 'Sonaverse' },
         siteDescription: { ko: '소나버스 공식 웹사이트', en: 'Sonaverse Official Website' },
-        contactEmail: 'contact@sonaverse.com',
+        contactEmail: 'contact@sonaverse.kr',
         contactPhone: '02-1234-5678',
         address: { ko: '서울특별시 강남구', en: 'Gangnam-gu, Seoul' },
         socialMedia: {
@@ -134,7 +134,7 @@ export async function POST(request: NextRequest) {
     const defaultSettings = new AdminSetting({
       siteName: { ko: '소나버스', en: 'Sonaverse' },
       siteDescription: { ko: '소나버스 공식 웹사이트', en: 'Sonaverse Official Website' },
-      contactEmail: 'contact@sonaverse.com',
+      contactEmail: 'contact@sonaverse.kr',
       contactPhone: '02-1234-5678',
       address: { ko: '서울특별시 강남구', en: 'Gangnam-gu, Seoul' },
       socialMedia: {

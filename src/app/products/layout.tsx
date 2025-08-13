@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: '제품소개 - 혁신적인 헬스케어 솔루션 | SONAVERSE',
     description: '소나버스의 혁신적인 헬스케어 제품들을 만나보세요. 만보 워크메이트와 보듬 기저귀로 시니어의 더 나은 삶을 제공합니다.',
-    url: 'https://sonaverse.com/products',
+    url: 'https://sonaverse.kr/products',
     siteName: 'SONAVERSE',
     images: [
       {
-        url: 'https://sonaverse.com/logo/symbol_logo.png',
+        url: '/logo/symbol_logo.png',
         width: 1200,
         height: 630,
         alt: 'SONAVERSE 제품소개',
@@ -24,10 +24,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '제품소개 - 혁신적인 헬스케어 솔루션 | SONAVERSE',
     description: '소나버스의 혁신적인 헬스케어 제품들을 만나보세요.',
-    images: ['https://sonaverse.com/logo/symbol_logo.png'],
+    images: ['/logo/symbol_logo.png'],
   },
   alternates: {
-    canonical: 'https://sonaverse.com/products',
+    canonical: 'https://sonaverse.kr/products',
   },
 }
 
@@ -40,8 +40,8 @@ export default function ProductsLayout({
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'SONAVERSE',
-    url: 'https://sonaverse.com',
-    logo: 'https://sonaverse.com/logo/symbol_logo.png',
+    url: 'https://sonaverse.kr',
+    logo: '/logo/symbol_logo.png',
     description: '시니어의 더 나은 내일을 위한 혁신적인 헬스케어 솔루션을 제공하는 기업',
     products: [
       {

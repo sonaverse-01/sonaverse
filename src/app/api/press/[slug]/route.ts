@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dbConnect } from '../../../../lib/db';
 import PressRelease from '../../../../models/PressRelease';
-import { verifyToken } from '../../../../lib/auth-server';
+import { verifyToken, getCurrentUser } from '../../../../lib/auth-server';
 
 /**
  * GET: 특정 언론보도 상세 정보 조회
@@ -41,10 +41,11 @@ export async function GET(
       const result = {
         slug: pressRelease.slug,
         press_name: pressRelease.press_name,
+        thumbnail: pressRelease.thumbnail,
         content: pressRelease.content,
         created_at: pressRelease.created_at?.toISOString().split('T')[0] || new Date().toISOString().split('T')[0],
         is_active: pressRelease.is_active,
-        tags: '', // 현재 모델에 tags가 없으므로 빈 문자열
+        tags: pressRelease.tags || { ko: [], en: [] },
       };
       return NextResponse.json(result);
     }
@@ -78,10 +79,9 @@ export async function PATCH(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    // 인증 체크
-    const authHeader = request.headers.get('authorization');
-    const token = authHeader?.replace('Bearer ', '');
-    if (!token || !(await verifyToken(token))) {
+    // 쿠키 기반 인증 체크
+    const user = await getCurrentUser();
+    if (!user) {
       return NextResponse.json({ error: '인증이 필요합니다.' }, { status: 401 });
     }
 
@@ -94,7 +94,11 @@ export async function PATCH(
     if (body.created_at) updateData.created_at = new Date(body.created_at);
     if (body.press_name) updateData.press_name = body.press_name;
     if (body.content) updateData.content = body.content;
-    // tags는 현재 모델에 없으므로 무시
+    if (body.tags) updateData.tags = body.tags;
+    // 썸네일 처리: content에서 추출하거나 직접 설정
+    if (body.content?.ko?.thumbnail_url || body.content?.en?.thumbnail_url) {
+      updateData.thumbnail = body.content?.ko?.thumbnail_url || body.content?.en?.thumbnail_url;
+    }
     updateData.last_updated = new Date();
     
     const pressRelease = await PressRelease.findOneAndUpdate(
@@ -128,10 +132,9 @@ export async function DELETE(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    // 인증 체크
-    const authHeader = request.headers.get('authorization');
-    const token = authHeader?.replace('Bearer ', '');
-    if (!token || !(await verifyToken(token))) {
+    // 쿠키 기반 인증 체크
+    const user = await getCurrentUser();
+    if (!user) {
       return NextResponse.json({ error: '인증이 필요합니다.' }, { status: 401 });
     }
 

@@ -117,7 +117,9 @@ const EditPressPage: React.FC = () => {
       });
       
       // 썸네일 미리보기 설정
-      if (data.content?.ko?.thumbnail_url) {
+      if (data.thumbnail) {
+        setThumbnailPreview(data.thumbnail);
+      } else if (data.content?.ko?.thumbnail_url) {
         setThumbnailPreview(data.content.ko.thumbnail_url);
       }
     } catch (error) {
@@ -190,7 +192,10 @@ const EditPressPage: React.FC = () => {
   };
 
   const uploadThumbnail = async (): Promise<string> => {
-    if (!thumbnailFile) return formData?.content.ko.thumbnail_url || '';
+    if (!thumbnailFile) {
+      // 기존 썸네일 URL 유지
+      return formData?.content.ko.thumbnail_url || thumbnailPreview || '';
+    }
 
     const uploadFormData = new FormData();
     uploadFormData.append('file', thumbnailFile);

@@ -58,10 +58,10 @@ export async function middleware(request: NextRequest) {
     // HTML 응답에 hreflang 및 canonical 헤더 추가
     if (pathname !== '/admin/login' && !pathname.startsWith('/api/')) {
       response.headers.set('Link', [
-        `<https://sonaverse.com${pathname}>; rel="canonical"`,
-        `<https://sonaverse.com/ko${pathname}>; rel="alternate"; hreflang="ko"`,
-        `<https://sonaverse.com/en${pathname}>; rel="alternate"; hreflang="en"`,
-        `<https://sonaverse.com${pathname}>; rel="alternate"; hreflang="x-default"`
+        `<https://sonaverse.kr${pathname}>; rel="canonical"`,
+        `<https://sonaverse.kr/ko${pathname}>; rel="alternate"; hreflang="ko"`,
+        `<https://sonaverse.kr/en${pathname}>; rel="alternate"; hreflang="en"`,
+        `<https://sonaverse.kr${pathname}>; rel="alternate"; hreflang="x-default"`
       ].join(', '));
     }
     

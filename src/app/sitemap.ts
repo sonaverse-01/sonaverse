@@ -1,11 +1,11 @@
 import { MetadataRoute } from 'next'
 import { dbConnect } from '@/lib/db'
 import SonaverseStory from '@/models/SonaverseStory'
-import Product from '@/models/Product'
+import DiaperProduct from '@/models/DiaperProduct'
 import PressRelease from '@/models/PressRelease'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://sonaverse.com'
+  const baseUrl = 'https://sonaverse.kr'
   
   await dbConnect()
   
@@ -74,14 +74,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }))
 
-    // Dynamic pages - Products
-    const products = await Product.find({ is_active: true })
-      .select('slug last_updated created_at')
+    // Dynamic pages - Diaper Products
+    const products = await DiaperProduct.find({ is_active: true })
+      .select('slug updated_at created_at')
       .lean()
     
     const productPages = products.map((product: any) => ({
-      url: `${baseUrl}/products/${product.slug}`,
-      lastModified: product.last_updated ? new Date(product.last_updated) : new Date(product.created_at || Date.now()),
+      url: `${baseUrl}/products/bodeum-diaper/${product.slug}`,
+      lastModified: product.updated_at ? new Date(product.updated_at) : new Date(product.created_at || Date.now()),
       changeFrequency: 'weekly' as const,
       priority: 0.8,
     }))

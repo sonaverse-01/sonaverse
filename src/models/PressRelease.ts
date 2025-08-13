@@ -14,6 +14,7 @@ export interface IPressReleaseContent {
 export interface IPressRelease extends Document {
   slug: string;
   press_name: Record<string, string>;
+  thumbnail?: string;
   external_link?: string;
   content: Record<string, IPressReleaseContent>;
   tags?: Record<string, string[]>;
@@ -32,6 +33,7 @@ const PressReleaseContentSchema = new Schema<IPressReleaseContent>({
 const PressReleaseSchema = new Schema<IPressRelease>({
   slug: { type: String, required: true, unique: true },
   press_name: { type: Schema.Types.Mixed, required: true },
+  thumbnail: { type: String },
   external_link: { type: String },
   content: { type: Schema.Types.Mixed, required: true },
   tags: { type: Schema.Types.Mixed },

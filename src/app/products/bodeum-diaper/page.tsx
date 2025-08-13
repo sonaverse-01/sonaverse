@@ -49,6 +49,7 @@ const BodeumDiaperPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [hoveredImage, setHoveredImage] = useState<string>('/product/bodume/pd_bodume_set.jpg');
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
   // Mobile sliding states for stories section
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -57,9 +58,15 @@ const BodeumDiaperPage: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    fetchProducts();
-    fetchStories();
-  }, [selectedCategory]);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      fetchProducts();
+      fetchStories();
+    }
+  }, [selectedCategory, mounted]);
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -230,10 +237,10 @@ const BodeumDiaperPage: React.FC = () => {
                   BO DUME
                 </h3>
                 <h4 className="text-sm sm:text-lg md:text-xl font-normal text-gray-700">
-                  프리미엄 성인용 기저귀
+                  {mounted && i18n.language === 'en' ? 'Premium Adult Diapers' : '프리미엄 성인용 기저귀'}
                 </h4>
                 <h1 className="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold leading-none mt-4 sm:mt-8 text-gray-900">
-                  보듬
+                  {mounted && i18n.language === 'en' ? 'BO DUME' : '보듬'}
                 </h1>
               </div>
               
@@ -242,10 +249,21 @@ const BodeumDiaperPage: React.FC = () => {
               
               {/* Product Description */}
               <div className="space-y-2 sm:space-y-4 text-sm sm:text-lg md:text-xl leading-relaxed text-gray-700">              
-                <p>피부에 닿는 감촉은 더 부드럽고,</p>
-                <p>움직임에는 더 유연하게,</p>
-                <p>보듬 팬티가 부모님의 하루를 가볍게,</p>
-                <p>당신의 하루를 편안하게 만들어 드립니다.</p>
+                {mounted && i18n.language === 'en' ? (
+                  <>
+                    <p>Softer to the skin,</p>
+                    <p>More flexible with movement,</p>
+                    <p>BO DUME briefs lighten your parents’ day</p>
+                    <p>and make your day more comfortable.</p>
+                  </>
+                ) : (
+                  <>
+                    <p>피부에 닿는 감촉은 더 부드럽고,</p>
+                    <p>움직임에는 더 유연하게,</p>
+                    <p>보듬 팬티가 부모님의 하루를 가볍게,</p>
+                    <p>당신의 하루를 편안하게 만들어 드립니다.</p>
+                  </>
+                )}
               </div>
               
               {/* Features Icons - Bottom of left panel */}
@@ -257,7 +275,7 @@ const BodeumDiaperPage: React.FC = () => {
                   onClick={(e) => handleImageClick('/product/bodume/Disposable Underpads_f.jpg', e)}
                 >
                   <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20 rounded-full overflow-hidden mb-2 transition-transform duration-300 group-hover:scale-110">
-                    <img src="/product/bodume/Disposable Underpads.png" alt="위생깔개매트" className="w-[calc(100%+1.5px)] h-[calc(100%+1.5px)] object-cover rounded-full -m-[0.5px] transition-transform duration-300 group-hover:scale-105" />
+                    <img src="/product/bodume/Disposable Underpads.png" alt={mounted && i18n.language === 'en' ? 'Disposable Underpads' : '위생깔개매트'} className="w-[calc(100%+1.5px)] h-[calc(100%+1.5px)] object-cover rounded-full -m-[0.5px] transition-transform duration-300 group-hover:scale-105" />
                   </div>
                 </div>
                 
@@ -268,7 +286,7 @@ const BodeumDiaperPage: React.FC = () => {
                   onClick={(e) => handleImageClick('/product/bodume/Incontinence Pads_Flat Type_f.jpg', e)}
                 >
                   <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20 rounded-full overflow-hidden mb-2 transition-transform duration-300 group-hover:scale-110">
-                    <img src="/product/bodume/Incontinence Pads_Flat Type.png" alt="속기저귀_일자형" className="w-[calc(100%+1.5px)] h-[calc(100%+1.5px)] object-cover rounded-full -m-[0.5px] transition-transform duration-300 group-hover:scale-105" />
+                    <img src="/product/bodume/Incontinence Pads_Flat Type.png" alt={mounted && i18n.language === 'en' ? 'Incontinence Pads (Flat)' : '속기저귀_일자형'} className="w-[calc(100%+1.5px)] h-[calc(100%+1.5px)] object-cover rounded-full -m-[0.5px] transition-transform duration-300 group-hover:scale-105" />
                   </div>
                 </div>
                 
@@ -279,7 +297,7 @@ const BodeumDiaperPage: React.FC = () => {
                   onClick={(e) => handleImageClick('/product/bodume/Incontinence Pads_Round Type_f.jpg', e)}
                 >
                   <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20 rounded-full overflow-hidden mb-2 transition-transform duration-300 group-hover:scale-110">
-                    <img src="/product/bodume/Incontinence Pads_Round Type.png" alt="속기저귀_라운드형" className="w-[calc(100%+1.5px)] h-[calc(100%+1.5px)] object-cover rounded-full -m-[0.5px] transition-transform duration-300 group-hover:scale-105" />
+                    <img src="/product/bodume/Incontinence Pads_Round Type.png" alt={mounted && i18n.language === 'en' ? 'Incontinence Pads (Round)' : '속기저귀_라운드형'} className="w-[calc(100%+1.5px)] h-[calc(100%+1.5px)] object-cover rounded-full -m-[0.5px] transition-transform duration-300 group-hover:scale-105" />
                   </div>
                 </div>
                 
@@ -290,7 +308,7 @@ const BodeumDiaperPage: React.FC = () => {
                   onClick={(e) => handleImageClick('/product/bodume/Pull-Up Diapers_L_f.jpg', e)}
                 >
                   <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20 rounded-full overflow-hidden mb-2 transition-transform duration-300 group-hover:scale-110">
-                    <img src="/product/bodume/Pull-Up Diapers_L.png" alt="팬티형_대형" className="w-[calc(100%+1.5px)] h-[calc(100%+1.5px)] object-cover rounded-full -m-[0.5px] transition-transform duration-300 group-hover:scale-105" />
+                    <img src="/product/bodume/Pull-Up Diapers_L.png" alt={mounted && i18n.language === 'en' ? 'Pull-Up Diapers (Large)' : '팬티형_대형'} className="w-[calc(100%+1.5px)] h-[calc(100%+1.5px)] object-cover rounded-full -m-[0.5px] transition-transform duration-300 group-hover:scale-105" />
                   </div>
                 </div>
                 <div 
@@ -300,7 +318,7 @@ const BodeumDiaperPage: React.FC = () => {
                   onClick={(e) => handleImageClick('/product/bodume/Pull-Up Diapers_M_f.jpg', e)}
                 >
                   <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20 rounded-full overflow-hidden mb-2 transition-transform duration-300 group-hover:scale-110">
-                    <img src="/product/bodume/Pull-Up Diapers_M.png" alt="팬티형_중형" className="w-[calc(100%+1.5px)] h-[calc(100%+1.5px)] object-cover rounded-full -m-[0.5px] transition-transform duration-300 group-hover:scale-105" />
+                    <img src="/product/bodume/Pull-Up Diapers_M.png" alt={mounted && i18n.language === 'en' ? 'Pull-Up Diapers (Medium)' : '팬티형_중형'} className="w-[calc(100%+1.5px)] h-[calc(100%+1.5px)] object-cover rounded-full -m-[0.5px] transition-transform duration-300 group-hover:scale-105" />
                   </div>
                 </div>
               </div>
@@ -367,7 +385,7 @@ const BodeumDiaperPage: React.FC = () => {
                   <div className="aspect-square overflow-hidden">
                     <img
                       src={product.thumbnail_image}
-                      alt={getLocalizedText(product.name, i18n.language)}
+                      alt={getLocalizedText(product.name, mounted ? i18n.language : 'ko')}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png';
@@ -378,10 +396,10 @@ const BodeumDiaperPage: React.FC = () => {
                   {/* 제품 정보 */}
                   <div className="p-4">
                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
-                      {getLocalizedText(product.name, i18n.language)}
+                      {getLocalizedText(product.name, mounted ? i18n.language : 'ko')}
                     </h3>
                     <p className="text-sm text-gray-600 line-clamp-2">
-                      {getLocalizedText(product.description, i18n.language)}
+                      {getLocalizedText(product.description, mounted ? i18n.language : 'ko')}
                     </p>
                     <div className="mt-3">
                       <span className="inline-block px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">
@@ -460,12 +478,12 @@ const BodeumDiaperPage: React.FC = () => {
                           </div>
                           
                           <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 line-clamp-2 leading-tight group-hover:text-[#bda191] transition-colors duration-300">
-                            {story.content[i18n.language as 'ko' | 'en']?.title || story.content.ko.title}
+                            {story.content[mounted ? i18n.language as 'ko' | 'en' : 'ko']?.title || story.content.ko.title}
                           </h3>
                           
                           <div className="flex items-center justify-between">
                             <time className="text-sm text-gray-500">
-                              {new Date(story.created_at).toLocaleDateString(i18n.language === 'ko' ? 'ko-KR' : 'en-US', {
+                              {new Date(story.created_at).toLocaleDateString(mounted && i18n.language === 'en' ? 'en-US' : 'ko-KR', {
                                 year: 'numeric',
                                 month: 'long',
                                 day: 'numeric'
@@ -547,12 +565,12 @@ const BodeumDiaperPage: React.FC = () => {
                           </div>
                           
                           <h5 className="text-sm font-semibold text-gray-900 mb-2 group-hover:text-[#bda191] transition-colors duration-300 line-clamp-2 leading-tight">
-                            {story.content[i18n.language as 'ko' | 'en']?.title || story.content.ko.title}
+                            {story.content[mounted ? i18n.language as 'ko' | 'en' : 'ko']?.title || story.content.ko.title}
                           </h5>
                           
                           <div className="flex items-center justify-between mt-auto">
                             <time className="text-xs text-gray-500">
-                              {new Date(story.created_at).toLocaleDateString(i18n.language === 'ko' ? 'ko-KR' : 'en-US', {
+                              {new Date(story.created_at).toLocaleDateString(mounted && i18n.language === 'en' ? 'en-US' : 'ko-KR', {
                                 year: 'numeric',
                                 month: 'short',
                                 day: 'numeric'
