@@ -86,6 +86,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${geistSans.variable} ${geistMono.variable}`} data-scroll-behavior="smooth">
       <head>
+        <meta name="google-site-verification" content="FEYJGWcAwSiYrpz7Zh5fSCWtqKCKrrTLnyd2Xk2FwII" />
         {/* Organization JSON-LD (전역) */}
         <script
           type="application/ld+json"

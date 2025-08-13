@@ -37,7 +37,9 @@
       "Bash(git config:*)",
       "Bash(ssh-keygen:*)",
       "Bash(cat:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(ssh:*)",
+      "Bash(git credential-manager core:*)"
     ],
     "deny": []
   }
