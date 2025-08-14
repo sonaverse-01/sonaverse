@@ -332,9 +332,9 @@ const BodeumDiaperPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 py-10 sm:py-12">
         {/* 헤더 */}
         <div className="text-center mb-10 sm:mb-12">
-          <h1 className="text-xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             {language === 'en' ? 'BO DUME Diaper' : '보듬 기저귀'}
-          </h1>
+          </h2>
           <p className="text-sm sm:text-lg text-gray-600 max-w-2xl mx-auto">
             {language === 'en' ? 'Trusted quality adult diapers developed based on real user experience' : '실제 사용자 경험을 바탕으로 개발된 믿을 수 있는 품질의 성인용 기저귀'}
           </p>
