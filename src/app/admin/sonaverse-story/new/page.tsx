@@ -175,8 +175,8 @@ const NewSonaverseStoryPage: React.FC = () => {
           if (image.file) {
             const imageFormData = new FormData();
             imageFormData.append('file', image.file);
-            imageFormData.append('folder', `sonaverseStory/${formData.slug}/ko`);
-            imageFormData.append('filename', `${formData.slug}_${imageCounter.toString().padStart(2, '0')}`);
+            imageFormData.append('folder', `sonaverseStory/${formData.slug}`);
+            imageFormData.append('filename', `${formData.slug}_ko_${imageCounter.toString().padStart(2, '0')}`);
 
             const imageResponse = await fetch('/api/upload', {
               method: 'POST',
@@ -203,8 +203,8 @@ const NewSonaverseStoryPage: React.FC = () => {
           if (image.file) {
             const imageFormData = new FormData();
             imageFormData.append('file', image.file);
-            imageFormData.append('folder', `sonaverseStory/${formData.slug}/en`);
-            imageFormData.append('filename', `${formData.slug}_${imageCounter.toString().padStart(2, '0')}`);
+            imageFormData.append('folder', `sonaverseStory/${formData.slug}`);
+            imageFormData.append('filename', `${formData.slug}_en_${imageCounter.toString().padStart(2, '0')}`);
 
             const imageResponse = await fetch('/api/upload', {
               method: 'POST',

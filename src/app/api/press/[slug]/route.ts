@@ -58,7 +58,7 @@ export async function GET(
       press_name: pressRelease.press_name[lang] || pressRelease.press_name['ko'],
       title: pressRelease.content[lang]?.title || pressRelease.content['ko']?.title,
       body: pressRelease.content[lang]?.body || pressRelease.content['ko']?.body,
-      external_link: pressRelease.content[lang]?.external_link || pressRelease.content['ko']?.external_link,
+      external_link: pressRelease.external_link,
       is_active: pressRelease.is_active,
     };
     
