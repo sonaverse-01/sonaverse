@@ -67,9 +67,9 @@ export async function POST(request: NextRequest) {
       fileName = `upload_${timestamp}_${file.name}`;
     }
 
-    // 폴더가 지정되었으면 blob/폴더경로 형태로 생성 (요구사항: blob/press/[slug]/ 형태)
+    // 폴더가 지정되었으면 해당 폴더에 직접 저장 (press/[slug]/ 형태)
     if (folder) {
-      filePath = `blob/${folder}/${fileName}`;
+      filePath = `${folder}/${fileName}`;
     } else {
       filePath = fileName;
     }

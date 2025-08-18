@@ -236,6 +236,35 @@ export default function ClientStoryDetail({ slug }: { slug: string }) {
             />
           </article>
         </main>
+        
+        {/* 이미지 정렬을 위한 추가 스타일 */}
+        <style jsx>{`
+          .prose img[style*="float: left"] {
+            float: left !important;
+            margin: 0 20px 16px 0 !important;
+            clear: left !important;
+            display: block !important;
+          }
+          
+          .prose img[style*="float: right"] {
+            float: right !important;
+            margin: 0 0 16px 20px !important;
+            clear: right !important;
+            display: block !important;
+          }
+          
+          .prose img[style*="margin: 16px auto"] {
+            display: block !important;
+            margin: 16px auto !important;
+            float: none !important;
+            clear: both !important;
+          }
+          
+          /* 일반적인 width 스타일 유지 */
+          .prose img[style*="width:"] {
+            height: auto !important;
+          }
+        `}</style>
       </div>
 
       {/* 추천 포스트 - 풀 width */}

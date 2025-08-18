@@ -48,7 +48,7 @@ declare module '@tiptap/core' {
 }
 
 export interface TiptapEditorRef {
-  uploadTempImagesToBlob: (slug?: string) => Promise<string>;
+  uploadTempImagesToBlob: (slug?: string, language?: string) => Promise<string>;
   getImages: () => IBlogPostImage[];
   getEditor: () => any;
   uploadImageToBlob: (file: File) => Promise<string>;
@@ -591,7 +591,7 @@ const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(({
   }, [editor, addImageMetadata]);
 
   // 단일 이미지 업로드 함수 (외부에서 호출용)
-  const uploadImageToBlob = useCallback(async (file: File, slug?: string) => {
+  const uploadImageToBlob = useCallback(async (file: File, slug?: string, customFilename?: string) => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('type', 'editor');
@@ -601,10 +601,8 @@ const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(({
       formData.append('folder', folder);
     }
     
-    if (slug) {
-      const timestamp = Date.now();
-      const ext = file.name.split('.').pop() || 'jpg';
-      const customFilename = `${slug}_content_${timestamp}`;
+    // 커스텀 파일명이 있으면 사용
+    if (customFilename) {
       formData.append('filename', customFilename);
     }
 
@@ -623,16 +621,24 @@ const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(({
   }, []);
 
   // 실제 blob 업로드 함수 (외부에서 호출용)
-  const uploadTempImagesToBlob = useCallback(async (slug?: string) => {
+  const uploadTempImagesToBlob = useCallback(async (slug?: string, language?: string) => {
 
     if (!editor || tempFiles.size === 0) return editor?.getHTML() || '';
 
     let updatedContent = editor.getHTML();
+    let imageCounter = 1;
     
     // 각 임시 이미지를 실제 blob URL로 교체
     for (const [tempUrl, file] of tempFiles.entries()) {
       try {
-        const realUrl = await uploadImageToBlob(file, slug);
+        // 올바른 파일명 생성: [slug]_[language]_[counter]
+        let customFilename;
+        if (slug && language) {
+          customFilename = `${slug}_${language}_${imageCounter.toString().padStart(2, '0')}`;
+          imageCounter++;
+        }
+        
+        const realUrl = await uploadImageToBlob(file, slug, customFilename);
         // 정확한 URL 매칭을 위해 이스케이프 처리
         const escapedTempUrl = tempUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const regex = new RegExp(escapedTempUrl, 'g');

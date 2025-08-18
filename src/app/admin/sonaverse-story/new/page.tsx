@@ -164,65 +164,9 @@ const NewSonaverseStoryPage: React.FC = () => {
     try {
       const thumbnailUrl = await uploadThumbnail();
 
-      // 본문 이미지 업로드 및 HTML 업데이트
-      let updatedKoBody = formData.content.ko.body;
-      let updatedEnBody = formData.content.en.body;
-
-      // 한국어 본문 이미지 업로드
-      if (formData.content.ko.images && formData.content.ko.images.length > 0) {
-        let imageCounter = 1;
-        for (const image of formData.content.ko.images) {
-          if (image.file) {
-            const imageFormData = new FormData();
-            imageFormData.append('file', image.file);
-            imageFormData.append('folder', `sonaverseStory/${formData.slug}`);
-            imageFormData.append('filename', `${formData.slug}_ko_${imageCounter.toString().padStart(2, '0')}`);
-
-            const imageResponse = await fetch('/api/upload', {
-              method: 'POST',
-              body: imageFormData,
-            });
-
-            imageCounter++;
-
-            if (imageResponse.ok) {
-              const imageData = await imageResponse.json();
-              updatedKoBody = updatedKoBody.replace(
-                `src="${image.src}"`,
-                `src="${imageData.url}"`
-              );
-            }
-          }
-        }
-      }
-
-      // 영어 본문 이미지 업로드
-      if (formData.content.en.images && formData.content.en.images.length > 0) {
-        let imageCounter = 1;
-        for (const image of formData.content.en.images) {
-          if (image.file) {
-            const imageFormData = new FormData();
-            imageFormData.append('file', image.file);
-            imageFormData.append('folder', `sonaverseStory/${formData.slug}`);
-            imageFormData.append('filename', `${formData.slug}_en_${imageCounter.toString().padStart(2, '0')}`);
-
-            const imageResponse = await fetch('/api/upload', {
-              method: 'POST',
-              body: imageFormData,
-            });
-
-            imageCounter++;
-
-            if (imageResponse.ok) {
-              const imageData = await imageResponse.json();
-              updatedEnBody = updatedEnBody.replace(
-                `src="${image.src}"`,
-                `src="${imageData.url}"`
-              );
-            }
-          }
-        }
-      }
+      // 에디터의 임시 이미지들을 실제 blob에 업로드
+      const updatedKoBody = await koEditorRef.current?.uploadTempImagesToBlob(formData.slug, 'ko') || formData.content.ko.body;
+      const updatedEnBody = await enEditorRef.current?.uploadTempImagesToBlob(formData.slug, 'en') || formData.content.en.body;
 
       // 태그 파싱
       const tags = {

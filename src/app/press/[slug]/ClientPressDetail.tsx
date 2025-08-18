@@ -153,6 +153,35 @@ export default function ClientPressDetail({ slug }: { slug: string }) {
         <div className="prose prose-sm md:prose-base mx-auto mb-8 max-w-none">
           <div dangerouslySetInnerHTML={{ __html: pressData.body }} />
         </div>
+        
+        {/* 이미지 정렬을 위한 추가 스타일 */}
+        <style jsx>{`
+          .prose img[style*="float: left"] {
+            float: left !important;
+            margin: 0 20px 16px 0 !important;
+            clear: left !important;
+            display: block !important;
+          }
+          
+          .prose img[style*="float: right"] {
+            float: right !important;
+            margin: 0 0 16px 20px !important;
+            clear: right !important;
+            display: block !important;
+          }
+          
+          .prose img[style*="margin: 16px auto"] {
+            display: block !important;
+            margin: 16px auto !important;
+            float: none !important;
+            clear: both !important;
+          }
+          
+          /* 일반적인 width 스타일 유지 */
+          .prose img[style*="width:"] {
+            height: auto !important;
+          }
+        `}</style>
         {/* 외부 링크 버튼 */}
         {pressData.external_link && (
           <div className="text-center">
