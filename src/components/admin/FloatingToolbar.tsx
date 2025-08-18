@@ -246,22 +246,9 @@ const FloatingToolbar: React.FC<FloatingToolbarProps> = ({
           <div className="flex gap-0.5 mb-0.5">
             <button onClick={handleAddLink} className={`px-1 py-0.5 rounded text-xs ${editor.isActive('link') ? 'bg-blue-500 text-white' : 'bg-gray-100 hover:bg-gray-200'}`} title="링크">🔗</button>
             <button onClick={() => {
-              if (editor && tiptapRef?.current?.uploadImageToBlob) {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*';
-                input.onchange = async (e) => {
-                  const file = (e.target as HTMLInputElement).files?.[0];
-                  if (file) {
-                    try {
-                      const imageUrl = await tiptapRef.current.uploadImageToBlob(file);
-                      editor.chain().focus().setImage({ src: imageUrl }).run();
-                    } catch (error) {
-                      console.error('이미지 업로드 실패:', error);
-                    }
-                  }
-                };
-                input.click();
+              if (tiptapRef?.current?.handleImageUpload) {
+                // TiptapEditor의 handleImageUpload 함수를 사용하여 임시 업로드 처리
+                tiptapRef.current.handleImageUpload();
               }
             }} className="px-1 py-0.5 rounded text-xs bg-green-100 hover:bg-green-200" title="이미지">🖼️</button>
             <button onClick={() => editor.chain().focus().insertClearBreak().run()} className="px-1 py-0.5 rounded text-xs bg-purple-100 hover:bg-purple-200" title="줄바꿈">↩️</button>

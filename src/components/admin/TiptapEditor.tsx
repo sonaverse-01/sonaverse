@@ -52,6 +52,7 @@ export interface TiptapEditorRef {
   getImages: () => IBlogPostImage[];
   getEditor: () => any;
   uploadImageToBlob: (file: File) => Promise<string>;
+  handleImageUpload: (file?: File) => Promise<void>;
 }
 
 // 임시 이미지를 blob URL로 생성하는 함수
@@ -618,11 +619,10 @@ const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(({
     
     const data = await res.json();
     return data.url as string;
-  }, []);
+  }, [folder]);
 
   // 실제 blob 업로드 함수 (외부에서 호출용)
   const uploadTempImagesToBlob = useCallback(async (slug?: string, language?: string) => {
-
     if (!editor || tempFiles.size === 0) return editor?.getHTML() || '';
 
     let updatedContent = editor.getHTML();
@@ -639,6 +639,7 @@ const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(({
         }
         
         const realUrl = await uploadImageToBlob(file, slug, customFilename);
+        
         // 정확한 URL 매칭을 위해 이스케이프 처리
         const escapedTempUrl = tempUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const regex = new RegExp(escapedTempUrl, 'g');
@@ -661,15 +662,16 @@ const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(({
     editor.commands.setContent(updatedContent);
     
     return updatedContent;
-  }, [editor, tempFiles]);
+  }, [editor, tempFiles, folder, updateImageMetadata, uploadImageToBlob]);
 
   // ref로 함수 노출
   useImperativeHandle(ref, () => ({
     uploadTempImagesToBlob,
     getImages,
     getEditor: () => editor,
-    uploadImageToBlob
-  }), [uploadTempImagesToBlob, getImages, editor, uploadImageToBlob]);
+    uploadImageToBlob,
+    handleImageUpload
+  }), [uploadTempImagesToBlob, getImages, editor, uploadImageToBlob, handleImageUpload]);
 
 
   if (!editor) {

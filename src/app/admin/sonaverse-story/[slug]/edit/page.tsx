@@ -468,7 +468,7 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
                   value={formData.content.ko.body}
                   onChange={(value: string) => handleContentChange('ko', 'body', value)}
                   slug={formData.slug}
-                  folder="sonaverseStory"
+                  folder={formData.slug ? `sonaverseStory/${formData.slug}` : "sonaverseStory"}
                   placeholder="한국어 본문을 입력하세요..."
                   images={formData.content.ko.images}
                   onImagesChange={(images) => handleImagesChange('ko', images)}
@@ -513,7 +513,7 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
                   value={formData.content.en.body}
                   onChange={(value: string) => handleContentChange('en', 'body', value)}
                   slug={formData.slug}
-                  folder="sonaverseStory"
+                  folder={formData.slug ? `sonaverseStory/${formData.slug}` : "sonaverseStory"}
                   placeholder="영어 본문을 입력하세요..."
                   images={formData.content.en.images}
                   onImagesChange={(images) => handleImagesChange('en', images)}

@@ -512,7 +512,7 @@ const EditPressPage: React.FC = () => {
                   value={formData.content.ko.body}
                   onChange={(value: string) => handleContentChange('ko', 'body', value)}
                   slug={formData.slug}
-                  folder="press"
+                  folder={formData.slug ? `press/${formData.slug}` : "press"}
                   placeholder="한국어 본문을 입력하세요..."
                   images={formData.content.ko.images}
                   onImagesChange={(images) => handleImagesChange('ko', images)}
@@ -557,7 +557,7 @@ const EditPressPage: React.FC = () => {
                   value={formData.content.en.body}
                   onChange={(value: string) => handleContentChange('en', 'body', value)}
                   slug={formData.slug}
-                  folder="press"
+                  folder={formData.slug ? `press/${formData.slug}` : "press"}
                   placeholder="영어 본문을 입력하세요..."
                   images={formData.content.en.images}
                   onImagesChange={(images) => handleImagesChange('en', images)}

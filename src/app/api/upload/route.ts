@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
       fileName: file?.name, 
       fileSize: file?.size, 
       customFilename, 
+      type,
       folder 
     });
 
@@ -59,19 +60,24 @@ export async function POST(request: NextRequest) {
     if (customFilename) {
       // 커스텀 파일명 사용 (요구사항: [slug]_thumbnail, [slug]_ko_01~ 형태)
       fileName = `${customFilename}.${fileExtension}`;
+      console.log('커스텀 파일명 사용:', fileName);
     } else if (type === 'editor') {
       // 에디터용 이미지 (요구사항에 맞게 수정 필요)
       fileName = `content_${timestamp}.${fileExtension}`;
+      console.log('에디터 기본 파일명 사용:', fileName);
     } else {
       // 일반 업로드
       fileName = `upload_${timestamp}_${file.name}`;
+      console.log('일반 업로드 파일명 사용:', fileName);
     }
 
     // 폴더가 지정되었으면 해당 폴더에 직접 저장 (press/[slug]/ 형태)
     if (folder) {
       filePath = `${folder}/${fileName}`;
+      console.log('폴더 포함 최종 경로:', filePath);
     } else {
       filePath = fileName;
+      console.log('루트 최종 경로:', filePath);
     }
 
     // Vercel Blob에 업로드
