@@ -78,7 +78,8 @@ export async function POST(request: NextRequest) {
     console.log('Attempting blob upload:', { filePath, fileSize: file.size });
     const blob = await put(filePath, file, { 
       access: 'public',
-      addRandomSuffix: false // 파일명 중복 방지를 위해 false로 설정
+      addRandomSuffix: false, // 파일명 중복 방지를 위해 false로 설정
+      allowOverwrite: true // 기존 파일 덮어쓰기 허용
     });
     console.log('Blob upload successful:', blob.url);
 
