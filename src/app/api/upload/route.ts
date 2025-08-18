@@ -3,11 +3,27 @@ import { put } from '@vercel/blob';
 
 export async function POST(request: NextRequest) {
   try {
+    // 환경 변수 체크
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      console.error('BLOB_READ_WRITE_TOKEN is not set');
+      return NextResponse.json(
+        { error: 'Blob storage가 설정되지 않았습니다.' },
+        { status: 500 }
+      );
+    }
+
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const customFilename = formData.get('filename') as string;
     const type = formData.get('type') as string; // 'thumbnail', 'editor', 'general'
     const folder = formData.get('folder') as string; // 폴더 경로 (예: 'press', 'sonaverseStory')
+
+    console.log('Upload request:', { 
+      fileName: file?.name, 
+      fileSize: file?.size, 
+      customFilename, 
+      folder 
+    });
 
     if (!file) {
       return NextResponse.json(
@@ -59,10 +75,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Vercel Blob에 업로드
+    console.log('Attempting blob upload:', { filePath, fileSize: file.size });
     const blob = await put(filePath, file, { 
       access: 'public',
       addRandomSuffix: false // 파일명 중복 방지를 위해 false로 설정
     });
+    console.log('Blob upload successful:', blob.url);
 
     return NextResponse.json({
       url: blob.url,
@@ -74,9 +92,16 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error('Upload error details:', {
+      error: error instanceof Error ? error.message : error,
+      stack: error instanceof Error ? error.stack : undefined,
+      blobToken: process.env.BLOB_READ_WRITE_TOKEN ? 'Set' : 'Not set'
+    });
     return NextResponse.json(
-      { error: '업로드 중 오류가 발생했습니다.' },
+      { 
+        error: '업로드 중 오류가 발생했습니다.',
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }
