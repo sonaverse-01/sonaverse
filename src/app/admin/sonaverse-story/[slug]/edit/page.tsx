@@ -189,6 +189,7 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
     const uploadFormData = new FormData();
     uploadFormData.append('file', thumbnailFile);
     uploadFormData.append('folder', `sonaverseStory/${formData.slug}`);
+    uploadFormData.append('filename', `${formData.slug}_thumbnail`);
 
     const response = await fetch('/api/upload', {
       method: 'POST',
@@ -217,16 +218,20 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
 
       // 한국어 본문 이미지 업로드
       if (formData.content.ko.images && formData.content.ko.images.length > 0) {
+        let imageCounter = 1;
         for (const image of formData.content.ko.images) {
           if (image.file) {
             const imageFormData = new FormData();
             imageFormData.append('file', image.file);
             imageFormData.append('folder', `sonaverseStory/${formData.slug}/ko`);
+            imageFormData.append('filename', `${formData.slug}_${imageCounter.toString().padStart(2, '0')}`);
 
             const imageResponse = await fetch('/api/upload', {
               method: 'POST',
               body: imageFormData,
             });
+
+            imageCounter++;
 
             if (imageResponse.ok) {
               const imageData = await imageResponse.json();
@@ -241,16 +246,20 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
 
       // 영어 본문 이미지 업로드
       if (formData.content.en.images && formData.content.en.images.length > 0) {
+        let imageCounter = 1;
         for (const image of formData.content.en.images) {
           if (image.file) {
             const imageFormData = new FormData();
             imageFormData.append('file', image.file);
             imageFormData.append('folder', `sonaverseStory/${formData.slug}/en`);
+            imageFormData.append('filename', `${formData.slug}_${imageCounter.toString().padStart(2, '0')}`);
 
             const imageResponse = await fetch('/api/upload', {
               method: 'POST',
               body: imageFormData,
             });
+
+            imageCounter++;
 
             if (imageResponse.ok) {
               const imageData = await imageResponse.json();

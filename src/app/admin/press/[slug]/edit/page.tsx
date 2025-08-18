@@ -200,6 +200,7 @@ const EditPressPage: React.FC = () => {
     const uploadFormData = new FormData();
     uploadFormData.append('file', thumbnailFile);
     uploadFormData.append('folder', `press/${formData?.slug}`);
+    uploadFormData.append('filename', `${formData?.slug}_thumbnail`);
 
     const response = await fetch('/api/upload', {
       method: 'POST',
@@ -227,16 +228,20 @@ const EditPressPage: React.FC = () => {
       let updatedEnBody = formData.content.en.body;
 
       if (formData.content.ko.images && formData.content.ko.images.length > 0) {
+        let imageCounter = 1;
         for (const image of formData.content.ko.images) {
           if (image.file) {
             const imageFormData = new FormData();
             imageFormData.append('file', image.file);
             imageFormData.append('folder', `press/${formData.slug}/ko`);
+            imageFormData.append('filename', `${formData.slug}_${imageCounter.toString().padStart(2, '0')}`);
 
             const imageResponse = await fetch('/api/upload', {
               method: 'POST',
               body: imageFormData,
             });
+
+            imageCounter++;
 
             if (imageResponse.ok) {
               const imageData = await imageResponse.json();
@@ -250,16 +255,20 @@ const EditPressPage: React.FC = () => {
       }
 
       if (formData.content.en.images && formData.content.en.images.length > 0) {
+        let imageCounter = 1;
         for (const image of formData.content.en.images) {
           if (image.file) {
             const imageFormData = new FormData();
             imageFormData.append('file', image.file);
             imageFormData.append('folder', `press/${formData.slug}/en`);
+            imageFormData.append('filename', `${formData.slug}_${imageCounter.toString().padStart(2, '0')}`);
 
             const imageResponse = await fetch('/api/upload', {
               method: 'POST',
               body: imageFormData,
             });
+
+            imageCounter++;
 
             if (imageResponse.ok) {
               const imageData = await imageResponse.json();

@@ -234,9 +234,9 @@ export default function SonaverseStoryPage() {
                   <div className="lg:w-1/2">
                     <Link href={`/sonaverse-story/${story.slug}`}>
                       <div className="relative h-64 lg:h-full">
-                        {story.content.ko.thumbnail_url ? (
+                        {story.thumbnail_url ? (
                           <img
-                            src={story.content.ko.thumbnail_url}
+                            src={story.thumbnail_url}
                             alt={story.content.ko.title}
                             className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                           />
@@ -303,9 +303,9 @@ export default function SonaverseStoryPage() {
                 <Link href={`/sonaverse-story/${story.slug}`}>
                   <div className="relative">
                     {/* 썸네일 이미지 또는 YouTube 썸네일 */}
-                    {story.content.ko.thumbnail_url ? (
+                    {story.thumbnail_url ? (
                       <img
-                        src={story.content.ko.thumbnail_url}
+                        src={story.thumbnail_url}
                         alt={story.content.ko.title}
                         className="w-full h-48 object-cover"
                       />
@@ -365,9 +365,9 @@ export default function SonaverseStoryPage() {
                     <div className="flex items-start h-full">
                       {/* 왼쪽 썸네일 - 고정 높이 */}
                       <div className="w-24 h-24 bg-gray-200 flex-shrink-0 rounded-l-2xl relative overflow-hidden">
-                        {story.content.ko.thumbnail_url ? (
+                        {story.thumbnail_url ? (
                           <img
-                            src={story.content.ko.thumbnail_url}
+                            src={story.thumbnail_url}
                             alt={story.content.ko.title}
                             className="w-full h-full object-cover"
                           />
@@ -468,18 +468,32 @@ export default function SonaverseStoryPage() {
                     <Link href={`/press/${press.slug}`}>
                       <div className="relative">
                         {/* 썸네일 이미지 영역 */}
-                        <div className="h-48 bg-gray-200 relative overflow-hidden">
-                          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-gray-700 text-center">
-                              <div className="w-16 h-16 bg-white bg-opacity-80 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-                                <svg className="w-8 h-8 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                                </svg>
+                        <div className="h-48 relative overflow-hidden">
+                          {press.thumbnail ? (
+                            <>
+                              <img 
+                                src={press.thumbnail} 
+                                alt={press.content[language]?.title || press.content.ko.title}
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                            </>
+                          ) : (
+                            <>
+                              <div className="w-full h-full bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b]"></div>
+                              <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="text-white text-center">
+                                  <div className="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+                                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                    </svg>
+                                  </div>
+                                  <span className="text-lg font-semibold">{press.press_name[language] || press.press_name.ko}</span>
+                                </div>
                               </div>
-                              <span className="text-lg font-semibold">{press.press_name[language] || press.press_name.ko}</span>
-                            </div>
-                          </div>
+                            </>
+                          )}
                           
                           {/* 호버 오버레이 */}
                           <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
@@ -543,18 +557,32 @@ export default function SonaverseStoryPage() {
                         className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer h-full"
                       >
                         {/* 이미지 영역 */}
-                        <div className="relative h-32 bg-gray-200 flex-shrink-0 overflow-hidden">
-                          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-gray-700 text-center">
-                              <div className="w-12 h-12 bg-white bg-opacity-80 rounded-xl flex items-center justify-center mx-auto mb-2 backdrop-blur-sm">
-                                <svg className="w-6 h-6 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                                </svg>
+                        <div className="relative h-32 flex-shrink-0 overflow-hidden">
+                          {press.thumbnail ? (
+                            <>
+                              <img 
+                                src={press.thumbnail} 
+                                alt={press.content[language]?.title || press.content.ko.title}
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                            </>
+                          ) : (
+                            <>
+                              <div className="w-full h-full bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b]"></div>
+                              <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="text-white text-center">
+                                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-2 backdrop-blur-sm">
+                                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                    </svg>
+                                  </div>
+                                  <span className="text-sm font-medium">{press.press_name[language] || press.press_name.ko}</span>
+                                </div>
                               </div>
-                              <span className="text-sm font-medium">{press.press_name[language] || press.press_name.ko}</span>
-                            </div>
-                          </div>
+                            </>
+                          )}
                           <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                         </div>
                         
