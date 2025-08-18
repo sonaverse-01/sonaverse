@@ -42,6 +42,7 @@ export async function GET(
         slug: pressRelease.slug,
         press_name: pressRelease.press_name,
         thumbnail: pressRelease.thumbnail,
+        external_link: pressRelease.external_link,
         content: pressRelease.content,
         created_at: pressRelease.created_at?.toISOString().split('T')[0] || new Date().toISOString().split('T')[0],
         is_active: pressRelease.is_active,
@@ -93,6 +94,7 @@ export async function PATCH(
     if (body.is_active !== undefined) updateData.is_active = body.is_active;
     if (body.created_at) updateData.created_at = new Date(body.created_at);
     if (body.press_name) updateData.press_name = body.press_name;
+    if (body.external_link !== undefined) updateData.external_link = body.external_link;
     if (body.content) updateData.content = body.content;
     if (body.tags) updateData.tags = body.tags;
     // 썸네일 처리: content에서 추출하거나 직접 설정

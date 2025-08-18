@@ -8,6 +8,7 @@ import ScrollToTop from '../../components/ScrollToTop';
 interface SonaverseStory {
   _id: string;
   slug: string;
+  thumbnail_url?: string;
   content: {
     ko: {
       title: string;
@@ -30,6 +31,7 @@ interface SonaverseStory {
 interface PressRelease {
   _id: string;
   slug: string;
+  thumbnail?: string;
   press_name: {
     ko: string;
     en: string;
