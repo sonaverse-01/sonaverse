@@ -53,8 +53,14 @@ export async function GET(request: NextRequest) {
     // 전체 개수 조회
     const total = await SonaverseStory.countDocuments(query);
     
+    // 응답 데이터에 thumbnail 필드 추가 (카드 컴포넌트 호환성)
+    const results = sonaverseStories.map((story: any) => ({
+      ...story,
+      thumbnail: story.thumbnail_url || '' // thumbnail 필드 추가
+    }));
+
     return NextResponse.json({
-      results: sonaverseStories,
+      results,
       total,
       page,
       pageSize: limit,

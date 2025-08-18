@@ -43,6 +43,7 @@ export async function GET(request: NextRequest, { params }: Props) {
       created_at: story.created_at,
       updated_at: story.updated_at,
       thumbnail_url: story.thumbnail_url,
+      thumbnail: story.thumbnail_url || '', // 카드 컴포넌트 호환성을 위한 thumbnail 필드 추가
       youtube_url: story.youtube_url || '',
       tags: story.tags || [],
       is_published: story.is_published,

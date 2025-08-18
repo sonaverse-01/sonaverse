@@ -9,6 +9,7 @@ interface SonaverseStory {
   _id: string;
   slug: string;
   thumbnail_url?: string;
+  thumbnail?: string; // API에서 추가로 제공하는 필드
   content: {
     ko: {
       title: string;
@@ -236,9 +237,9 @@ export default function SonaverseStoryPage() {
                   <div className="lg:w-1/2">
                     <Link href={`/sonaverse-story/${story.slug}`}>
                       <div className="relative h-64 lg:h-full">
-                        {story.thumbnail_url ? (
+                        {story.thumbnail ? (
                           <img
-                            src={story.thumbnail_url}
+                            src={story.thumbnail}
                             alt={story.content.ko.title}
                             className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                           />
@@ -367,9 +368,9 @@ export default function SonaverseStoryPage() {
                     <div className="flex items-start h-full">
                       {/* 왼쪽 썸네일 - 고정 높이 */}
                       <div className="w-24 h-24 bg-gray-200 flex-shrink-0 rounded-l-2xl relative overflow-hidden">
-                        {story.thumbnail_url ? (
+                        {story.thumbnail ? (
                           <img
-                            src={story.thumbnail_url}
+                            src={story.thumbnail}
                             alt={story.content.ko.title}
                             className="w-full h-full object-cover"
                           />
@@ -472,14 +473,11 @@ export default function SonaverseStoryPage() {
                         {/* 썸네일 이미지 영역 */}
                         <div className="h-48 relative overflow-hidden">
                           {press.thumbnail ? (
-                            <>
-                              <img 
-                                src={press.thumbnail} 
-                                alt={press.content[language]?.title || press.content.ko.title}
-                                className="w-full h-full object-cover"
-                              />
-                              <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                            </>
+                            <img 
+                              src={press.thumbnail} 
+                              alt={press.content[language]?.title || press.content.ko.title}
+                              className="w-full h-full object-cover"
+                            />
                           ) : (
                             <>
                               <div className="w-full h-full bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b]"></div>
@@ -497,8 +495,6 @@ export default function SonaverseStoryPage() {
                             </>
                           )}
                           
-                          {/* 호버 오버레이 */}
-                          <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                         </div>
                         
                         {/* 콘텐츠 영역 */}
@@ -561,14 +557,11 @@ export default function SonaverseStoryPage() {
                         {/* 이미지 영역 */}
                         <div className="relative h-32 flex-shrink-0 overflow-hidden">
                           {press.thumbnail ? (
-                            <>
-                              <img 
-                                src={press.thumbnail} 
-                                alt={press.content[language]?.title || press.content.ko.title}
-                                className="w-full h-full object-cover"
-                              />
-                              <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                            </>
+                            <img 
+                              src={press.thumbnail} 
+                              alt={press.content[language]?.title || press.content.ko.title}
+                              className="w-full h-full object-cover"
+                            />
                           ) : (
                             <>
                               <div className="w-full h-full bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b]"></div>
@@ -585,7 +578,6 @@ export default function SonaverseStoryPage() {
                               </div>
                             </>
                           )}
-                          <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                         </div>
                         
                         {/* 텍스트 영역 */}

@@ -112,14 +112,11 @@ const PressPage: React.FC = () => {
                     {/* 썸네일 이미지 영역 */}
                     <div className="h-48 relative overflow-hidden">
                       {press.thumbnail ? (
-                        <>
-                          <img 
-                            src={press.thumbnail} 
-                            alt={press.content[language]?.title || press.content.ko.title}
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                        </>
+                        <img 
+                          src={press.thumbnail} 
+                          alt={press.content[language]?.title || press.content.ko.title}
+                          className="w-full h-full object-cover"
+                        />
                       ) : (
                         <>
                           <div className="w-full h-full bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b]"></div>
@@ -136,8 +133,6 @@ const PressPage: React.FC = () => {
                           </div>
                         </>
                       )}
-                      {/* 호버 오버레이 */}
-                      <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                     </div>
                     
                     {/* 콘텐츠 영역 */}
@@ -181,14 +176,11 @@ const PressPage: React.FC = () => {
                     {/* 왼쪽 썸네일 */}
                     <div className="w-24 flex-shrink-0 rounded-l-2xl relative overflow-hidden">
                       {press.thumbnail ? (
-                        <>
-                          <img 
-                            src={press.thumbnail} 
-                            alt={press.content[language]?.title || press.content.ko.title}
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                        </>
+                        <img 
+                          src={press.thumbnail} 
+                          alt={press.content[language]?.title || press.content.ko.title}
+                          className="w-full h-full object-cover"
+                        />
                       ) : (
                         <>
                           <div className="w-full h-full bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b]"></div>
@@ -204,8 +196,6 @@ const PressPage: React.FC = () => {
                           </div>
                         </>
                       )}
-                      {/* 호버 오버레이 */}
-                      <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                     </div>
                     
                     {/* 오른쪽 콘텐츠 */}

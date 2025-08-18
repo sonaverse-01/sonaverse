@@ -57,19 +57,19 @@ export async function POST(request: NextRequest) {
     let filePath: string;
     
     if (customFilename) {
-      // 커스텀 파일명 사용 (예: slug_thumbnail)
+      // 커스텀 파일명 사용 (요구사항: [slug]_thumbnail, [slug]_ko_01~ 형태)
       fileName = `${customFilename}.${fileExtension}`;
     } else if (type === 'editor') {
-      // 에디터용 이미지 (예: blog_content_1234567890)
+      // 에디터용 이미지 (요구사항에 맞게 수정 필요)
       fileName = `content_${timestamp}.${fileExtension}`;
     } else {
       // 일반 업로드
       fileName = `upload_${timestamp}_${file.name}`;
     }
 
-    // 폴더가 지정되었으면 해당 폴더에 업로드
+    // 폴더가 지정되었으면 blob/폴더경로 형태로 생성 (요구사항: blob/press/[slug]/ 형태)
     if (folder) {
-      filePath = `${folder}/${fileName}`;
+      filePath = `blob/${folder}/${fileName}`;
     } else {
       filePath = fileName;
     }
