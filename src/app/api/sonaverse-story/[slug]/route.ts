@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dbConnect } from '../../../../lib/db';
 import SonaverseStory from '../../../../models/SonaverseStory';
-import { verifyToken } from '../../../../lib/auth-server';
+import { verifyToken, getTokenFromCookie } from '../../../../lib/auth-server';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -66,9 +66,12 @@ export async function GET(request: NextRequest, { params }: Props) {
  */
 export async function PUT(request: NextRequest, { params }: Props) {
   try {
-    // 인증 체크
+    // 인증 체크 - Authorization 헤더 또는 쿠키에서 토큰 확인
     const authHeader = request.headers.get('authorization');
-    const token = authHeader?.replace('Bearer ', '');
+    const headerToken = authHeader?.replace('Bearer ', '');
+    const cookieToken = await getTokenFromCookie();
+    const token = headerToken || cookieToken;
+    
     if (!token || !(await verifyToken(token))) {
       return NextResponse.json({ error: '인증이 필요합니다.' }, { status: 401 });
     }
@@ -122,9 +125,12 @@ export async function PUT(request: NextRequest, { params }: Props) {
  */
 export async function DELETE(request: NextRequest, { params }: Props) {
   try {
-    // 인증 체크
+    // 인증 체크 - Authorization 헤더 또는 쿠키에서 토큰 확인
     const authHeader = request.headers.get('authorization');
-    const token = authHeader?.replace('Bearer ', '');
+    const headerToken = authHeader?.replace('Bearer ', '');
+    const cookieToken = await getTokenFromCookie();
+    const token = headerToken || cookieToken;
+    
     if (!token || !(await verifyToken(token))) {
       return NextResponse.json({ error: '인증이 필요합니다.' }, { status: 401 });
     }
