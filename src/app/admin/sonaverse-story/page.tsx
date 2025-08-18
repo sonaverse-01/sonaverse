@@ -115,13 +115,13 @@ const AdminSonaverseStoryPage: React.FC = () => {
     setCurrentPage(1);
   }, [searchTerm]);
 
-  const handleDelete = async (id: string, title: string) => {
+  const handleDelete = async (slug: string, title: string) => {
     if (!confirm(`"${title}" 소나버스 스토리를 삭제하시겠습니까?`)) {
       return;
     }
 
     try {
-      const response = await fetch(`/api/sonaverse-story/${id}`, {
+      const response = await fetch(`/api/sonaverse-story/${slug}`, {
         method: 'DELETE',
         credentials: 'include'
       });
@@ -145,9 +145,9 @@ const AdminSonaverseStoryPage: React.FC = () => {
     }
   };
 
-  const togglePublish = async (id: string, currentStatus: boolean) => {
+  const togglePublish = async (slug: string, currentStatus: boolean) => {
     try {
-      const response = await fetch(`/api/sonaverse-story/${id}`, {
+      const response = await fetch(`/api/sonaverse-story/${slug}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -381,7 +381,7 @@ const AdminSonaverseStoryPage: React.FC = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <button
-                          onClick={() => togglePublish(story._id, story.is_published)}
+                          onClick={() => togglePublish(story.slug, story.is_published)}
                           className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                             story.is_published
                               ? 'bg-green-100 text-green-800 hover:bg-green-200'
@@ -466,7 +466,7 @@ const AdminSonaverseStoryPage: React.FC = () => {
                     </code>
                   </div>
                   <button
-                    onClick={() => togglePublish(story._id, story.is_published)}
+                    onClick={() => togglePublish(story.slug, story.is_published)}
                     className={`ml-3 px-2 py-1 text-xs font-semibold rounded-full ${
                       story.is_published
                         ? 'bg-green-100 text-green-800'

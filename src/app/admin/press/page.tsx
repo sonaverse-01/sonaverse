@@ -156,11 +156,11 @@ const AdminPressPage: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (slug: string) => {
     if (!confirm('정말 삭제하시겠습니까?')) return;
     
     try {
-      const res = await fetch(`/api/press/${id}`, {
+      const res = await fetch(`/api/press/${slug}`, {
         method: 'DELETE',
         credentials: 'include', // 쿠키 기반 인증
       });
@@ -306,7 +306,7 @@ const AdminPressPage: React.FC = () => {
                         수정
                       </Link>
                       <button
-                        onClick={() => handleDelete(item._id)}
+                        onClick={() => handleDelete(item.slug)}
                         className="text-red-400 hover:text-red-300 transition-colors"
                       >
                         삭제
@@ -358,7 +358,7 @@ const AdminPressPage: React.FC = () => {
                 수정
               </Link>
               <button
-                onClick={() => handleDelete(item._id)}
+                onClick={() => handleDelete(item.slug)}
                 className="text-red-400 hover:text-red-300 transition-colors text-sm"
               >
                 삭제
