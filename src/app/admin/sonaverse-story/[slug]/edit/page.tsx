@@ -104,8 +104,8 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
         thumbnail_url: data.thumbnail_url || '',
         youtube_url: data.youtube_url || '',
         tags: {
-          ko: Array.isArray(data.tags?.ko) ? data.tags.ko.join(', ') : (data.tags?.ko || ''),
-          en: Array.isArray(data.tags?.en) ? data.tags.en.join(', ') : (data.tags?.en || '')
+          ko: Array.isArray(data.tags) ? data.tags.join(', ') : '',
+          en: Array.isArray(data.tags) ? data.tags.join(', ') : ''
         },
         created_at: data.created_at ? new Date(data.created_at).toISOString().split('T')[0] : '',
         is_main: data.is_main || false,
@@ -217,16 +217,16 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
       const updatedEnBody = await enEditorRef.current?.uploadTempImagesToBlob(formData.slug, 'en') || formData.content.en.body;
 
       // 태그 파싱
-      const tags = {
-        ko: formData.tags.ko
-          .split(',')
-          .map(tag => tag.trim())
-          .filter(tag => tag.length > 0),
-        en: formData.tags.en
-          .split(',')
-          .map(tag => tag.trim())
-          .filter(tag => tag.length > 0)
-      };
+      const koTags = formData.tags.ko
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag.length > 0);
+      const enTags = formData.tags.en
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag.length > 0);
+      
+      const allTags = [...new Set([...koTags, ...enTags])];
 
       // 작성일자 처리 - 공란이면 현재 날짜로 설정
       const createdAt = formData.created_at || new Date().toISOString();
@@ -244,7 +244,7 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
         },
         thumbnail_url: thumbnailUrl,
         youtube_url: formData.youtube_url,
-        tags,
+        tags: allTags,
         created_at: createdAt,
         is_main: formData.is_main,
         is_published: formData.is_published

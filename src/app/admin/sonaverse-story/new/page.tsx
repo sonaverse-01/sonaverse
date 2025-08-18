@@ -169,16 +169,16 @@ const NewSonaverseStoryPage: React.FC = () => {
       const updatedEnBody = await enEditorRef.current?.uploadTempImagesToBlob(formData.slug, 'en') || formData.content.en.body;
 
       // 태그 파싱
-      const tags = {
-        ko: formData.tags.ko
-          .split(',')
-          .map(tag => tag.trim())
-          .filter(tag => tag.length > 0),
-        en: formData.tags.en
-          .split(',')
-          .map(tag => tag.trim())
-          .filter(tag => tag.length > 0)
-      };
+      const koTags = formData.tags.ko
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag.length > 0);
+      const enTags = formData.tags.en
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag.length > 0);
+      
+      const allTags = [...new Set([...koTags, ...enTags])];
 
       // 작성일자 처리 - 공란이면 현재 날짜로 설정
       const createdAt = formData.created_at || new Date().toISOString();
@@ -197,7 +197,7 @@ const NewSonaverseStoryPage: React.FC = () => {
         },
         thumbnail_url: thumbnailUrl,
         youtube_url: formData.youtube_url,
-        tags,
+        tags: allTags,
         created_at: createdAt,
         is_main: formData.is_main,
         is_published: formData.is_published
