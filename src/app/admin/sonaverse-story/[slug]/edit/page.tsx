@@ -75,7 +75,7 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
   const fetchSonaverseStory = async () => {
     try {
       setInitialLoading(true);
-      const response = await fetch(`/api/sonaverse-story/${slug}`, {
+      const response = await fetch(`/api/sonaverse-story/${slug}?admin=true`, {
         credentials: 'include'
       });
 

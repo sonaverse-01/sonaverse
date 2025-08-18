@@ -15,13 +15,14 @@ export async function GET(request: NextRequest, { params }: Props) {
     const { slug } = await params;
     await dbConnect();
     const { searchParams } = new URL(request.url);
-    const lang = (searchParams.get('lang') || 'ko') as 'ko' | 'en';
     const isAdmin = searchParams.get('admin') === 'true';
+
+    const query: { slug: string; is_published?: boolean } = { slug };
+    if (!isAdmin) {
+      query.is_published = true;
+    }
     
-    const sonaverseStory = await SonaverseStory.findOne({ 
-      slug, 
-      is_published: true 
-    }).lean();
+    const sonaverseStory = await SonaverseStory.findOne(query).lean();
     
     if (!sonaverseStory) {
       return NextResponse.json(
@@ -30,12 +31,12 @@ export async function GET(request: NextRequest, { params }: Props) {
       );
     }
 
-    // Admin/full data 응답 유지
+    // For admin, return the full object.
     if (isAdmin) {
       return NextResponse.json(sonaverseStory);
     }
 
-    // 일반 사용자: 다국어 콘텐츠 전체 제공 (클라이언트에서 언어 선택)
+    // For non-admin, return a subset of fields.
     const story = sonaverseStory as any;
     const result = {
       _id: story._id,
@@ -43,13 +44,14 @@ export async function GET(request: NextRequest, { params }: Props) {
       created_at: story.created_at,
       updated_at: story.updated_at,
       thumbnail_url: story.thumbnail_url,
-      thumbnail: story.thumbnail_url || '', // 카드 컴포넌트 호환성을 위한 thumbnail 필드 추가
+      thumbnail: story.thumbnail_url || '',
       youtube_url: story.youtube_url || '',
       tags: story.tags || [],
       is_published: story.is_published,
+      is_main: story.is_main,
       content: story.content || {}
     };
-    return NextResponse.json({ story: result });
+    return NextResponse.json(result);
   } catch (error) {
     console.error('Error fetching sonaverse story:', error);
     return NextResponse.json(
