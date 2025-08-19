@@ -54,7 +54,7 @@ export default function ClientStoryDetail({ slug }: { slug: string }) {
         const response = await fetch(`/api/sonaverse-story/${slug}`);
         if (!response.ok) throw new Error('Story not found');
         const data = await response.json();
-        setStory(data.story);
+        setStory(data);
       } catch (error) {
         console.error('Error fetching story:', error);
         alert(i18n.language === 'en' ? 'Story not found.' : '스토리를 찾을 수 없습니다.');

@@ -188,13 +188,17 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                     <img
                       src={content.thumbnail_url}
                       alt={content.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 bg-white"
                       onError={(e) => { 
-                        (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; 
+                        (e.target as HTMLImageElement).src = '/images/default-thumbnail.png'; 
                       }}
                     />
                   ) : (
-                    <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <img
+                      src="/images/default-thumbnail.png"
+                      alt={content.title}
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 bg-white"
+                    />
                   )}
                   
                   {/* 기본 콘텐츠 (이미지가 없을 때) */}
@@ -283,13 +287,17 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                         <img
                           src={content.thumbnail_url}
                           alt={content.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 bg-white"
                           onError={(e) => { 
-                            (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png'; 
+                            (e.target as HTMLImageElement).src = '/images/default-thumbnail.png'; 
                           }}
                         />
                       ) : (
-                        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                        <img
+                      src="/images/default-thumbnail.png"
+                      alt={content.title}
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 bg-white"
+                    />
                       )}
                       
                       {/* 기본 콘텐츠 (이미지가 없을 때) */}

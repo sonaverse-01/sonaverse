@@ -4,6 +4,34 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '../../../contexts/LanguageContext';
 
+// 이미지 비율에 따른 자동 object-fit 컴포넌트
+const AdaptiveImage: React.FC<{
+  src: string;
+  alt: string;
+  className?: string;
+  onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
+}> = ({ src, alt, className = '', onError }) => {
+  const [objectFit, setObjectFit] = useState<'cover' | 'contain'>('contain');
+
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.target as HTMLImageElement;
+    const aspectRatio = img.naturalWidth / img.naturalHeight;
+    
+    // 가로가 세로보다 긴 경우 (가로형) cover, 그 외는 contain
+    setObjectFit(aspectRatio > 1 ? 'cover' : 'contain');
+  };
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={`${className} ${objectFit === 'cover' ? 'object-cover' : 'object-contain'}`}
+      onLoad={handleImageLoad}
+      onError={onError}
+    />
+  );
+};
+
 interface DiaperProduct {
   _id: string;
   slug: string;
@@ -379,9 +407,9 @@ const BodeumDiaperPage: React.FC = () => {
                     <img
                       src={product.thumbnail_image}
                       alt={getLocalizedText(product.name, language)}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 bg-white"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/logo/nonImage_logo.png';
+                        (e.target as HTMLImageElement).src = '/images/default-thumbnail.png';
                       }}
                     />
                   </div>
@@ -436,31 +464,19 @@ const BodeumDiaperPage: React.FC = () => {
                         {/* 썸네일 이미지 영역 */}
                         <div className="h-48 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] relative overflow-hidden">
                           {story.content.ko.thumbnail_url ? (
-                            <img
+                            <AdaptiveImage
                               src={story.content.ko.thumbnail_url}
                               alt={story.content.ko.title}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                              className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
                             />
                           ) : (
-                            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                            <AdaptiveImage
+                              src="/images/default-thumbnail.png"
+                              alt={story.content.ko.title}
+                              className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
+                            />
                           )}
                           
-                          {/* 기본 콘텐츠 (이미지가 없을 때) */}
-                          {!story.content.ko.thumbnail_url && (
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="text-white text-center">
-                                <div className="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-                                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                  </svg>
-                                </div>
-                                <span className="text-lg font-semibold">SONAVERSE Story</span>
-                              </div>
-                            </div>
-                          )}
-                          
-                          {/* 호버 오버레이 */}
-                          <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                         </div>
                         
                         {/* 콘텐츠 영역 */}
@@ -523,31 +539,19 @@ const BodeumDiaperPage: React.FC = () => {
                         {/* 이미지 영역 */}
                         <div className="relative h-32 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] overflow-hidden">
                           {story.content.ko.thumbnail_url ? (
-                            <img
+                            <AdaptiveImage
                               src={story.content.ko.thumbnail_url}
                               alt={story.content.ko.title}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                              className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
                             />
                           ) : (
-                            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                            <AdaptiveImage
+                              src="/images/default-thumbnail.png"
+                              alt={story.content.ko.title}
+                              className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
+                            />
                           )}
                           
-                          {/* 기본 콘텐츠 (이미지가 없을 때) */}
-                          {!story.content.ko.thumbnail_url && (
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="text-white text-center">
-                                <div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-2 backdrop-blur-sm">
-                                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                  </svg>
-                                </div>
-                                <span className="text-sm font-medium">SONAVERSE</span>
-                              </div>
-                            </div>
-                          )}
-                          
-                          {/* 호버 오버레이 */}
-                          <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                         </div>
                         
                         {/* 텍스트 영역 */}

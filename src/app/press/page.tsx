@@ -115,23 +115,14 @@ const PressPage: React.FC = () => {
                         <img 
                           src={press.thumbnail} 
                           alt={press.content[language]?.title || press.content.ko.title}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain bg-white"
                         />
                       ) : (
-                        <>
-                          <div className="w-full h-full bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b]"></div>
-                          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-white text-center">
-                              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-                                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                                </svg>
-                              </div>
-                              <span className="text-lg font-semibold">{press.press_name[language] || press.press_name.ko}</span>
-                            </div>
-                          </div>
-                        </>
+                        <img
+                          src="/images/default-thumbnail.png"
+                          alt={press.content[language]?.title || press.content.ko.title}
+                          className="w-full h-full object-contain bg-white"
+                        />
                       )}
                     </div>
                     
@@ -179,22 +170,14 @@ const PressPage: React.FC = () => {
                         <img 
                           src={press.thumbnail} 
                           alt={press.content[language]?.title || press.content.ko.title}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain bg-white"
                         />
                       ) : (
-                        <>
-                          <div className="w-full h-full bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b]"></div>
-                          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-white text-center">
-                              <div className="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mx-auto backdrop-blur-sm">
-                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                                </svg>
-                              </div>
-                            </div>
-                          </div>
-                        </>
+                        <img
+                          src="/images/default-thumbnail.png"
+                          alt={press.content[language]?.title || press.content.ko.title}
+                          className="w-full h-full object-contain bg-white"
+                        />
                       )}
                     </div>
                     

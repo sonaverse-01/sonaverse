@@ -39,7 +39,10 @@
       "Bash(cat:*)",
       "Bash(grep:*)",
       "Bash(ssh:*)",
-      "Bash(git credential-manager core:*)"
+      "Bash(git credential-manager core:*)",
+      "Bash(git pull:*)",
+      "Bash(powershell:*)",
+      "Bash(tasklist:*)"
     ],
     "deny": []
   }

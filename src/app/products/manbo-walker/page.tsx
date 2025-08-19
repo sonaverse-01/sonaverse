@@ -4,6 +4,34 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '../../../contexts/LanguageContext';
 
+// 이미지 비율에 따른 자동 object-fit 컴포넌트
+const AdaptiveImage: React.FC<{
+  src: string;
+  alt: string;
+  className?: string;
+  onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
+}> = ({ src, alt, className = '', onError }) => {
+  const [objectFit, setObjectFit] = useState<'cover' | 'contain'>('contain');
+
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.target as HTMLImageElement;
+    const aspectRatio = img.naturalWidth / img.naturalHeight;
+    
+    // 가로가 세로보다 긴 경우 (가로형) cover, 그 외는 contain
+    setObjectFit(aspectRatio > 1 ? 'cover' : 'contain');
+  };
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={`${className} ${objectFit === 'cover' ? 'object-cover' : 'object-contain'}`}
+      onLoad={handleImageLoad}
+      onError={onError}
+    />
+  );
+};
+
 interface SonaverseStory {
   _id: string;
   slug: string;
@@ -634,13 +662,17 @@ const ManboWalkerPage: React.FC = () => {
                         {/* 썸네일 이미지 영역 */}
                         <div className="h-48 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] relative overflow-hidden">
                           {story.content.ko.thumbnail_url ? (
-                            <img
+                            <AdaptiveImage
                               src={story.content.ko.thumbnail_url}
                               alt={story.content.ko.title}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                              className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
                             />
                           ) : (
-                            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                            <AdaptiveImage
+                              src="/images/default-thumbnail.png"
+                              alt={story.content.ko.title}
+                              className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
+                            />
                           )}
                           
                           {/* 기본 콘텐츠 (이미지가 없을 때) */}
@@ -657,8 +689,6 @@ const ManboWalkerPage: React.FC = () => {
                             </div>
                           )}
                           
-                          {/* 호버 오버레이 */}
-                          <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                         </div>
                         
                         {/* 콘텐츠 영역 */}
@@ -721,13 +751,17 @@ const ManboWalkerPage: React.FC = () => {
                         {/* 이미지 영역 */}
                         <div className="relative h-32 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] overflow-hidden">
                           {story.content.ko.thumbnail_url ? (
-                            <img
+                            <AdaptiveImage
                               src={story.content.ko.thumbnail_url}
                               alt={story.content.ko.title}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                              className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
                             />
                           ) : (
-                            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                            <AdaptiveImage
+                              src="/images/default-thumbnail.png"
+                              alt={story.content.ko.title}
+                              className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
+                            />
                           )}
                           
                           {/* 기본 콘텐츠 (이미지가 없을 때) */}
@@ -744,8 +778,6 @@ const ManboWalkerPage: React.FC = () => {
                             </div>
                           )}
                           
-                          {/* 호버 오버레이 */}
-                          <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                         </div>
                         
                         {/* 텍스트 영역 */}
