@@ -50,6 +50,7 @@ interface DiaperProduct {
 interface SonaverseStory {
   _id: string;
   slug: string;
+  thumbnail_url?: string;
   content: {
     ko: {
       title: string;
@@ -463,9 +464,9 @@ const BodeumDiaperPage: React.FC = () => {
                       <div className="relative">
                         {/* 썸네일 이미지 영역 */}
                         <div className="h-48 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] relative overflow-hidden">
-                          {story.content.ko.thumbnail_url ? (
+                          {(story.content.ko.thumbnail_url || story.thumbnail_url) ? (
                             <AdaptiveImage
-                              src={story.content.ko.thumbnail_url}
+                              src={story.content.ko.thumbnail_url || story.thumbnail_url}
                               alt={story.content.ko.title}
                               className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
                             />
@@ -538,9 +539,9 @@ const BodeumDiaperPage: React.FC = () => {
                       >
                         {/* 이미지 영역 */}
                         <div className="relative h-32 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] overflow-hidden">
-                          {story.content.ko.thumbnail_url ? (
+                          {(story.content.ko.thumbnail_url || story.thumbnail_url) ? (
                             <AdaptiveImage
-                              src={story.content.ko.thumbnail_url}
+                              src={story.content.ko.thumbnail_url || story.thumbnail_url}
                               alt={story.content.ko.title}
                               className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
                             />

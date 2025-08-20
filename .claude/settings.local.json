@@ -42,7 +42,9 @@
       "Bash(git credential-manager core:*)",
       "Bash(git pull:*)",
       "Bash(powershell:*)",
-      "Bash(tasklist:*)"
+      "Bash(tasklist:*)",
+      "Bash(wmic process where:*)",
+      "Bash(powershell:*)"
     ],
     "deny": []
   }

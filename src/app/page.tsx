@@ -544,44 +544,33 @@ const HomePage: React.FC = () => {
 
 
   useEffect(() => {
-    // Fetch press releases
-    fetch('/api/press?pageSize=6&active=true')
-      .then(res => res.json())
-      .then(data => {
-        requestAnimationFrame(() => setPressData(data.results || []));
-      })
-      .catch(err => console.error('Error fetching press:', err));
+    // API 호출을 병렬로 처리하여 성능 향상
+    const fetchData = async () => {
+      try {
+        const [pressRes, storiesRes] = await Promise.all([
+          fetch('/api/press?pageSize=6&active=true'),
+          fetch('/api/sonaverse-story?limit=6&published=true')
+        ]);
 
-    // Fetch sonaverse stories - 메인 게시물 우선 로드
-    fetch('/api/sonaverse-story?limit=6&published=true')
-      .then(res => res.json())
-      .then(data => {
-        // 메인 게시물을 첫 번째로 정렬
-        const allPosts = data.results || [];
-        const sortedPosts = allPosts.sort((a: SonaverseStory, b: SonaverseStory) => {
-          // is_main이 true인 항목을 먼저 정렬
-          if (a.is_main && !b.is_main) return -1;
-          if (!a.is_main && b.is_main) return 1;
-          // 나머지는 생성일 기준으로 정렬
-          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-        });
-        requestAnimationFrame(() => setBlogData(sortedPosts));
-      })
-      .catch(err => console.error('Error fetching sonaverse stories:', err));
+        // Press 데이터 처리
+        const pressData = await pressRes.json();
+        requestAnimationFrame(() => setPressData(pressData.results || []));
 
-    // Fetch sonaverse stories for brand story data - 메인 게시물 우선 로드
-    fetch('/api/sonaverse-story?published=true&limit=6')
-      .then(res => res.json())
-      .then(data => {
-        // 소나버스 스토리 데이터 처리
-        const allStories = data.results || [];
+        // Stories 데이터 처리
+        const storiesData = await storiesRes.json();
+        const allStories = storiesData.results || [];
+        
         // 메인 게시물을 첫 번째로 정렬
-        const sortedStories = allStories.sort((a: any, b: any) => {
+        const sortedStories = allStories.sort((a: SonaverseStory, b: SonaverseStory) => {
           if (a.is_main && !b.is_main) return -1;
           if (!a.is_main && b.is_main) return 1;
           return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
         });
         
+        // 소나버스 스토리 데이터로 설정
+        requestAnimationFrame(() => setBlogData(sortedStories));
+        
+        // 같은 소나버스 스토리 데이터를 다른 섹션용으로 변환
         const sonaverseStories = sortedStories.map((story: any) => {
           const content = story.content?.[language] || story.content?.ko || story.content?.en;
           
@@ -597,11 +586,17 @@ const HomePage: React.FC = () => {
         });
         
         requestAnimationFrame(() => setBrandStoryData(sonaverseStories));
-      })
-      .catch(err => {
-        console.error('Error fetching sonaverse stories:', err);
-        requestAnimationFrame(() => setBrandStoryData([]));
-      });
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        requestAnimationFrame(() => {
+          setPressData([]);
+          setBlogData([]);
+          setBrandStoryData([]);
+        });
+      }
+    };
+
+    fetchData();
   }, [language]);
 
 
@@ -1563,7 +1558,7 @@ const HomePage: React.FC = () => {
                       const pressName = typeof mainPress.press_name === 'object' && mainPress.press_name
                         ? (mainPress.press_name[language] || mainPress.press_name.ko || mainPress.press_name.en || '')
                         : (mainPress.press_name || '소나버스');
-                      const thumbnailUrl = '/logo/nonImage_logo.png';
+                      const thumbnailUrl = itemContent.thumbnail_url || '/logo/nonImage_logo.png';
                       const date = new Date(mainPress.published_date || mainPress.created_at || Date.now()).toLocaleDateString(language === 'ko' ? 'ko-KR' : 'en-US');
                       
                       return (
@@ -1621,7 +1616,7 @@ const HomePage: React.FC = () => {
                     const pressName = typeof press.press_name === 'object' && press.press_name
                       ? (press.press_name[language] || press.press_name.ko || press.press_name.en || '')
                       : (press.press_name || '소나버스');
-                    const thumbnailUrl = '/logo/nonImage_logo.png';
+                    const thumbnailUrl = press.thumbnail || '/logo/nonImage_logo.png';
                     const date = new Date(press.published_date || press.created_at || Date.now()).toLocaleDateString(language === 'ko' ? 'ko-KR' : 'en-US');
                     
                     return (
@@ -1672,7 +1667,7 @@ const HomePage: React.FC = () => {
                   const pressName = typeof press.press_name === 'object' && press.press_name
                     ? (press.press_name[language] || press.press_name.ko || press.press_name.en || '')
                     : (press.press_name || '소나버스');
-                  const thumbnailUrl = '/logo/nonImage_logo.png';
+                  const thumbnailUrl = press.thumbnail || '/logo/nonImage_logo.png';
                   const date = new Date(press.published_date || press.created_at || Date.now()).toLocaleDateString(language === 'ko' ? 'ko-KR' : 'en-US');
                   
                   return (

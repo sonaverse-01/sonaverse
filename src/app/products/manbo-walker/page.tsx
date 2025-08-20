@@ -35,6 +35,7 @@ const AdaptiveImage: React.FC<{
 interface SonaverseStory {
   _id: string;
   slug: string;
+  thumbnail_url?: string;
   content: {
     ko: {
       title: string;
@@ -661,9 +662,9 @@ const ManboWalkerPage: React.FC = () => {
                       <div className="relative">
                         {/* 썸네일 이미지 영역 */}
                         <div className="h-48 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] relative overflow-hidden">
-                          {story.content.ko.thumbnail_url ? (
+                          {(story.content.ko.thumbnail_url || story.thumbnail_url) ? (
                             <AdaptiveImage
-                              src={story.content.ko.thumbnail_url}
+                              src={story.content.ko.thumbnail_url || story.thumbnail_url}
                               alt={story.content.ko.title}
                               className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
                             />
@@ -676,7 +677,7 @@ const ManboWalkerPage: React.FC = () => {
                           )}
                           
                           {/* 기본 콘텐츠 (이미지가 없을 때) */}
-                          {!story.content.ko.thumbnail_url && (
+                          {!(story.content.ko.thumbnail_url || story.thumbnail_url) && (
                             <div className="absolute inset-0 flex items-center justify-center">
                               <div className="text-white text-center">
                                 <div className="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
@@ -750,9 +751,9 @@ const ManboWalkerPage: React.FC = () => {
                       >
                         {/* 이미지 영역 */}
                         <div className="relative h-32 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] overflow-hidden">
-                          {story.content.ko.thumbnail_url ? (
+                          {(story.content.ko.thumbnail_url || story.thumbnail_url) ? (
                             <AdaptiveImage
-                              src={story.content.ko.thumbnail_url}
+                              src={story.content.ko.thumbnail_url || story.thumbnail_url}
                               alt={story.content.ko.title}
                               className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
                             />
@@ -765,7 +766,7 @@ const ManboWalkerPage: React.FC = () => {
                           )}
                           
                           {/* 기본 콘텐츠 (이미지가 없을 때) */}
-                          {!story.content.ko.thumbnail_url && (
+                          {!(story.content.ko.thumbnail_url || story.thumbnail_url) && (
                             <div className="absolute inset-0 flex items-center justify-center">
                               <div className="text-white text-center">
                                 <div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-2 backdrop-blur-sm">
