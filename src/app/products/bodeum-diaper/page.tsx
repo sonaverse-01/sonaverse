@@ -466,7 +466,7 @@ const BodeumDiaperPage: React.FC = () => {
                         <div className="h-48 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] relative overflow-hidden">
                           {(story.content.ko.thumbnail_url || story.thumbnail_url) ? (
                             <AdaptiveImage
-                              src={story.content.ko.thumbnail_url || story.thumbnail_url}
+                              src={story.content.ko.thumbnail_url || story.thumbnail_url || '/logo/nonImage_logo.png'}
                               alt={story.content.ko.title}
                               className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
                             />
@@ -541,7 +541,7 @@ const BodeumDiaperPage: React.FC = () => {
                         <div className="relative h-32 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] overflow-hidden">
                           {(story.content.ko.thumbnail_url || story.thumbnail_url) ? (
                             <AdaptiveImage
-                              src={story.content.ko.thumbnail_url || story.thumbnail_url}
+                              src={story.content.ko.thumbnail_url || story.thumbnail_url || '/logo/nonImage_logo.png'}
                               alt={story.content.ko.title}
                               className="w-full h-full group-hover:scale-110 transition-transform duration-700 bg-white"
                             />

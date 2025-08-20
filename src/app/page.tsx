@@ -41,6 +41,7 @@ interface PressRelease {
     ko: string;
     en: string;
   };
+  thumbnail?: string;
   content: {
     ko: {
       title: string;
@@ -1558,7 +1559,7 @@ const HomePage: React.FC = () => {
                       const pressName = typeof mainPress.press_name === 'object' && mainPress.press_name
                         ? (mainPress.press_name[language] || mainPress.press_name.ko || mainPress.press_name.en || '')
                         : (mainPress.press_name || '소나버스');
-                      const thumbnailUrl = itemContent.thumbnail_url || '/logo/nonImage_logo.png';
+                      const thumbnailUrl = mainPress.thumbnail || '/logo/nonImage_logo.png';
                       const date = new Date(mainPress.published_date || mainPress.created_at || Date.now()).toLocaleDateString(language === 'ko' ? 'ko-KR' : 'en-US');
                       
                       return (
