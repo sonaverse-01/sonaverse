@@ -399,8 +399,10 @@ const CompanyHistoryPage: React.FC = () => {
                             </>
                           )}
                           
-                          {/* 호버 오버레이 - 이미지가 있을 때만 어둡게 */}
-                          <div className={`absolute inset-0 transition-all duration-300 ${press.thumbnail ? 'bg-black bg-opacity-0 group-hover:bg-opacity-20' : 'bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10'}`}></div>
+                          {/* 호버 오버레이 - 이미지가 없을 때만 */}
+                          {!press.thumbnail && (
+                            <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+                          )}
                         </div>
                         
                         {/* 콘텐츠 영역 */}
@@ -487,8 +489,10 @@ const CompanyHistoryPage: React.FC = () => {
                             </>
                           )}
                           
-                          {/* 호버 오버레이 - 이미지가 있을 때만 어둡게 */}
-                          <div className={`absolute inset-0 transition-all duration-300 ${press.thumbnail ? 'bg-black bg-opacity-0 group-hover:bg-opacity-20' : 'bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10'}`}></div>
+                          {/* 호버 오버레이 - 이미지가 없을 때만 */}
+                          {!press.thumbnail && (
+                            <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+                          )}
                         </div>
                         
                         {/* 텍스트 영역 */}
