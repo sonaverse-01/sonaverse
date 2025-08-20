@@ -20,6 +20,7 @@ interface PressRelease {
     ko: string;
     en: string;
   };
+  thumbnail?: string;
   content: {
     ko: {
       title: string;
@@ -375,17 +376,28 @@ const CompanyHistoryPage: React.FC = () => {
                       <div className="relative">
                         {/* 썸네일 이미지 영역 */}
                         <div className="h-48 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] relative overflow-hidden">
-                          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-white text-center">
-                              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-                                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                                </svg>
+                          {press.thumbnail ? (
+                            <Image
+                              src={press.thumbnail}
+                              alt={press.content[language]?.title || press.content.ko.title}
+                              fill
+                              className="object-cover group-hover:scale-110 transition-transform duration-700"
+                            />
+                          ) : (
+                            <>
+                              <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="text-white text-center">
+                                  <div className="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+                                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                    </svg>
+                                  </div>
+                                  <span className="text-lg font-semibold">{press.press_name[language] || press.press_name.ko}</span>
+                                </div>
                               </div>
-                              <span className="text-lg font-semibold">{press.press_name[language] || press.press_name.ko}</span>
-                            </div>
-                          </div>
+                            </>
+                          )}
                           
                           {/* 호버 오버레이 */}
                           <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
@@ -452,17 +464,28 @@ const CompanyHistoryPage: React.FC = () => {
                       >
                         {/* 이미지 영역 */}
                         <div className="relative h-32 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] overflow-hidden">
-                          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-white text-center">
-                              <div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-2 backdrop-blur-sm">
-                                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                                </svg>
+                          {press.thumbnail ? (
+                            <Image
+                              src={press.thumbnail}
+                              alt={press.content[language]?.title || press.content.ko.title}
+                              fill
+                              className="object-cover group-hover:scale-110 transition-transform duration-700"
+                            />
+                          ) : (
+                            <>
+                              <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="text-white text-center">
+                                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-2 backdrop-blur-sm">
+                                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                    </svg>
+                                  </div>
+                                  <span className="text-sm font-medium">{press.press_name[language] || press.press_name.ko}</span>
+                                </div>
                               </div>
-                              <span className="text-sm font-medium">{press.press_name[language] || press.press_name.ko}</span>
-                            </div>
-                          </div>
+                            </>
+                          )}
                           
                           {/* 호버 오버레이 */}
                           <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
