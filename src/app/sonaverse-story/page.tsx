@@ -107,20 +107,20 @@ export default function SonaverseStoryPage() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* 페이지 헤더 */}
         <div className="text-center mb-16">
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-10 mt-16">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-10 mt-8 md:mt-16">
             {language === 'en' ? 'Sonaverse Story' : '소나버스 스토리'}
           </h1>
-          <h2 className="text-lg sm:text-xl md:text-2xl text-gray-600 font-medium mb-12">
-            {language === 'en' ? 'From product development stories to useful welfare/health information!' : '소나버스 제품의 개발 스토리부터 유용한 복지/건강 정보까지!'}
+          <h2 className="text-lg sm:text-xl md:text-2xl text-gray-600 font-medium mb-12 whitespace-pre-line">
+            {language === 'en' ? 'From product development stories to useful welfare/health information!' : '소나버스 제품의 개발 스토리부터\n유용한 복지/건강 정보까지!'}
           </h2>
           
           {/* 카테고리 필터 버튼 */}
-          <div className="flex flex-wrap justify-center gap-4 mb-10">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-10">
             {['전체', '제품스토리', '사용법', '건강정보', '복지정보'].map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 ${
+                className={`px-3 py-2 md:px-8 md:py-4 rounded-full font-semibold text-sm md:text-lg transition-all duration-300 ${
                   selectedCategory === category
                     ? 'bg-[#bda191] text-white shadow-lg'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
