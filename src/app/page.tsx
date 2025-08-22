@@ -817,18 +817,36 @@ const HomePage: React.FC = () => {
         data-section 
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
       >
-        {/* 배경 이미지 */}
+        {/* 배경 이미지 - 반응형 */}
         <div className="absolute inset-0">
-          <Image
-            src="/hero.png"
-            alt=""
-            fill
-            priority
-            fetchPriority="high"
-            quality={70}
-            sizes="100vw"
-            className="object-cover"
-          />
+          <picture className="absolute inset-0">
+            <source 
+              media="(min-width: 1024px)" 
+              srcSet="/images/hero/hero-desktop.webp 1x, /images/hero/hero-desktop@2x.webp 2x"
+            />
+            <source 
+              media="(min-width: 768px)" 
+              srcSet="/images/hero/hero-tablet.webp 1x, /images/hero/hero-tablet@2x.webp 2x"
+            />
+            <source  
+              media="(min-width: 414px)" 
+              srcSet="/images/hero/hero-mobile-lg.webp 1x"
+            />
+            <source 
+              media="(max-width: 413px)" 
+              srcSet="/images/hero/hero-mobile.webp 1x, /images/hero/hero-mobile@2x.webp 2x"
+            />
+            <Image
+              src="/images/hero/hero-desktop.webp"
+              alt="소나버스 히어로 이미지"
+              fill
+              priority
+              fetchPriority="high"
+              quality={85}
+              sizes="(min-width: 1024px) 100vw, (min-width: 768px) 100vw, 100vw"
+              className="object-cover"
+            />
+          </picture>
           <div className="absolute inset-0 bg-black/40" />
         </div>
 
@@ -922,8 +940,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* 제품 섹션 (만보 + 보듬 통합) */}
-      <section id="products" data-section className="py-16 lg:py-20 bg-white">
-        <h2 className="sr-only">{language === 'en' ? 'Products' : '제품'}</h2>
+      <section id="products" data-section className="py-16 lg:py-20 bg-white">        
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Mobile horizontal scroll */}
           <div className="lg:hidden">
@@ -1268,9 +1285,9 @@ const HomePage: React.FC = () => {
                                 
                                 {/* 텍스트 영역 */}
                                 <div className="flex-1 flex flex-col px-6 pb-6 pt-4">
-                                  <h5 className="text-sm font-semibold text-slate-800 mb-2 group-hover:text-rose-600 transition-colors duration-300 line-clamp-2 leading-tight">
+                                  <h3 className="text-sm font-semibold text-slate-800 mb-2 group-hover:text-rose-600 transition-colors duration-300 line-clamp-2 leading-tight">
                                     {title}
-                                  </h5>
+                                  </h3>
                                   <p className="text-xs text-gray-600 line-clamp-2 mb-3 leading-relaxed flex-1">
                                     {description}
                                   </p>
@@ -1330,9 +1347,9 @@ const HomePage: React.FC = () => {
                                     
                                     {/* 텍스트 영역 */}
                                     <div className="flex-1 flex flex-col px-6 pb-6 pt-4">
-                                      <h5 className="text-sm font-semibold text-slate-800 mb-2 group-hover:text-rose-600 transition-colors duration-300 line-clamp-2 leading-tight">
+                                      <h3 className="text-sm font-semibold text-slate-800 mb-2 group-hover:text-rose-600 transition-colors duration-300 line-clamp-2 leading-tight">
                                         {title}
-                                      </h5>
+                                      </h3>
                                       <p className="text-xs text-gray-600 line-clamp-2 mb-3 leading-relaxed flex-1">
                                         {description}
                                       </p>
@@ -1527,7 +1544,7 @@ const HomePage: React.FC = () => {
         data-section 
         className="py-6 lg:py-20 bg-white relative overflow-hidden"
       >
-        <h2 className="sr-only">{language === 'en' ? 'Press Coverage' : '언론보도'}</h2>
+        
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-8 lg:mb-16">
@@ -1642,9 +1659,9 @@ const HomePage: React.FC = () => {
                             <div className="flex items-center mb-2">
                               <span className="text-xs text-gray-500">{date}</span>
                             </div>
-                            <h4 className="text-sm font-semibold text-slate-800 mb-2 group-hover:text-slate-600 transition-colors duration-300 line-clamp-2 leading-tight">
+                            <h3 className="text-sm font-semibold text-slate-800 mb-2 group-hover:text-slate-600 transition-colors duration-300 line-clamp-2 leading-tight">
                               {title}
-                            </h4>
+                            </h3>
                             <p className="text-xs text-gray-600 line-clamp-2 mb-2 flex-1 leading-relaxed">
                               {description}
                             </p>

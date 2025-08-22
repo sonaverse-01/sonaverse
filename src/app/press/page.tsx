@@ -133,9 +133,9 @@ const PressPage: React.FC = () => {
                         <span className="text-sm text-[#bda191] font-medium">{language === 'en' ? 'Press' : '언론보도'}</span>
                       </div>
                       
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 line-clamp-2 leading-tight group-hover:text-[#bda191] transition-colors duration-300">
+                      <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 line-clamp-2 leading-tight group-hover:text-[#bda191] transition-colors duration-300">
                         {press.content[language]?.title || press.content.ko.title}
-                      </h3>
+                      </h2>
                       
                       <div className="flex items-center justify-between">
                         <time className="text-sm text-gray-500">
@@ -190,9 +190,9 @@ const PressPage: React.FC = () => {
                         <span className="text-xs text-gray-500">{press.press_name[language] || press.press_name.ko}</span>
                       </div>
                       
-                      <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight group-hover:text-[#bda191] transition-colors duration-300">
+                      <h2 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight group-hover:text-[#bda191] transition-colors duration-300">
                         {press.content[language]?.title || press.content.ko.title}
-                      </h3>
+                      </h2>
                       
                       <div className="flex items-center justify-between">
                         <time className="text-xs text-gray-500">

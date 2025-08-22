@@ -162,7 +162,7 @@ const PrivacyConsent: React.FC<PrivacyConsentProps> = ({ onConsentChange, showEr
           )}
           {currentText.sections?.map((sec: any, idx: number) => (
             <section key={idx} className="mb-5">
-              <h4 className="font-bold text-gray-900 mb-2">{sec.heading}</h4>
+              <h2 className="font-bold text-gray-900 mb-2">{sec.heading}</h2>
               {sec.paragraphs?.map((p: string, i: number) => (
                 <p key={i} className="mb-2 text-gray-800">{p}</p>
               ))}

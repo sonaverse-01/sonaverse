@@ -184,12 +184,12 @@ const ManboWalkerPage: React.FC = () => {
             <div className="lg:col-span-4 bg-gradient-to-t from-[#102643] to-[#1C4376] rounded-t-3xl rounded-b-3xl lg:rounded-b-none lg:rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none p-6 sm:p-16 text-white relative overflow-hidden">
               {/* Product Titles */}
               <div className="space-y-2 sm:space-y-4 mb-8 sm:mb-12">
-                <h3 className="text-sm sm:text-lg md:text-xl font-normal">
+                <h2 className="text-sm sm:text-lg md:text-xl font-normal">
                   MANBO
-                </h3>
-                <h4 className="text-sm sm:text-lg md:text-xl font-normal">
+                </h2>
+                <h3 className="text-sm sm:text-lg md:text-xl font-normal">
                   {language === 'en' ? 'Hybrid Walkmate' : '하이브리드형 워크메이트'}
-                </h4>
+                </h3>
                 <h1 className="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold leading-none mt-4 sm:mt-8">
                   {language === 'en' ? 'MANBO' : '만보'}
                 </h1>
@@ -788,9 +788,9 @@ const ManboWalkerPage: React.FC = () => {
                              <span className="text-xs text-[#bda191] font-medium">{language === 'en' ? 'Story' : '스토리'}</span>
                           </div>
                           
-                          <h5 className="text-sm font-semibold text-gray-900 mb-2 group-hover:text-[#bda191] transition-colors duration-300 line-clamp-2 leading-tight">
+                          <h3 className="text-sm font-semibold text-gray-900 mb-2 group-hover:text-[#bda191] transition-colors duration-300 line-clamp-2 leading-tight">
                              {story.content[language]?.title || story.content.ko.title}
-                          </h5>
+                          </h3>
                           
                           <div className="flex items-center justify-between mt-auto">
                             <time className="text-xs text-gray-500">

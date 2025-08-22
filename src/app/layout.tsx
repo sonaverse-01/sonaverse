@@ -158,7 +158,7 @@ export default function RootLayout({
           }}
         />
         {/* Preload LCP hero image */}
-        <link rel="preload" as="image" href="/hero.png" fetchPriority="high" />
+        <link rel="preload" as="image" href="/hero5.png" fetchPriority="high" />
       </head>
       <body className="font-sans antialiased">
         <LanguageProvider>

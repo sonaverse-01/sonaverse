@@ -298,9 +298,9 @@ const CompanyHistoryPage: React.FC = () => {
                   <div className="ml-5 md:ml-20">
                     <div className="bg-slate-50 rounded-lg md:rounded-3xl p-2 md:p-8 hover:bg-white hover:shadow-lg transition-all duration-500 border border-slate-100">
                       <div className="mb-2 md:mb-6">
-                        <h4 className="text-sm md:text-2xl font-bold text-slate-900 leading-tight">
+                        <h2 className="text-sm md:text-2xl font-bold text-slate-900 leading-tight">
                           {item.title}
-                        </h4>
+                        </h2>
                       </div>
                       
                       <p className="text-slate-600 mb-2 md:mb-6 leading-relaxed text-[10px] md:text-base">
@@ -335,9 +335,9 @@ const CompanyHistoryPage: React.FC = () => {
               </div>
               <div className="ml-5 md:ml-20">
                 <div className="bg-gradient-to-r from-[#bda191] to-[#a68b7a] rounded-lg md:rounded-3xl p-2 md:p-8 text-white">
-                  <h4 className="text-sm md:text-2xl font-bold mb-1 md:mb-4">
+                  <h2 className="text-sm md:text-2xl font-bold mb-1 md:mb-4">
                     {language === 'ko' ? '계속되는 여정' : 'Continuing Journey'}
-                  </h4>
+                  </h2>
                   <p className="text-[10px] md:text-lg opacity-90 leading-relaxed">
                     {language === 'ko' 
                       ? '시니어 라이프 혁신을 위한 소나버스의 도전은 계속됩니다.'
