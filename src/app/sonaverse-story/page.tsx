@@ -110,17 +110,23 @@ export default function SonaverseStoryPage() {
           <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-10 mt-8 md:mt-16">
             {language === 'en' ? 'Sonaverse Story' : '소나버스 스토리'}
           </h1>
-          <h2 className="text-lg sm:text-xl md:text-2xl text-gray-600 font-medium mb-12 whitespace-pre-line">
-            {language === 'en' ? 'From product development stories to useful welfare/health information!' : '소나버스 제품의 개발 스토리부터\n유용한 복지/건강 정보까지!'}
+          <h2 className="text-lg sm:text-xl md:text-2xl text-gray-600 font-medium mb-12">
+            <span className="hidden md:inline">
+              {language === 'en' ? 'From product development stories to useful welfare/health information!' : '소나버스 제품의 개발 스토리부터 유용한 복지/건강 정보까지!'}
+            </span>
+            <span className="md:hidden whitespace-pre-line">
+              {language === 'en' ? 'From product development stories to useful welfare/health information!' : '소나버스 제품의 개발 스토리부터\n유용한 복지/건강 정보까지!'}
+            </span>
           </h2>
           
           {/* 카테고리 필터 버튼 */}
-          <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-10">
+          {/* 데스크톱: 기존 flex-wrap 레이아웃 */}
+          <div className="hidden md:flex flex-wrap justify-center gap-4 mb-10">
             {['전체', '제품스토리', '사용법', '건강정보', '복지정보'].map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-3 py-2 md:px-8 md:py-4 rounded-full font-semibold text-sm md:text-lg transition-all duration-300 ${
+                className={`px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 ${
                   selectedCategory === category
                     ? 'bg-[#bda191] text-white shadow-lg'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -137,6 +143,35 @@ export default function SonaverseStoryPage() {
                 }
               </button>
             ))}
+          </div>
+          
+          {/* 모바일: 슬라이딩 레이아웃 */}
+          <div className="md:hidden mb-10">
+            <div className="overflow-x-auto scrollbar-hide">
+              <div className="flex gap-3 px-4 min-w-max">
+                {['전체', '제품스토리', '사용법', '건강정보', '복지정보'].map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-6 py-3 rounded-full font-semibold text-sm whitespace-nowrap transition-all duration-300 ${
+                      selectedCategory === category
+                        ? 'bg-[#bda191] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    {language === 'en' 
+                      ? category === '전체' ? 'All' 
+                        : category === '제품스토리' ? 'Product Stories'
+                        : category === '사용법' ? 'How to Use'
+                        : category === '건강정보' ? 'Health Info'
+                        : category === '복지정보' ? 'Welfare Info'
+                        : category
+                      : category
+                    }
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -377,13 +412,20 @@ export default function SonaverseStoryPage() {
       </div>
 
       
-      {/* CSS for line-clamp */}
+      {/* CSS for line-clamp and scrollbar hide */}
       <style jsx>{`
         .line-clamp-2 {
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
         }
       `}</style>
       

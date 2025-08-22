@@ -95,8 +95,13 @@ const PressPage: React.FC = () => {
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-10 mt-8 md:mt-16">
           {language === 'en' ? 'Press Releases' : '언론보도'}
         </h1>
-        <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto whitespace-pre-line">
-          {language === 'ko' ? '소나버스의 혁신적인 여정을\n언론을 통해 만나보세요' : 'Discover SONAVERSE\'s innovative journey through the media'}
+        <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+          <span className="hidden md:inline">
+            {language === 'ko' ? '소나버스의 혁신적인 여정을 언론을 통해 만나보세요' : 'Discover SONAVERSE\'s innovative journey through the media'}
+          </span>
+          <span className="md:hidden whitespace-pre-line">
+            {language === 'ko' ? '소나버스의 혁신적인 여정을\n언론을 통해 만나보세요' : 'Discover SONAVERSE\'s innovative journey through the media'}
+          </span>
         </p>
       </div>
 
