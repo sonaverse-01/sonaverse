@@ -859,7 +859,7 @@ const HomePage: React.FC = () => {
             <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 text-white leading-tight drop-shadow-md" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)'}}>
               {content.headline}
             </h1>
-            <h2 className="text-xl sm:text-2xl md:text-4xl mb-12 max-w-4xl mx-auto leading-relaxed text-slate-100 font-medium drop-shadow-md" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.4)'}}> 
+            <h2 className="text-xl sm:text-2xl md:text-4xl mb-12 max-w-4xl mx-auto leading-relaxed text-slate-100 font-medium drop-shadow-lg" style={{textShadow: '2px 2px 4px rgba(0,0,0,0.8), 1px 1px 2px rgba(0,0,0,0.6)'}}> 
               {content.description.split('\n').map((line: string, i: number, arr: string[]) => (
                 <React.Fragment key={i}>
                   {line}
