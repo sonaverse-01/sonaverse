@@ -28,6 +28,7 @@ export interface ISonaverseStory extends Document {
   author?: Types.ObjectId;
   thumbnail_url?: string; // 통합 썸네일 URL
   youtube_url?: string; // YouTube URL이 있으면 임베디드 영상을 최상단에 표시
+  category?: string; // 카테고리: 제품스토리, 사용법, 건강정보, 복지정보
   tags: string[];
   created_at: Date;
   last_updated: Date;
@@ -78,6 +79,11 @@ const SonaverseStorySchema = new Schema<ISonaverseStory>({
       message: 'Invalid YouTube URL format'
     }
   },
+  category: { 
+    type: String, 
+    enum: ['제품스토리', '사용법', '건강정보', '복지정보'], 
+    trim: true 
+  },
   tags: [{ type: String, trim: true }],
   created_at: { type: Date, default: Date.now },
   last_updated: { type: Date, default: Date.now },
@@ -93,6 +99,7 @@ const SonaverseStorySchema = new Schema<ISonaverseStory>({
 // 인덱스 설정
 SonaverseStorySchema.index({ is_published: 1, created_at: -1 });
 SonaverseStorySchema.index({ tags: 1 });
+SonaverseStorySchema.index({ category: 1, is_published: 1, created_at: -1 });
 
 // 저장 전 middleware
 SonaverseStorySchema.pre('save', function(this: ISonaverseStory, next) {

@@ -91,8 +91,8 @@ const PressPage: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       {/* 페이지 헤더 */}
-      <div className="text-center mb-12">
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+      <div className="text-center mb-16">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-10 mt-16">
           {language === 'en' ? 'Press Releases' : '언론보도'}
         </h1>
         <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">

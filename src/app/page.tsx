@@ -87,13 +87,13 @@ interface CompanyHistory {
 
 const heroContent = {
   ko: {
-    headline: '시니어의 더 나은 내일을 위해',
+    headline: '시니어의 더 나은 일상을 위해',
     subheadline: '소나버스',
     description: '불편을 겪는 사용자를 통해 발견한 혁신.\n명확한 브랜딩으로 시니어 생활 문제를 해결합니다.',
     cta: '',
   },
   en: {
-    headline: 'For a Better Tomorrow for Seniors',
+    headline: 'For a Better Daily Life for Seniors',
     subheadline: 'SONAVERSE',
     description: 'Innovation discovered through users experiencing difficulties. Clear branding to solve senior life problems.',
     cta: '',
@@ -815,12 +815,16 @@ const HomePage: React.FC = () => {
       <section 
         id="hero" 
         data-section 
-        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+        className="min-h-screen flex items-start justify-center relative overflow-hidden pt-15"
       >
         {/* 배경 이미지 - 반응형 */}
         <div className="absolute inset-0">
           <picture className="absolute inset-0">
-            <source 
+            {/* <source 
+              media="(min-width: 1024px)" 
+              srcSet="/images/hero/hero.png"
+            /> */}
+             <source 
               media="(min-width: 1024px)" 
               srcSet="/images/hero/hero-desktop.webp 1x, /images/hero/hero-desktop@2x.webp 2x"
             />
@@ -847,45 +851,23 @@ const HomePage: React.FC = () => {
               className="object-cover"
             />
           </picture>
-          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center text-white">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
           <div className={`transform transition-all duration-1000 ${isVisible.hero ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
-            <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 text-white leading-tight">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 text-white leading-tight drop-shadow-md" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)'}}>
               {content.headline}
-              <br />
-              <span className="text-[#bda191] text-2xl sm:text-4xl md:text-6xl">{content.subheadline}</span>
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl mb-12 max-w-4xl mx-auto leading-relaxed text-slate-200 font-light">
+            <h2 className="text-xl sm:text-2xl md:text-4xl mb-12 max-w-4xl mx-auto leading-relaxed text-slate-100 font-medium drop-shadow-md" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.4)'}}> 
               {content.description.split('\n').map((line: string, i: number, arr: string[]) => (
                 <React.Fragment key={i}>
                   {line}
                   {i < arr.length - 1 && <br />}
                 </React.Fragment>
               ))}
-            </p>
+            </h2>
             
-            {/* CTA 버튼 */}
-            <div className="flex flex-row gap-2 sm:gap-4 justify-center mb-12 sm:mb-16">
-              <button 
-                onClick={() => {
-                  const productsSection = document.getElementById('products');
-                  if (productsSection) {
-                    productsSection.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-                className="px-4 py-2 sm:px-8 sm:py-4 bg-[#EFD1BD] text-gray-900 rounded-xl font-semibold hover:bg-[#e8c4a4] transition-all duration-300 shadow-lg text-xs sm:text-base flex-1 border border-[#e8c4a4]"
-              >
-{language === 'en' ? 'Explore Products' : '제품 둘러보기'}
-              </button>
-              <button 
-                onClick={() => window.location.href = '/inquiry'}
-                className="px-4 py-2 sm:px-8 sm:py-4 bg-[#0B3877] text-white rounded-xl font-semibold hover:bg-[#092f66] transition-all duration-300 shadow-lg text-xs sm:text-base flex-1"
-              >
-{language === 'en' ? 'Contact Us' : '문의하기'}
-              </button>
-            </div>
           </div>
         </div>
       </section>

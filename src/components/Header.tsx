@@ -14,13 +14,10 @@ const Header: React.FC = () => {
   const { language, setLanguage, isClient } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isAboutDropdownOpen, setIsAboutDropdownOpen] = useState(false);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
-  const [isMobileAboutOpen, setIsMobileAboutOpen] = useState(false);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const headerRef = useRef<HTMLElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const aboutDropdownRef = useRef<HTMLDivElement>(null);
   
   // LanguageContext의 language 상태만 사용 (SSR 일관성 보장)
   const logoSrc = language === 'en' ? '/logo/en_logo.png' : '/logo/ko_logo.png';
@@ -41,17 +38,6 @@ const Header: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [isClient, isDropdownOpen]);
 
-  // ABOUT US 드롭다운 바깥 클릭 시 닫힘
-  useEffect(() => {
-    if (!isClient || !isAboutDropdownOpen) return;
-    const handleClick = (e: MouseEvent) => {
-      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(e.target as Node)) {
-        setIsAboutDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [isClient, isAboutDropdownOpen]);
 
   // 하이드레이션 전후에도 훅 순서가 같도록, 조건부 early return은 사용하지 않습니다.
 
@@ -120,30 +106,9 @@ const Header: React.FC = () => {
             </div>
           </div>
 
+          <a href="/sonaverse-story" className="nav-link">{language === 'en' ? 'Sonaverse Story' : '소나버스 스토리'}</a>
           <a href="/press" className="nav-link">{language === 'en' ? 'Press' : '언론보도'}</a>
-          <div className="relative" ref={aboutDropdownRef}>
-            <button
-              className="nav-link focus:outline-none"
-              onClick={() => setIsAboutDropdownOpen((open) => !open)}
-              aria-expanded={isAboutDropdownOpen}
-              aria-haspopup="true"
-              type="button"
-            >
-              ABOUT US
-            </button>
-            <div className={`absolute left-1/2 -translate-x-1/2 mt-3 flex flex-col bg-white/90 backdrop-blur-md border border-[#e5e0db] rounded-2xl shadow-2xl px-4 py-4 min-w-[240px] xl:min-w-[280px] z-50 transition-all duration-200 ${isAboutDropdownOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-            >
-              <a href="/sonaverse-story" className="flex items-center gap-3 px-4 xl:px-6 py-3 rounded-xl hover:bg-[#f0ece9] hover:text-[#bda191] transition-colors duration-200 text-sm xl:text-base font-medium">
-                <svg width="20" height="20" className="xl:w-6 xl:h-6 flex-shrink-0" fill="none" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#bda191" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                <span>{language === 'en' ? 'Sonaverse Story' : '소나버스 스토리'}</span>
-              </a>
-              <a href="/company-history" className="flex items-center gap-3 px-4 xl:px-6 py-3 rounded-xl hover:bg-[#f0ece9] hover:text-[#bda191] transition-colors duration-200 text-sm xl:text-base font-medium">
-                <svg width="20" height="20" className="xl:w-6 xl:h-6 flex-shrink-0" fill="none" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="#bda191" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                <span>{language === 'en' ? 'Company History' : '기업 연혁'}</span>
-              </a>
-            </div>
-          </div>
-          <a href="/inquiry" className="nav-link">{language === 'en' ? 'Contact' : '기업 문의'}</a>
+          <a href="/inquiry" className="nav-link">{language === 'en' ? 'Purchase/Partnership' : '구매/제휴 문의'}</a>
         </nav>
         
         {/* Language Dropdown */}
@@ -208,38 +173,11 @@ const Header: React.FC = () => {
               </div>
             </div>
             
+            <a href="/sonaverse-story" className="block py-3 px-3 hover:bg-gray-50 rounded-lg transition-colors text-gray-800 font-medium" onClick={toggleMobileMenu}>{language === 'en' ? 'Sonaverse Story' : '소나버스 스토리'}</a>
+            
             <a href="/press" className="block py-3 px-3 hover:bg-gray-50 rounded-lg transition-colors text-gray-800 font-medium" onClick={toggleMobileMenu}>{language === 'en' ? 'Press' : '언론보도'}</a>
             
-            <div className="rounded-lg">
-              <button 
-                className="w-full font-semibold text-gray-800 px-3 py-2 bg-gray-50 rounded-t-lg flex items-center justify-between"
-                onClick={() => setIsMobileAboutOpen(!isMobileAboutOpen)}
-              >
-                <span>ABOUT US</span>
-                <svg 
-                  className={`w-4 h-4 transition-transform duration-300 ${isMobileAboutOpen ? 'rotate-180' : ''}`}
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div className={`overflow-hidden transition-all duration-300 ${isMobileAboutOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className="px-3 py-2 space-y-2">
-                  <a href="/sonaverse-story" className="flex items-center gap-3 py-2 px-2 hover:bg-gray-50 rounded text-gray-600" onClick={toggleMobileMenu}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#bda191" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    {language === 'en' ? 'Sonaverse Story' : '소나버스 스토리'}
-                  </a>
-                  <a href="/company-history" className="flex items-center gap-3 py-2 px-2 hover:bg-gray-50 rounded text-gray-600" onClick={toggleMobileMenu}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="#bda191" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    {language === 'en' ? 'Company History' : '기업 연혁'}
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            <a href="/inquiry" className="block py-3 px-3 hover:bg-gray-50 rounded-lg transition-colors text-gray-800 font-medium" onClick={toggleMobileMenu}>{language === 'en' ? 'Contact' : '기업 문의'}</a>
+            <a href="/inquiry" className="block py-3 px-3 hover:bg-gray-50 rounded-lg transition-colors text-gray-800 font-medium" onClick={toggleMobileMenu}>{language === 'en' ? 'Purchase/Partnership' : '구매/제휴 문의'}</a>
             
             {/* Mobile Language Selection */}
             <div className="pt-3 border-t border-gray-200">

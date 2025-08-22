@@ -262,7 +262,7 @@ const ManboWalkerPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-4 sm:mb-6">
-              {language === 'en' ? 'Limitations of Existing Walking Aids' : '기존 보행 보조기구의 한계점'}
+              {language === 'en' ? 'Limitations of Existing Walkers' : '기존 보행기의 한계점'}
             </h2>
             <p className="text-sm sm:text-base md:text-lg text-slate-600 max-w-4xl mx-auto">
               {language === 'en' ? 'Market research revealed actual problems experienced by users.' : '시장 조사 결과, 사용자들이 겪고 있는 실제 문제점들을 발견했습니다.'}

@@ -44,7 +44,8 @@
       "Bash(powershell:*)",
       "Bash(tasklist:*)",
       "Bash(wmic process where:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(git fetch:*)"
     ],
     "deny": []
   }

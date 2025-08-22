@@ -183,7 +183,7 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                 className="group block bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
               >
                 {/* 이미지 */}
-                <div className="relative h-48 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] overflow-hidden">
+                <div className="relative h-48 bg-white overflow-hidden">
                   {content.thumbnail_url ? (
                     <img
                       src={content.thumbnail_url}
@@ -214,9 +214,6 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                       </div>
                     </div>
                   )}
-                  
-                  {/* 호버 오버레이 */}
-                  <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                 </div>
 
                 {/* 콘텐츠 */}
@@ -282,7 +279,7 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                     className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer h-full"
                   >
                     {/* 이미지 영역 */}
-                    <div className="relative h-32 bg-gradient-to-br from-[#bda191] via-[#a68b7a] to-[#8f7a6b] overflow-hidden">
+                    <div className="relative h-32 bg-white overflow-hidden">
                       {content.thumbnail_url ? (
                         <img
                           src={content.thumbnail_url}
@@ -313,9 +310,6 @@ const RecommendedPosts: React.FC<RecommendedPostsProps> = ({ currentSlug }) => {
                           </div>
                         </div>
                       )}
-                      
-                      {/* 호버 오버레이 */}
-                      <div className="absolute inset-0 bg-[#bda191] bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                     </div>
                     
                     {/* 텍스트 영역 */}

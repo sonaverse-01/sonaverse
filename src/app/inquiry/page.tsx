@@ -188,7 +188,7 @@ const InquiryPage: React.FC = () => {
     <div className="w-full min-h-[60vh] flex flex-col items-center px-4 py-12 bg-white">
       <div className="max-w-xl w-full bg-white rounded-2xl shadow-xl p-8">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 text-center">
-          {language === 'en' ? 'B2B Inquiry' : '기업 문의'}
+          {language === 'en' ? 'Purchase/Partnership Inquiry' : '구매/제휴 문의'}
         </h1>
         
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
