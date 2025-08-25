@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('pageSize') || '10');
     const search = searchParams.get('search') || '';
     const tag = searchParams.get('tag') || '';
+    const category = searchParams.get('category') || '';
     const published = searchParams.get('published') || 'true';
     
     const skip = (page - 1) * limit;
@@ -41,6 +42,11 @@ export async function GET(request: NextRequest) {
     // 태그 필터
     if (tag) {
       query.tags = { $in: [tag] };
+    }
+    
+    // 카테고리 필터
+    if (category) {
+      query.category = category;
     }
     
     // 소나버스 스토리 조회

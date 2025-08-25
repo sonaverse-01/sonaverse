@@ -505,7 +505,7 @@ const HomePage: React.FC = () => {
   const [isVisible, setIsVisible] = useState<any>({});
   const [pressData, setPressData] = useState<PressRelease[]>([]);
   const [blogData, setBlogData] = useState<SonaverseStory[]>([]);
-  const [brandStoryData, setBrandStoryData] = useState<any[]>([]);
+  const [sonaverseStoryData, setSonaverseStoryData] = useState<any[]>([]);
   // 모바일 제품 캐러셀
   const mobileProductsRef = useRef<HTMLDivElement | null>(null);
   
@@ -586,13 +586,13 @@ const HomePage: React.FC = () => {
           };
         });
         
-        requestAnimationFrame(() => setBrandStoryData(sonaverseStories));
+        requestAnimationFrame(() => setSonaverseStoryData(sonaverseStories));
       } catch (err) {
         console.error('Error fetching data:', err);
         requestAnimationFrame(() => {
           setPressData([]);
           setBlogData([]);
-          setBrandStoryData([]);
+          setSonaverseStoryData([]);
         });
       }
     };

@@ -38,6 +38,7 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
     },
     thumbnail_url: '', // 통합 썸네일
     youtube_url: '',
+    category: '', // 카테고리 추가
     tags: {
       ko: '',
       en: ''
@@ -103,6 +104,7 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
         },
         thumbnail_url: data.thumbnail_url || '',
         youtube_url: data.youtube_url || '',
+        category: data.category || '',
         tags: {
           ko: Array.isArray(data.tags) ? data.tags.join(', ') : '',
           en: Array.isArray(data.tags) ? data.tags.join(', ') : ''
@@ -244,6 +246,7 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
         },
         thumbnail_url: thumbnailUrl,
         youtube_url: formData.youtube_url,
+        category: formData.category,
         tags: allTags,
         created_at: createdAt,
         is_main: formData.is_main,
@@ -371,6 +374,22 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <p className="text-xs text-gray-500 mt-1">공란으로 두면 현재 날짜로 자동 설정됩니다.</p>
+            </div>
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                카테고리
+              </label>
+              <select
+                value={formData.category}
+                onChange={(e) => handleInputChange('category', e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">카테고리 선택</option>
+                <option value="제품스토리">제품스토리</option>
+                <option value="사용법">사용법</option>
+                <option value="건강정보">건강정보</option>
+                <option value="복지정보">복지정보</option>
+              </select>
             </div>
             <div className="mt-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">

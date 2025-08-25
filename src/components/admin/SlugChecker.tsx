@@ -6,7 +6,7 @@ import { useToast } from '@/components/Toast';
 interface SlugCheckResult {
   blog: { exists: boolean; title: string };
   press: { exists: boolean; title: string };
-  brandStory: { exists: boolean; title: string };
+  sonaverseStory: { exists: boolean; title: string };
   product: { exists: boolean; title: string };
 }
 

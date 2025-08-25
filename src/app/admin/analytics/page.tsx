@@ -53,7 +53,7 @@ const AnalyticsPage: React.FC = () => {
       content: {
         blog: filterContentData(rawData.content.blog, contentPeriod),
         press: filterContentData(rawData.content.press, contentPeriod),
-        brandStory: filterContentData(rawData.content.brandStory, contentPeriod)
+        sonaverseStory: filterContentData(rawData.content.sonaverseStory, contentPeriod)
       }
     };
   };

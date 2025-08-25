@@ -46,6 +46,7 @@ export async function GET(request: NextRequest, { params }: Props) {
       thumbnail_url: story.thumbnail_url,
       thumbnail: story.thumbnail_url || '',
       youtube_url: story.youtube_url || '',
+      category: story.category || '',
       tags: story.tags || [],
       is_published: story.is_published,
       is_main: story.is_main,

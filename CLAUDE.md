@@ -36,7 +36,7 @@ All models use Mongoose ODM with multilingual content stored as objects:
 - `PressRelease` - Press releases
 - `Page` - Dynamic pages
 - `Inquiry` - Contact form submissions
-- `BrandStory` - Company story content
+- `SonaverseStory` - Company story content
 - `AdminSetting` - Site configuration
 
 ## Admin System
