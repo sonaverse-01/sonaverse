@@ -21,6 +21,7 @@ interface SonaverseStoryItem {
   created_at: string;
   is_published: boolean;
   tags: string[];
+  category?: string;
 }
 
 interface PaginationData {
@@ -345,6 +346,9 @@ const AdminSonaverseStoryPage: React.FC = () => {
                       상태
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      카테고리
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                       태그
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
@@ -390,6 +394,11 @@ const AdminSonaverseStoryPage: React.FC = () => {
                         >
                           {story.is_published ? '공개' : '비공개'}
                         </button>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
+                          {story.category || '미분류'}
+                        </span>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex flex-wrap gap-1">
@@ -461,9 +470,14 @@ const AdminSonaverseStoryPage: React.FC = () => {
                         {story.content.ko?.subtitle || story.content.en?.subtitle}
                       </p>
                     )}
-                    <code className="inline-block text-xs text-blue-400 bg-gray-800 px-2 py-1 rounded mt-2">
-                      {story.slug}
-                    </code>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <code className="text-xs text-blue-400 bg-gray-800 px-2 py-1 rounded">
+                        {story.slug}
+                      </code>
+                      <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
+                        {story.category || '미분류'}
+                      </span>
+                    </div>
                   </div>
                   <button
                     onClick={() => togglePublish(story.slug, story.is_published)}
