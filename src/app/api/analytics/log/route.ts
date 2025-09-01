@@ -11,7 +11,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true, message: 'Skipped in development' });
     }
 
-    await dbConnect();
+    // 데이터베이스 연결 시도
+    try {
+      await dbConnect();
+    } catch (dbError) {
+      console.error('Database connection failed:', dbError);
+      return NextResponse.json({ success: false, message: 'Database unavailable' }, { status: 503 });
+    }
     
     const body = await request.json();
     const { page, referrer, userAgent, ip, sessionId, today } = body;
@@ -63,7 +69,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error logging visitor:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }
 

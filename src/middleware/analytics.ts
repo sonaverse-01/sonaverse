@@ -18,15 +18,21 @@ export function analyticsMiddleware(request: NextRequest) {
     return;
   }
 
-  // 방문자 로그를 DB에 저장 (비동기로 처리)
+  // 방문자 로그를 DB에 저장 (비동기로 처리, 에러 무시)
   logVisitorToDB(request).catch(error => {
-    console.error('Error logging visitor to DB:', error);
+    // 에러를 로그에 기록하지만 애플리케이션에 영향을 주지 않음
+    console.error('Error logging visitor to DB (non-critical):', error);
   });
 }
 
 // 방문자 로그를 DB에 저장하는 함수
 async function logVisitorToDB(request: NextRequest) {
   try {
+    // 프로덕션 환경에서만 로그 기록
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
+
     const page = request.nextUrl.pathname;
     const referrer = request.headers.get('referer') || undefined;
     const userAgent = request.headers.get('user-agent') || undefined;
@@ -62,10 +68,11 @@ async function logVisitorToDB(request: NextRequest) {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to log visitor data');
+      throw new Error(`Failed to log visitor data: ${response.status}`);
     }
 
   } catch (error) {
+    // 에러를 던지지 않고 로그만 기록
     console.error('Error in logVisitorToDB:', error);
   }
 }

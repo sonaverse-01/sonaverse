@@ -30,7 +30,7 @@ export async function sendEmail(emailData: EmailData): Promise<boolean> {
 
     // 이메일 전송
     const { data, error } = await resend.emails.send({
-      from: 'sonaverse <noreply@sonaverse.kr>',
+      from: 'noreply@sonaverse.kr',
       to: [emailData.to],
       subject: emailData.subject,
       html: emailData.html,
