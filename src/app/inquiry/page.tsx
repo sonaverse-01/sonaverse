@@ -137,6 +137,9 @@ const InquiryPage: React.FC = () => {
         privacy_consented: privacyConsented
       };
 
+      // 디버깅: 전송할 데이터 확인
+      console.log('문의 제출 - 전송할 데이터:', inquiryData);
+
       const response = await fetch('/api/inquiries', {
         method: 'POST',
         headers: {

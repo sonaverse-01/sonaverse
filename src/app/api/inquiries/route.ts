@@ -46,9 +46,9 @@ export async function POST(request: NextRequest) {
     const inquiry = new Inquiry(inquiryData);
     await inquiry.save();
     
-    // 이메일 알림 전송 (비동기로 처리하여 응답 지연 방지)
+    // 이메일 알림 전송 (저장된 inquiry 객체 사용)
     // 이메일 전송 실패해도 문의는 성공적으로 저장됨
-    sendInquiryNotification(inquiryData).then(success => {
+    sendInquiryNotification(inquiry.toObject()).then(success => {
       if (success) {
         console.log('문의 알림 이메일 전송 성공');
       } else {

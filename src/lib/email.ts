@@ -40,7 +40,7 @@ export async function sendEmail(emailData: EmailData): Promise<boolean> {
     // 이메일 전송
     const { data, error } = await resend.emails.send({
       from: fromEmail,
-      to: [emailData.to],
+      to: emailData.to, // 배열 제거 - 단일 문자열로 전송
       subject: emailData.subject,
       html: emailData.html,
       text: emailData.text || emailData.html.replace(/<[^>]*>/g, ''),
@@ -83,6 +83,14 @@ export async function sendEmail(emailData: EmailData): Promise<boolean> {
  */
 export async function sendInquiryNotification(inquiryData: any): Promise<boolean> {
   try {
+    // 디버깅: 받은 데이터 확인
+    console.log('이메일 알림 - 받은 데이터:', {
+      name: inquiryData.name,
+      position: inquiryData.position,
+      company_name: inquiryData.company_name,
+      email: inquiryData.email
+    });
+
     const subject = '새로운 문의가 접수되었습니다';
     const html = `
       <!DOCTYPE html>
@@ -105,7 +113,7 @@ export async function sendInquiryNotification(inquiryData: any): Promise<boolean
       <body>
         <div class="container">
           <div class="header">
-            <h1>새로운 문의 접수</h1>
+            <h1>문의 접수</h1>
           </div>
           <div class="content">
             <div class="field">
@@ -149,7 +157,7 @@ export async function sendInquiryNotification(inquiryData: any): Promise<boolean
           </div>
           <div class="footer">
             <p>이 이메일은 소나버스 홈페이지 문의폼을 통해 자동으로 발송되었습니다.</p>
-            <p>© 2024 Sonaverse. All rights reserved.</p>
+            <p>© 2025 Sonaverse. All rights reserved.</p>
           </div>
         </div>
       </body>
@@ -158,19 +166,25 @@ export async function sendInquiryNotification(inquiryData: any): Promise<boolean
 
     // 수신자 이메일 주소 검증 및 개별 전송
     // 환경 변수에서 수신자 이메일 주소를 가져오거나 기본값 사용
-    const recipientEmails = process.env.INQUIRY_RECIPIENT_EMAILS || 'sgd@sonaverse.kr';
+    const recipientEmails = process.env.INQUIRY_RECIPIENT_EMAILS || 'sgd@sonaverse.kr, ceo@sonaverse.kr';
     const emailList = recipientEmails.split(',').map(email => email.trim());
     
     // 각 이메일 주소에 대해 전송 시도
     let successCount = 0;
     for (const email of emailList) {
       if (email && email.includes('@')) {
+        console.log(`이메일 전송 시도: ${email}`);
         const result = await sendEmail({
           to: email,
           subject,
           html
         });
-        if (result) successCount++;
+        if (result) {
+          successCount++;
+          console.log(`이메일 전송 성공: ${email}`);
+        } else {
+          console.error(`이메일 전송 실패: ${email}`);
+        }
       }
     }
 
@@ -238,7 +252,7 @@ export async function sendInquiryStatusUpdate(inquiryData: any, newStatus: strin
         </div>
         <div class="footer">
           <p>이 이메일은 소나버스 관리자 시스템을 통해 자동으로 발송되었습니다.</p>
-          <p>© 2024 Sonaverse. All rights reserved.</p>
+          <p>© 2025 Sonaverse. All rights reserved.</p>
         </div>
       </div>
     </body>
@@ -296,7 +310,7 @@ export async function sendAdminAccountCreated(userData: any, tempPassword: strin
         </div>
         <div class="footer">
           <p>이 이메일은 소나버스 관리자 시스템을 통해 자동으로 발송되었습니다.</p>
-          <p>© 2024 Sonaverse. All rights reserved.</p>
+          <p>© 2025 Sonaverse. All rights reserved.</p>
         </div>
       </div>
     </body>
