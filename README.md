@@ -67,6 +67,9 @@
 RESEND_API_KEY=re_your_api_key_here
 RESEND_FROM_EMAIL=noreply@sonaverse.kr
 
+# 문의 알림 수신자 이메일 주소 (쉼표로 구분)
+INQUIRY_RECIPIENT_EMAILS=sgd@sonaverse.kr, ceo@sonaverse.kr
+
 # 데이터베이스 설정
 MONGODB_URI=your_mongodb_connection_string
 

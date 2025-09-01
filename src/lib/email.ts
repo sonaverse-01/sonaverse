@@ -157,7 +157,8 @@ export async function sendInquiryNotification(inquiryData: any): Promise<boolean
     `;
 
     // 수신자 이메일 주소 검증 및 개별 전송
-    const recipientEmails = 'sgd@sonaverse.kr, ceo@sonaverse.kr';
+    // 환경 변수에서 수신자 이메일 주소를 가져오거나 기본값 사용
+    const recipientEmails = process.env.INQUIRY_RECIPIENT_EMAILS || 'sgd@sonaverse.kr';
     const emailList = recipientEmails.split(',').map(email => email.trim());
     
     // 각 이메일 주소에 대해 전송 시도
