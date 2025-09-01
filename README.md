@@ -1,110 +1,98 @@
 # 소나버스 홈페이지
 
-소나버스의 공식 홈페이지입니다.
+## 문제 해결 가이드
 
-## 기능
+### 1. Resend 이메일 전송 실패 문제
 
-- 반응형 웹 디자인
-- 다국어 지원 (한국어/영어)
-- 문의폼 (이메일 알림 포함)
-- 관리자 대시보드
-- 제품 정보 관리
-- 뉴스/보도자료 관리
-- 소나버스 스토리 관리
+**문제**: `Resend 이메일 전송 실패: Unable to fetch data. The request could not be resolved.`
 
-## 설치 및 실행
+**해결 방법**:
+
+1. **Resend API 키 설정**
+   - `email-config.example.env` 파일을 `.env.local`로 복사
+   - 유효한 Resend API 키 설정:
+   ```env
+   RESEND_API_KEY=re_your_actual_api_key_here
+   RESEND_FROM_EMAIL=noreply@sonaverse.kr
+   ```
+
+2. **Resend 도메인 등록**
+   - [Resend Dashboard](https://resend.com/domains)에서 도메인 등록
+   - `sonaverse.kr` 도메인 추가 및 DNS 설정 완료
+   - 도메인 검증 완료 후 이메일 전송 가능
+
+3. **환경 변수 확인**
+   - 프로덕션 환경에서 환경 변수가 올바르게 설정되었는지 확인
+   - Vercel 등의 배포 플랫폼에서 환경 변수 설정
+
+### 2. 방문자 로깅 401 에러 문제
+
+**문제**: `Error in logVisitorToDB: [Error: Failed to log visitor data: 401]`
+
+**해결 방법**:
+- 내부 API 호출 시 인증 헤더 추가로 해결됨
+- 미들웨어에서 `X-Internal-Call` 헤더를 사용하여 인증 우회
+- 개발 환경에서는 로깅이 비활성화됨
+
+### 3. 문의 삭제 기능 문제
+
+**문제**: 관리자 페이지에서 삭제 버튼 클릭 시 실제 데이터가 삭제되지 않음
+
+**해결 방법**:
+- 프론트엔드에서 실제 API 호출 추가
+- 백엔드에서 관리자 인증 확인
+- 삭제 성공 시에만 UI에서 제거
+
+### 4. 추가 개선사항
+
+1. **이메일 전송 개선**
+   - 개별 이메일 주소에 대한 전송 시도
+   - 구체적인 에러 메시지 제공
+   - 이메일 전송 실패 시에도 문의 저장 유지
+
+2. **보안 강화**
+   - 문의 삭제 시 관리자 인증 필수
+   - 내부 API 호출 시 적절한 헤더 사용
+
+3. **에러 처리 개선**
+   - 더 상세한 에러 로깅
+   - 사용자 친화적인 에러 메시지
+
+## 환경 설정
+
+### 필수 환경 변수
+
+```env
+# Resend 이메일 설정
+RESEND_API_KEY=re_your_api_key_here
+RESEND_FROM_EMAIL=noreply@sonaverse.kr
+
+# 데이터베이스 설정
+MONGODB_URI=your_mongodb_connection_string
+
+# 기타 설정
+NEXTAUTH_SECRET=your_nextauth_secret
+NEXTAUTH_URL=your_site_url
+```
+
+### 개발 환경 실행
 
 ```bash
-# 의존성 설치
 npm install
-
-# 개발 서버 실행
 npm run dev
+```
 
-# 프로덕션 빌드
+### 프로덕션 배포
+
+```bash
 npm run build
-
-# 프로덕션 서버 실행
 npm start
 ```
 
-## 환경변수 설정
+## 문제 해결 체크리스트
 
-### 기본 환경변수
-`.env.local` 파일을 생성하고 다음 변수들을 설정하세요:
-
-```env
-# 데이터베이스 연결
-MONGODB_URI=your-mongodb-connection-string
-
-# JWT 시크릿
-JWT_SECRET=your-jwt-secret-key
-
-# 관리자 계정
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=your-admin-password
-```
-
-### 이메일 설정 (문의폼 알림용)
-
-문의폼 제출 시 `sgd@sonaverse.kr`로 이메일 알림을 받으려면 Resend 설정이 필요합니다.
-
-#### Resend 설정 방법:
-
-1. **Resend 계정 생성**
-   - https://resend.com 에서 무료 계정 생성
-
-2. **API 키 생성**
-   - Settings > API Keys에서 새 API 키 생성
-   - `re_`로 시작하는 키를 복사
-
-3. **도메인 등록** (선택사항)
-   - Settings > Domains에서 도메인 등록
-   - 등록하지 않으면 Resend의 기본 도메인 사용
-
-4. **환경변수 설정**
-   ```env
-   RESEND_API_KEY=re_your_api_key_here
-   ```
-
-#### Resend 무료 플랜:
-- 월 3,000건 이메일 전송
-- 1개 도메인 등록 가능
-- REST API 제공
-
-## 문의폼 이메일 알림
-
-문의폼이 제출되면 다음 정보가 포함된 이메일이 `sgd@sonaverse.kr`로 전송됩니다:
-
-- 문의 유형
-- 이름, 직급, 회사명
-- 연락처 (이메일, 전화번호)
-- 문의 내용
-- 첨부파일 링크 (있는 경우)
-- 접수 시간
-- 개인정보 동의 여부
-
-## 배포
-
-이 프로젝트는 Vercel에 최적화되어 있습니다.
-
-```bash
-# Vercel CLI 설치
-npm i -g vercel
-
-# 배포
-vercel --prod
-```
-
-## 기술 스택
-
-- **Frontend**: Next.js 15, React 19, TypeScript
-- **Styling**: Tailwind CSS
-- **Database**: MongoDB (Mongoose)
-- **Authentication**: JWT
-- **Email**: Resend
-- **Deployment**: Vercel
-
-## 라이선스
-
-© 2024 Sonaverse. All rights reserved.
+- [ ] Resend API 키가 올바르게 설정되었는가?
+- [ ] Resend에서 도메인이 등록되고 검증되었는가?
+- [ ] 환경 변수가 프로덕션 환경에 설정되었는가?
+- [ ] 데이터베이스 연결이 정상적인가?
+- [ ] 관리자 계정이 올바르게 설정되었는가?

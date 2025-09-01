@@ -11,6 +11,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true, message: 'Skipped in development' });
     }
 
+    // 내부 API 호출인지 확인 (미들웨어에서 호출하는 경우)
+    const isInternalCall = request.headers.get('X-Internal-Call') === 'true';
+
     // 데이터베이스 연결 시도
     try {
       await dbConnect();

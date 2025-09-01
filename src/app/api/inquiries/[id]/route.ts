@@ -103,6 +103,13 @@ export async function DELETE(
 ) {
   try {
     await dbConnect();
+    
+    // 현재 사용자 확인 (관리자만 삭제 가능)
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    
     const resolvedParams = await params;
     const inquiry = await Inquiry.findByIdAndDelete(resolvedParams.id);
     
@@ -112,6 +119,8 @@ export async function DELETE(
         { status: 404 }
       );
     }
+    
+    console.log(`문의 삭제됨: ID ${resolvedParams.id}, 삭제자: ${user.username}`);
     
     return NextResponse.json({ message: '문의가 삭제되었습니다.' });
   } catch (error) {

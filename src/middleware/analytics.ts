@@ -59,10 +59,13 @@ async function logVisitorToDB(request: NextRequest) {
     };
 
     // DB에 로그 저장 (세션 기반 중복 체크)
+    // 내부 API 호출이므로 인증 없이 직접 처리
     const response = await fetch(`${request.nextUrl.origin}/api/analytics/log`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        // 내부 API 호출임을 나타내는 헤더 추가
+        'X-Internal-Call': 'true'
       },
       body: JSON.stringify(logData)
     });

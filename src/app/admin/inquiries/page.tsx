@@ -145,12 +145,24 @@ const InquiriesManagement: React.FC = () => {
   // 문의 삭제 함수
   const handleDeleteInquiry = async (inquiryId: string) => {
     try {
+      // 실제 API 호출로 삭제 처리
+      const response = await fetch(`/api/inquiries/${inquiryId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error('삭제 요청 실패');
+      }
+
+      // 성공적으로 삭제된 경우에만 UI에서 제거
       setInquiries(prev => prev.filter(inquiry => inquiry._id !== inquiryId));
       addToast({
         type: 'success',
         message: '문의가 삭제되었습니다.'
       });
     } catch (error) {
+      console.error('Error deleting inquiry:', error);
       addToast({
         type: 'error',
         message: '문의 삭제에 실패했습니다.'
