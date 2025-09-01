@@ -14,6 +14,46 @@ interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
+// Error Boundary Component
+class AdminErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean; error?: Error }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Admin layout error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-900">
+          <div className="text-center text-white">
+            <h1 className="text-2xl font-bold mb-4">오류가 발생했습니다</h1>
+            <p className="mb-4">페이지를 새로고침해주세요.</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+            >
+              새로고침
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 // Separate component that uses useSearchParams
 const AdminLayoutContent: React.FC<AdminLayoutProps> = ({ children }) => {
   const router = useRouter();
@@ -208,9 +248,11 @@ const AdminLayoutLoading = () => (
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return (
-    <Suspense fallback={<AdminLayoutLoading />}>
-      <AdminLayoutContent>{children}</AdminLayoutContent>
-    </Suspense>
+    <AdminErrorBoundary>
+      <Suspense fallback={<AdminLayoutLoading />}>
+        <AdminLayoutContent>{children}</AdminLayoutContent>
+      </Suspense>
+    </AdminErrorBoundary>
   );
 };
 

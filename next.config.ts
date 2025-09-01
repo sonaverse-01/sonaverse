@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   poweredByHeader: false,
   
+  // 정적 파일 서빙 최적화
+  output: 'standalone',
+  
   // 이미지 최적화
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -27,7 +30,7 @@ const nextConfig: NextConfig = {
   // 압축 활성화
   compress: true,
 
-  // 생성된 사이트맵과 robots.txt 제공
+  // 정적 파일 캐싱 설정
   async headers() {
     return [
       {
@@ -44,6 +47,32 @@ const nextConfig: NextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin'
+          }
+        ]
+      },
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          },
+          {
+            key: 'Content-Type',
+            value: 'application/javascript'
+          }
+        ]
+      },
+      {
+        source: '/_next/static/css/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          },
+          {
+            key: 'Content-Type',
+            value: 'text/css'
           }
         ]
       }
