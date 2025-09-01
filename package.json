@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"    
+    "lint": "next lint"
   },
   "dependencies": {
     "@tiptap/extension-bullet-list": "^3.0.7",
@@ -26,6 +26,7 @@
     "@tiptap/starter-kit": "^3.0.7",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/nodemailer": "^7.0.1",
     "@vercel/blob": "^1.1.1",
     "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
@@ -38,9 +39,11 @@
     "mongoose": "^8.16.4",
     "next": "^15.4.6",
     "next-i18next": "^15.4.2",
+    "nodemailer": "^7.0.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-i18next": "^15.6.1",
+    "resend": "^6.0.2",
     "swiper": "^11.2.10"
   },
   "devDependencies": {

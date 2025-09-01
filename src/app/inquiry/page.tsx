@@ -128,6 +128,7 @@ const InquiryPage: React.FC = () => {
         inquiry_type: form.category,
         inquiry_type_label: selected ? selected.ko : form.category,
         name: form.name,
+        position: form.position,
         company_name: form.company,
         phone_number: form.phone,
         email: form.email,

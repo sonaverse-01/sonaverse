@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dbConnect } from '../../../lib/db';
 import Inquiry from '../../../models/Inquiry';
+import { sendInquiryNotification } from '../../../lib/email';
 
 /**
  * 문의 목록 조회 및 새 문의 생성 API
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     // 필수 필드 검증
-    const requiredFields = ['inquiry_type', 'name', 'company_name', 'phone_number', 'email', 'message'];
+    const requiredFields = ['inquiry_type', 'name', 'phone_number', 'email', 'message'];
     for (const field of requiredFields) {
       if (!body[field]) {
         return NextResponse.json(
@@ -35,8 +36,20 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    const inquiry = new Inquiry(body);
+    // 문의 데이터 생성
+    const inquiryData = {
+      ...body,
+      submitted_at: new Date(),
+      status: 'pending'
+    };
+    
+    const inquiry = new Inquiry(inquiryData);
     await inquiry.save();
+    
+    // 이메일 알림 전송 (비동기로 처리하여 응답 지연 방지)
+    sendInquiryNotification(inquiryData).catch(error => {
+      console.error('이메일 알림 전송 실패:', error);
+    });
     
     return NextResponse.json(inquiry, { status: 201 });
   } catch (error) {

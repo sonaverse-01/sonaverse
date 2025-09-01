@@ -14,8 +14,10 @@ export interface IStatusHistory {
 
 export interface IInquiry extends Document {
   inquiry_type: string;
+  inquiry_type_label?: string;
   name: string;
-  company_name: string;
+  position?: string;
+  company_name?: string;
   phone_number: string;
   email: string;
   message: string;
@@ -38,8 +40,10 @@ const StatusHistorySchema = new Schema<IStatusHistory>({
 
 const InquirySchema = new Schema<IInquiry>({
   inquiry_type: { type: String, required: true },
+  inquiry_type_label: { type: String },
   name: { type: String, required: true },
-  company_name: { type: String, required: true },
+  position: { type: String },
+  company_name: { type: String },
   phone_number: { type: String, required: true },
   email: { type: String, required: true },
   message: { type: String, required: true },
