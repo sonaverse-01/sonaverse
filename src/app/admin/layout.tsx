@@ -8,6 +8,7 @@ import AuthManager from '../../components/admin/AuthManager';
 import ServiceWorkerRegistration from '../../components/admin/ServiceWorkerRegistration';
 import { logoutClient, checkAuthClient } from '../../lib/auth';
 import { User } from '../../lib/constants';
+import { ToastProvider } from '../../components/Toast';
 import './admin.css';
 
 interface AdminLayoutProps {
@@ -30,6 +31,11 @@ class AdminErrorBoundary extends React.Component<
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('Admin layout error:', error, errorInfo);
+    // 에러 로깅을 위한 추가 정보
+    if (typeof window !== 'undefined') {
+      console.error('Current URL:', window.location.href);
+      console.error('User Agent:', navigator.userAgent);
+    }
   }
 
   render() {
@@ -58,7 +64,6 @@ class AdminErrorBoundary extends React.Component<
 const AdminLayoutContent: React.FC<AdminLayoutProps> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
@@ -248,11 +253,13 @@ const AdminLayoutLoading = () => (
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return (
-    <AdminErrorBoundary>
-      <Suspense fallback={<AdminLayoutLoading />}>
-        <AdminLayoutContent>{children}</AdminLayoutContent>
-      </Suspense>
-    </AdminErrorBoundary>
+    <ToastProvider>
+      <AdminErrorBoundary>
+        <Suspense fallback={<AdminLayoutLoading />}>
+          <AdminLayoutContent>{children}</AdminLayoutContent>
+        </Suspense>
+      </AdminErrorBoundary>
+    </ToastProvider>
   );
 };
 
