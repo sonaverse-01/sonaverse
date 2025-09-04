@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 /**
  * 청크 로딩 실패를 감지하고 자동으로 페이지를 새로고침하는 컴포넌트
+ * 서비스워커 및 캐시 정리 기능 포함
  */
 const ChunkErrorHandler = () => {
   useEffect(() => {
@@ -17,12 +18,10 @@ const ChunkErrorHandler = () => {
         error.toString().includes('ChunkLoadError') ||
         event.filename?.includes('chunks')
       )) {
-        console.log('Detected chunk loading error, refreshing page...');
+        console.log('Detected chunk loading error, cleaning cache and refreshing page...');
         
-        // 잠시 후 페이지 새로고침
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        // 서비스워커 및 캐시 정리 후 페이지 새로고침
+        cleanupAndReload();
       }
     };
 
@@ -37,11 +36,9 @@ const ChunkErrorHandler = () => {
         error.toString().includes('Loading chunk') ||
         error.toString().includes('ChunkLoadError')
       )) {
-        console.log('Detected chunk loading promise rejection, refreshing page...');
+        console.log('Detected chunk loading promise rejection, cleaning cache and refreshing page...');
         
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        cleanupAndReload();
       }
     };
 
@@ -53,6 +50,32 @@ const ChunkErrorHandler = () => {
       window.removeEventListener('unhandledrejection', handleUnhandledRejection);
     };
   }, []);
+
+  // 서비스워커 및 캐시 정리 후 페이지 새로고침
+  const cleanupAndReload = async () => {
+    try {
+      // 캐시 정리
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+        console.log('Cleared all caches');
+      }
+      
+      // 서비스워커 해제
+      if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(registrations.map(r => r.unregister()));
+        console.log('Unregistered all service workers');
+      }
+    } catch (error) {
+      console.error('Error during cleanup:', error);
+    } finally {
+      // 버전 파라미터를 추가하여 강제 새로고침
+      const url = new URL(window.location.href);
+      url.searchParams.set('v', Date.now().toString());
+      window.location.href = url.toString();
+    }
+  };
 
   return null; // 이 컴포넌트는 UI를 렌더링하지 않음
 };

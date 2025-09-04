@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
   // 정적 파일 서빙 최적화
   output: 'standalone',
   
+  // 빌드 버전을 클라이언트에 노출 (서비스워커 버전 관리용)
+  env: {
+    NEXT_PUBLIC_APP_VERSION:
+      process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 8) ??
+      String(Date.now()),
+  },
+  
   // 이미지 최적화
   images: {
     formats: ['image/webp', 'image/avif'],
