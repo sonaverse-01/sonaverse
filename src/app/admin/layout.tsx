@@ -89,42 +89,20 @@ const AdminLayoutContent: React.FC<AdminLayoutProps> = ({ children }) => {
             await Promise.all(keys.map(k => caches.delete(k)));
             console.log('Caches cleared for security');
           }
+          
+          // 기존 localStorage 백업 토큰 정리 (보안 강화)
+          localStorage.removeItem('admin_token_backup');
+          localStorage.removeItem('admin_token_time');
         }
         
         // 세션 스토리지에서 인증 상태 확인
         let sessionAuth = sessionStorage.getItem('admin_authenticated');
         
-        // 세션 스토리지에 없으면 localStorage 백업 확인
-        if (!sessionAuth) {
-          try {
-            const tokenBackup = localStorage.getItem('admin_token_backup');
-            const tokenTime = localStorage.getItem('admin_token_time');
-            
-            if (tokenBackup && tokenTime) {
-              const tokenAge = Date.now() - parseInt(tokenTime);
-              const eightHours = 8 * 60 * 60 * 1000;
-              
-              // 8시간 이내이면 유효한 토큰으로 간주
-              if (tokenAge < eightHours) {
-                console.log('Found valid backup token, restoring session');
-                sessionStorage.setItem('admin_authenticated', 'true');
-                sessionAuth = 'true';
-                
-                // 쿠키도 복원 시도
-                document.cookie = `admin_token=${tokenBackup}; path=/; max-age=${8*60*60}; samesite=lax`;
-              } else {
-                // 만료된 백업 토큰 제거
-                localStorage.removeItem('admin_token_backup');
-                localStorage.removeItem('admin_token_time');
-              }
-            }
-          } catch (error) {
-            console.error('Failed to restore from backup:', error);
-          }
-        }
+        // 보안상의 이유로 localStorage 백업 토큰 복원 로직 제거
+        // 로그아웃 후에도 인증이 복원되는 보안 문제 방지
         
         if (!sessionAuth) {
-          // 세션 스토리지와 백업 모두 없으면 로그인 페이지로 리다이렉트
+          // 세션 스토리지에 없으면 로그인 페이지로 리다이렉트
           if (pathname !== '/admin/login') {
             const returnUrl = pathname;
             router.push(`/admin/login?returnUrl=${encodeURIComponent(returnUrl)}`);
@@ -199,6 +177,10 @@ const AdminLayoutContent: React.FC<AdminLayoutProps> = ({ children }) => {
       // 세션 스토리지에서 인증 상태 제거
       sessionStorage.removeItem('admin_authenticated');
       
+      // localStorage 백업 토큰도 완전히 정리
+      localStorage.removeItem('admin_token_backup');
+      localStorage.removeItem('admin_token_time');
+      
       // 보안을 위해 캐시 및 서비스워커 완전 정리
       if ('serviceWorker' in navigator) {
         const registrations = await navigator.serviceWorker.getRegistrations();
@@ -224,6 +206,10 @@ const AdminLayoutContent: React.FC<AdminLayoutProps> = ({ children }) => {
       // 오류가 발생해도 클라이언트 상태는 정리
       logoutClient();
       sessionStorage.removeItem('admin_authenticated');
+      
+      // localStorage 백업 토큰도 완전히 정리
+      localStorage.removeItem('admin_token_backup');
+      localStorage.removeItem('admin_token_time');
       
       // 보안을 위해 캐시 정리
       if ('serviceWorker' in navigator) {
