@@ -74,6 +74,23 @@ const AdminLayoutContent: React.FC<AdminLayoutProps> = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        // 보안을 위해 페이지 로드 시 캐시 및 서비스워커 정리
+        if (typeof window !== 'undefined') {
+          // 서비스워커 해제
+          if ('serviceWorker' in navigator) {
+            const registrations = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(registrations.map(r => r.unregister()));
+            console.log('Service workers unregistered for security');
+          }
+          
+          // 캐시 정리
+          if ('caches' in window) {
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+            console.log('Caches cleared for security');
+          }
+        }
+        
         // 세션 스토리지에서 인증 상태 확인
         let sessionAuth = sessionStorage.getItem('admin_authenticated');
         
@@ -182,20 +199,48 @@ const AdminLayoutContent: React.FC<AdminLayoutProps> = ({ children }) => {
       // 세션 스토리지에서 인증 상태 제거
       sessionStorage.removeItem('admin_authenticated');
       
+      // 보안을 위해 캐시 및 서비스워커 완전 정리
+      if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(registrations.map(r => r.unregister()));
+        console.log('Service workers unregistered during logout');
+      }
+      
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+        console.log('Caches cleared during logout');
+      }
+      
       // 상태 초기화
       setIsAuthenticated(false);
       setUser(null);
       
-      // 로그인 페이지로 리다이렉트
-      router.push('/admin/login');
+      // 로그인 페이지로 리다이렉트 (캐시 방지를 위해 버전 파라미터 추가)
+      const loginUrl = `/admin/login?v=${Date.now()}`;
+      router.push(loginUrl);
     } catch (error) {
       console.error('Logout error:', error);
       // 오류가 발생해도 클라이언트 상태는 정리
       logoutClient();
       sessionStorage.removeItem('admin_authenticated');
+      
+      // 보안을 위해 캐시 정리
+      if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(registrations.map(r => r.unregister()));
+      }
+      
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+      }
+      
       setIsAuthenticated(false);
       setUser(null);
-      router.push('/admin/login');
+      
+      const loginUrl = `/admin/login?v=${Date.now()}`;
+      router.push(loginUrl);
     }
   };
 
