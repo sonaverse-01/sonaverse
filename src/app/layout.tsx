@@ -4,6 +4,8 @@ import "./globals.css";
 import { LanguageProvider } from '../contexts/LanguageContext';
 import { ToastProvider } from '../components/Toast';
 import MainLayout from '../components/MainLayout';
+import ChunkErrorBoundary from '../components/ChunkErrorBoundary';
+import ChunkErrorHandler from '../components/ChunkErrorHandler';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -161,13 +163,16 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/hero5.png" fetchPriority="high" />
       </head>
       <body className="font-sans antialiased">
-        <LanguageProvider>
-          <ToastProvider>
-            <MainLayout>
-              {children}
-            </MainLayout>
-          </ToastProvider>
-        </LanguageProvider>
+        <ChunkErrorHandler />
+        <ChunkErrorBoundary>
+          <LanguageProvider>
+            <ToastProvider>
+              <MainLayout>
+                {children}
+              </MainLayout>
+            </ToastProvider>
+          </LanguageProvider>
+        </ChunkErrorBoundary>
       </body>
     </html>
   );

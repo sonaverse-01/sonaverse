@@ -9,6 +9,8 @@ import ServiceWorkerRegistration from '../../components/admin/ServiceWorkerRegis
 import { logoutClient, checkAuthClient } from '../../lib/auth';
 import { User } from '../../lib/constants';
 import { ToastProvider } from '../../components/Toast';
+import ChunkErrorBoundary from '../../components/ChunkErrorBoundary';
+import ChunkErrorHandler from '../../components/ChunkErrorHandler';
 import './admin.css';
 
 interface AdminLayoutProps {
@@ -253,13 +255,18 @@ const AdminLayoutLoading = () => (
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return (
-    <ToastProvider>
-      <AdminErrorBoundary>
-        <Suspense fallback={<AdminLayoutLoading />}>
-          <AdminLayoutContent>{children}</AdminLayoutContent>
-        </Suspense>
-      </AdminErrorBoundary>
-    </ToastProvider>
+    <>
+      <ChunkErrorHandler />
+      <ChunkErrorBoundary>
+        <ToastProvider>
+          <AdminErrorBoundary>
+            <Suspense fallback={<AdminLayoutLoading />}>
+              <AdminLayoutContent>{children}</AdminLayoutContent>
+            </Suspense>
+          </AdminErrorBoundary>
+        </ToastProvider>
+      </ChunkErrorBoundary>
+    </>
   );
 };
 
