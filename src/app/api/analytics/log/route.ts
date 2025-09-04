@@ -19,7 +19,8 @@ export async function POST(request: NextRequest) {
       await dbConnect();
     } catch (dbError) {
       console.error('Database connection failed:', dbError);
-      return NextResponse.json({ success: false, message: 'Database unavailable' }, { status: 503 });
+      // 데이터베이스 연결 실패 시 503 대신 200 반환 (비중요한 기능)
+      return NextResponse.json({ success: false, message: 'Database unavailable' }, { status: 200 });
     }
     
     const body = await request.json();

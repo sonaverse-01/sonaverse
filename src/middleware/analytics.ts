@@ -71,12 +71,17 @@ async function logVisitorToDB(request: NextRequest) {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to log visitor data: ${response.status}`);
+      // 401 에러가 아닌 경우에만 에러 로그 기록
+      if (response.status !== 401) {
+        throw new Error(`Failed to log visitor data: ${response.status}`);
+      }
+      // 401 에러는 조용히 무시 (데이터베이스 연결 문제일 수 있음)
+      console.log('Analytics logging skipped due to auth issue (non-critical)');
     }
 
   } catch (error) {
-    // 에러를 던지지 않고 로그만 기록
-    console.error('Error in logVisitorToDB:', error);
+    // 에러를 던지지 않고 로그만 기록 (비중요한 기능이므로)
+    console.log('Analytics logging error (non-critical):', error instanceof Error ? error.message : String(error));
   }
 }
 
