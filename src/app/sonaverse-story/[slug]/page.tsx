@@ -14,9 +14,21 @@ async function getSonaverseStory(slug: string): Promise<ISonaverseStory | null> 
     const story = await SonaverseStory.findOne({ 
       slug, 
       is_published: true 
-    }).lean() as ISonaverseStory | null;
+    }).lean() as any;
     
-    return story;
+    if (!story) return null;
+    
+    // 기존 다국어 구조에서 단일 구조로 변환
+    let content = story.content || {};
+    if (content.ko) {
+      // 기존 다국어 구조인 경우 한국어 콘텐츠 사용
+      content = content.ko;
+    }
+    
+    return {
+      ...story,
+      content: content
+    } as ISonaverseStory;
   } catch (error) {
     console.error('Error fetching sonaverse story:', error);
     return null;

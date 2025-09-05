@@ -12,16 +12,9 @@ interface SonaverseStory {
   thumbnail?: string; // API에서 추가로 제공하는 필드
   category?: string;
   content: {
-    ko: {
-      title: string;
-      subtitle?: string;
-      thumbnail_url?: string;
-    };
-    en: {
-      title: string;
-      subtitle?: string;
-      thumbnail_url?: string;
-    };
+    title: string;
+    subtitle?: string;
+    thumbnail_url?: string;
   };
   youtube_url?: string;
   tags: string[];
@@ -189,7 +182,7 @@ export default function SonaverseStoryPage() {
                         {story.thumbnail ? (
                           <img
                             src={story.thumbnail}
-                            alt={story.content.ko.title}
+                            alt={story.content.title}
                             className="w-full h-full object-contain hover:scale-105 transition-transform duration-700 bg-white"
                           />
                         ) : story.youtube_url ? (
@@ -204,7 +197,7 @@ export default function SonaverseStoryPage() {
                         ) : (
                           <img
                             src="/images/default-thumbnail.png"
-                            alt={story.content.ko.title}
+                            alt={story.content.title}
                             className="w-full h-full object-contain hover:scale-105 transition-transform duration-700 bg-white"
                           />
                         )}
@@ -227,11 +220,11 @@ export default function SonaverseStoryPage() {
                     <Link href={`/sonaverse-story/${story.slug}`}>
                       <div className="space-y-4">
                         <h2 className="text-xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight hover:text-blue-600 transition-colors duration-300">
-                          {story.content[language]?.title || story.content.ko.title}
+                          {story.content.title}
                         </h2>
-                        {(story.content[language]?.subtitle || story.content.ko.subtitle) && (
+                        {story.content.subtitle && (
                           <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
-                            {story.content[language]?.subtitle || story.content.ko.subtitle}
+                            {story.content.subtitle}
                           </p>
                         )}
                         
@@ -262,7 +255,7 @@ export default function SonaverseStoryPage() {
                     {story.thumbnail_url ? (
                       <img
                         src={story.thumbnail_url}
-                        alt={story.content.ko.title}
+                        alt={story.content.title}
                         className="w-full h-48 object-contain bg-white"
                       />
                     ) : story.youtube_url ? (
@@ -277,7 +270,7 @@ export default function SonaverseStoryPage() {
                     ) : (
                       <img
                         src="/images/default-thumbnail.png"
-                        alt={story.content.ko.title}
+                        alt={story.content.title}
                         className="w-full h-48 object-contain bg-white"
                       />
                     )}
@@ -294,11 +287,11 @@ export default function SonaverseStoryPage() {
                   
                   <div className="p-6">
                     <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
-                      {story.content[language]?.title || story.content.ko.title}
+                      {story.content.title}
                     </h2>
-                    {(story.content[language]?.subtitle || story.content.ko.subtitle) && (
+                    {story.content.subtitle && (
                       <p className="text-gray-600 mb-4 line-clamp-2">
-                        {story.content[language]?.subtitle || story.content.ko.subtitle}
+                        {story.content.subtitle}
                       </p>
                     )}
                     
@@ -328,7 +321,7 @@ export default function SonaverseStoryPage() {
                         {story.thumbnail ? (
                           <img
                             src={story.thumbnail}
-                            alt={story.content.ko.title}
+                            alt={story.content.title}
                             className="w-full h-full object-contain bg-white"
                           />
                         ) : story.youtube_url ? (
@@ -340,7 +333,7 @@ export default function SonaverseStoryPage() {
                         ) : (
                           <img
                             src="/images/default-thumbnail.png"
-                            alt={story.content.ko.title}
+                            alt={story.content.title}
                             className="w-full h-full object-contain bg-white"
                           />
                         )}
@@ -364,7 +357,7 @@ export default function SonaverseStoryPage() {
                           </div>
                           
                           <h2 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-tight">
-                            {story.content[language]?.title || story.content.ko.title}
+                            {story.content.title}
                           </h2>
                         </div>
                         

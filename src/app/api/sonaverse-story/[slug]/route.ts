@@ -38,6 +38,14 @@ export async function GET(request: NextRequest, { params }: Props) {
 
     // For non-admin, return a subset of fields.
     const story = sonaverseStory as any;
+    
+    // 기존 다국어 구조에서 단일 구조로 변환
+    let content = story.content || {};
+    if (content.ko) {
+      // 기존 다국어 구조인 경우 한국어 콘텐츠 사용
+      content = content.ko;
+    }
+    
     const result = {
       _id: story._id,
       slug: story.slug,
@@ -50,7 +58,7 @@ export async function GET(request: NextRequest, { params }: Props) {
       tags: story.tags || [],
       is_published: story.is_published,
       is_main: story.is_main,
-      content: story.content || {}
+      content: content
     };
     return NextResponse.json(result);
   } catch (error) {
