@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import mongoose from 'mongoose';
 import { dbConnect } from '../../../lib/db';
 import SonaverseStory from '../../../models/SonaverseStory';
 import { verifyToken, getCurrentUser } from '../../../lib/auth-server';
@@ -123,7 +124,7 @@ export async function POST(request: NextRequest) {
     // 소나버스 스토리 생성
     const sonaverseStory = new SonaverseStory({
       ...body,
-      author: user.id,
+      author: new mongoose.Types.ObjectId(user.id),
       updated_by: user.id,
       created_at: body.created_at ? new Date(body.created_at) : new Date(),
       last_updated: new Date()

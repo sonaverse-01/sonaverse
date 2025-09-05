@@ -36,7 +36,7 @@ export interface ISonaverseStory extends Document {
   updated_by: string;
   is_published: boolean;
   is_main?: boolean; // 메인 게시물 여부
-  content: Record<string, ISonaverseStoryContent>;
+  content: ISonaverseStoryContent; // 한국어 콘텐츠만
 }
 
 const SonaverseStoryImageSchema = new Schema<ISonaverseStoryImage>({
@@ -91,7 +91,7 @@ const SonaverseStorySchema = new Schema<ISonaverseStory>({
   updated_by: { type: String, required: true },
   is_published: { type: Boolean, default: false },
   is_main: { type: Boolean, default: false },
-  content: { type: Schema.Types.Mixed, required: true },
+  content: { type: SonaverseStoryContentSchema, required: true },
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });

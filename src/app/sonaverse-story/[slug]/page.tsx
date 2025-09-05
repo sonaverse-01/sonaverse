@@ -43,28 +43,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  // 콘텐츠 fallback 로직: 영어 콘텐츠가 없거나 비어있으면 한국어로 fallback
-  const koContent = story.content.ko;
-  const enContent = story.content.en;
-  
-  // 영어 콘텐츠가 완전한지 확인 (제목과 본문이 모두 있어야 함)
-  const hasCompleteEnContent = enContent && 
-    enContent.title && 
-    enContent.title.trim() !== '' &&
-    enContent.body && 
-    enContent.body.trim() !== '';
-  
-  // SEO용 콘텐츠 선택 (한국어 우선)
-  const seoContent = koContent || { title: '', subtitle: '', body: '' };
+  // 한국어 콘텐츠 사용
+  const content = story.content;
   
   return {
-    title: `${seoContent?.title || 'Story'} - SONAVERSE`,
-    description: seoContent?.subtitle || seoContent?.title || 'SONAVERSE Story',
-    keywords: ['소나버스 스토리', seoContent?.title, '시니어 라이프', '헬스케어', 'SONAVERSE Story'].filter(Boolean),
+    title: `${content?.title || 'Story'} - SONAVERSE`,
+    description: content?.subtitle || content?.title || 'SONAVERSE Story',
+    keywords: ['소나버스 스토리', content?.title, '시니어 라이프', '헬스케어', 'SONAVERSE Story'].filter(Boolean),
     authors: [{ name: 'SONAVERSE' }],
     openGraph: {
-      title: seoContent?.title || 'Story',
-      description: seoContent?.subtitle || seoContent?.title || 'SONAVERSE Story',
+      title: content?.title || 'Story',
+      description: content?.subtitle || content?.title || 'SONAVERSE Story',
       url: `https://sonaverse.kr/sonaverse-story/${slug}`,
       siteName: 'SONAVERSE',
       type: 'article',
@@ -73,27 +62,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [{
         url: (() => {
           // 본문 첫 이미지 -> 썸네일 -> 기본 로고 순으로 선택
-          const bodyHtml = seoContent?.body || '';
+          const bodyHtml = content?.body || '';
           const match = bodyHtml.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
           if (match?.[1]) return match[1];
-          if (seoContent?.thumbnail_url) return seoContent.thumbnail_url;
+          if (content?.thumbnail_url) return content.thumbnail_url;
           return '/logo/symbol_logo.png';
         })(),
         width: 1200,
         height: 630,
-        alt: seoContent?.title || 'Story',
+        alt: content?.title || 'Story',
       }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: seoContent?.title || 'Story',
-      description: seoContent?.subtitle || seoContent?.title || 'SONAVERSE Story',
+      title: content?.title || 'Story',
+      description: content?.subtitle || content?.title || 'SONAVERSE Story',
       images: [(() => {
         // 본문 첫 이미지 -> 썸네일 -> 기본 로고 순으로 선택
-        const bodyHtml = seoContent?.body || '';
+        const bodyHtml = content?.body || '';
         const match = bodyHtml.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
         if (match?.[1]) return match[1];
-        if (seoContent?.thumbnail_url) return seoContent.thumbnail_url;
+        if (content?.thumbnail_url) return content.thumbnail_url;
         return '/logo/symbol_logo.png';
       })()],
     },
@@ -108,11 +97,6 @@ export default async function SonaverseStoryDetailPage({ params }: Props) {
   const story = await getSonaverseStory(slug);
 
   if (!story || !story.content) {
-    notFound();
-  }
-
-  // Ensure both language versions exist in content
-  if (!story.content.ko && !story.content.en) {
     notFound();
   }
 

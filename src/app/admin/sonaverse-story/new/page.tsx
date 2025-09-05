@@ -28,16 +28,15 @@ const NewSonaverseStoryPage: React.FC = () => {
   const [formData, setFormData] = useState({
     slug: '',
     content: {
-      ko: { title: '', subtitle: '', body: '', images: [] as IBlogPostImage[] },
-      en: { title: '', subtitle: '', body: '', images: [] as IBlogPostImage[] }
+      title: '',
+      subtitle: '',
+      body: '',
+      images: [] as IBlogPostImage[]
     },
     thumbnail_url: '', // 통합 썸네일
     youtube_url: '',
     category: '', // 카테고리 추가
-    tags: {
-      ko: '',
-      en: ''
-    },
+    tags: '', // 태그를 단일 문자열로 변경
     created_at: '', // 작성일자 추가
     is_main: false, // 메인 게시물 여부
     is_published: true
@@ -51,8 +50,7 @@ const NewSonaverseStoryPage: React.FC = () => {
   const [isSlugValidated, setIsSlugValidated] = useState(false);
   
   // 에디터 ref 추가
-  const koEditorRef = useRef<TiptapEditorRef>(null);
-  const enEditorRef = useRef<TiptapEditorRef>(null);
+  const editorRef = useRef<TiptapEditorRef>(null);
   
   // 현재 활성 에디터 추적
   const [activeEditor, setActiveEditor] = useState<any>(null);
@@ -71,29 +69,23 @@ const NewSonaverseStoryPage: React.FC = () => {
     handleInputChange('slug', sanitizedValue);
   };
 
-  const handleContentChange = (lang: string, field: string, value: string) => {
+  const handleContentChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       content: {
         ...prev.content,
-        [lang]: {
-          ...prev.content[lang as keyof typeof prev.content],
-          [field]: value
-        }
+        [field]: value
       }
     }));
   };
 
   // 이미지 메타데이터 변경 핸들러
-  const handleImagesChange = (lang: string, images: IBlogPostImage[]) => {
+  const handleImagesChange = (images: IBlogPostImage[]) => {
     setFormData(prev => ({
       ...prev,
       content: {
         ...prev.content,
-        [lang]: {
-          ...prev.content[lang as keyof typeof prev.content],
-          images
-        }
+        images
       }
     }));
   };
@@ -166,20 +158,13 @@ const NewSonaverseStoryPage: React.FC = () => {
       const thumbnailUrl = await uploadThumbnail();
 
       // 에디터의 임시 이미지들을 실제 blob에 업로드
-      const updatedKoBody = await koEditorRef.current?.uploadTempImagesToBlob(formData.slug, 'ko') || formData.content.ko.body;
-      const updatedEnBody = await enEditorRef.current?.uploadTempImagesToBlob(formData.slug, 'en') || formData.content.en.body;
+      const updatedBody = await editorRef.current?.uploadTempImagesToBlob(formData.slug, 'ko') || formData.content.body;
 
       // 태그 파싱
-      const koTags = formData.tags.ko
+      const tags = formData.tags
         .split(',')
         .map(tag => tag.trim())
         .filter(tag => tag.length > 0);
-      const enTags = formData.tags.en
-        .split(',')
-        .map(tag => tag.trim())
-        .filter(tag => tag.length > 0);
-      
-      const allTags = [...new Set([...koTags, ...enTags])];
 
       // 작성일자 처리 - 공란이면 현재 날짜로 설정
       const createdAt = formData.created_at || new Date().toISOString();
@@ -187,19 +172,13 @@ const NewSonaverseStoryPage: React.FC = () => {
       const payload = {
         slug: formData.slug,
         content: {
-          ko: {
-            ...formData.content.ko,
-            body: updatedKoBody
-          },
-          en: {
-            ...formData.content.en,
-            body: updatedEnBody
-          }
+          ...formData.content,
+          body: updatedBody
         },
         thumbnail_url: thumbnailUrl,
         youtube_url: formData.youtube_url,
         category: formData.category,
-        tags: allTags,
+        tags: tags,
         created_at: createdAt,
         is_main: formData.is_main,
         is_published: formData.is_published
@@ -286,32 +265,13 @@ const NewSonaverseStoryPage: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   태그 (쉼표로 구분)
                 </label>
-                <div className="grid grid-cols-1 gap-3 sm:gap-4">
-                  <div>
-                    <label className="block text-xs font-medium text-gray-500 mb-1">
-                      한국어 태그
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.tags.ko}
-                      onChange={(e) => handleNestedInputChange('tags', 'ko', e.target.value)}
-                      placeholder="예: 소나버스, 스토리, 혁신"
-                      className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-500 mb-1">
-                      영어 태그
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.tags.en}
-                      onChange={(e) => handleNestedInputChange('tags', 'en', e.target.value)}
-                      placeholder="e.g. sonaverse, story, innovation"
-                      className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
-                    />
-                  </div>
-                </div>
+                <input
+                  type="text"
+                  value={formData.tags}
+                  onChange={(e) => handleInputChange('tags', e.target.value)}
+                  placeholder="예: 소나버스, 스토리, 혁신"
+                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
+                />
               </div>
             </div>
             <div className="mt-4">
@@ -402,9 +362,9 @@ const NewSonaverseStoryPage: React.FC = () => {
             </div>
           </div>
 
-          {/* 한국어 콘텐츠 */}
+          {/* 콘텐츠 */}
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border">
-            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">한국어 콘텐츠</h2>
+            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">콘텐츠</h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -412,8 +372,8 @@ const NewSonaverseStoryPage: React.FC = () => {
                 </label>
                 <input
                   type="text"
-                  value={formData.content.ko.title}
-                  onChange={(e) => handleContentChange('ko', 'title', e.target.value)}
+                  value={formData.content.title}
+                  onChange={(e) => handleContentChange('title', e.target.value)}
                   className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                 />
               </div>
@@ -423,8 +383,8 @@ const NewSonaverseStoryPage: React.FC = () => {
                 </label>
                 <input
                   type="text"
-                  value={formData.content.ko.subtitle}
-                  onChange={(e) => handleContentChange('ko', 'subtitle', e.target.value)}
+                  value={formData.content.subtitle}
+                  onChange={(e) => handleContentChange('subtitle', e.target.value)}
                   className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                 />
               </div>
@@ -433,62 +393,15 @@ const NewSonaverseStoryPage: React.FC = () => {
                   본문 *
                 </label>
                 <TiptapEditor
-                  ref={koEditorRef}
-                  value={formData.content.ko.body}
-                  onChange={(value: string) => handleContentChange('ko', 'body', value)}
+                  ref={editorRef}
+                  value={formData.content.body}
+                  onChange={(value: string) => handleContentChange('body', value)}
                   slug={formData.slug}
                   folder={formData.slug ? `sonaverseStory/${formData.slug}` : "sonaverseStory"}
-                  placeholder="한국어 본문을 입력하세요..."
-                  images={formData.content.ko.images}
-                  onImagesChange={(images) => handleImagesChange('ko', images)}
-                  onEditorFocus={() => setActiveEditor(koEditorRef.current?.getEditor())}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* 영어 콘텐츠 */}
-          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border">
-            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">영어 콘텐츠</h2>            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  제목
-                </label>
-                <input
-                  type="text"
-                  value={formData.content.en.title}
-                  onChange={(e) => handleContentChange('en', 'title', e.target.value)}
-                  placeholder="영어 제목을 입력하세요"
-                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  부제목
-                </label>
-                <input
-                  type="text"
-                  value={formData.content.en.subtitle}
-                  onChange={(e) => handleContentChange('en', 'subtitle', e.target.value)}
-                  placeholder="영어 부제목을 입력하세요"
-                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  본문
-                </label>
-                <TiptapEditor
-                  ref={enEditorRef}
-                  value={formData.content.en.body}
-                  onChange={(value: string) => handleContentChange('en', 'body', value)}
-                  slug={formData.slug}
-                  folder={formData.slug ? `sonaverseStory/${formData.slug}` : "sonaverseStory"}
-                  placeholder="영어 본문을 입력하세요..."
-                  images={formData.content.en.images}
-                  onImagesChange={(images) => handleImagesChange('en', images)}
-                  onEditorFocus={() => setActiveEditor(enEditorRef.current?.getEditor())}
+                  placeholder="본문을 입력하세요..."
+                  images={formData.content.images}
+                  onImagesChange={(images) => handleImagesChange(images)}
+                  onEditorFocus={() => setActiveEditor(editorRef.current?.getEditor())}
                 />
               </div>
             </div>
@@ -536,7 +449,7 @@ const NewSonaverseStoryPage: React.FC = () => {
         {activeEditor && (
           <FloatingToolbar 
             editor={activeEditor}
-            tiptapRef={activeEditor === koEditorRef.current?.getEditor() ? koEditorRef : enEditorRef}
+            tiptapRef={editorRef}
             onClose={() => setActiveEditor(null)}
           />
         )}

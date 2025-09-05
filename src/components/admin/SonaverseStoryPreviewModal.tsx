@@ -5,24 +5,13 @@ import React, { useState } from 'react';
 interface SonaverseStoryFormData {
   slug: string;
   content: {
-    ko: {
-      title: string;
-      subtitle?: string;
-      body: string;
-      thumbnail_url?: string;
-    };
-    en: {
-      title: string;
-      subtitle?: string;
-      body: string;
-      thumbnail_url?: string;
-    };
+    title: string;
+    subtitle?: string;
+    body: string;
+    thumbnail_url?: string;
   };
   youtube_url?: string;
-  tags: {
-    ko: string;
-    en: string;
-  };
+  tags: string;
   created_at: string;
   is_main?: boolean;
   is_published?: boolean;
@@ -39,32 +28,14 @@ const SonaverseStoryPreviewModal: React.FC<SonaverseStoryPreviewModalProps> = ({
   onClose,
   formData
 }) => {
-  const [selectedLang, setSelectedLang] = useState<'ko' | 'en'>('ko');
-
   if (!isOpen) return null;
 
-  // 영어 콘텐츠가 없거나 비어있을 경우 한국어로 fallback
-  const getCurrentContent = (lang: 'ko' | 'en') => {
-    const requestedContent = formData.content[lang];
-    const koContent = formData.content.ko;
-    
-    if (lang === 'en') {
-      // 영어 콘텐츠가 있고 제목과 본문이 모두 있는 경우에만 영어 콘텐츠 반환
-      if (requestedContent && 
-          requestedContent.title && 
-          requestedContent.title.trim() !== '' &&
-          requestedContent.body && 
-          requestedContent.body.trim() !== '') {
-        return requestedContent;
-      }
-      // 영어 콘텐츠가 없거나 비어있으면 한국어로 fallback
-      return koContent;
-    }
-    
-    return requestedContent;
+  // 콘텐츠를 가져오는 함수 (한국어만 사용)
+  const getCurrentContent = () => {
+    return formData.content;
   };
 
-  const currentContent = getCurrentContent(selectedLang);
+  const currentContent = getCurrentContent();
   const thumbnailUrl = currentContent.thumbnail_url || '/logo/nonImage_logo.png';
   const publishDate = formData.created_at ? new Date(formData.created_at).toLocaleDateString('ko-KR') : new Date().toLocaleDateString('ko-KR');
 
@@ -82,33 +53,6 @@ const SonaverseStoryPreviewModal: React.FC<SonaverseStoryPreviewModalProps> = ({
         <div className="flex justify-between items-center p-6 border-b border-gray-200">
           <div className="flex items-center space-x-4">
             <h2 className="text-2xl font-bold text-gray-900">소나버스 스토리 미리보기</h2>
-            
-            {/* 언어 선택 */}
-            <div className="flex bg-gray-100 rounded-lg p-1">
-              <button
-                onClick={() => setSelectedLang('ko')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  selectedLang === 'ko'
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                한국어
-              </button>
-              <button
-                onClick={() => setSelectedLang('en')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  selectedLang === 'en'
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                English
-                {selectedLang === 'en' && !getCurrentContent('en').title && (
-                  <span className="ml-1 text-xs text-orange-600">(한국어 표시)</span>
-                )}
-              </button>
-            </div>
           </div>
           
           <button
@@ -215,10 +159,10 @@ const SonaverseStoryPreviewModal: React.FC<SonaverseStoryPreviewModalProps> = ({
               <header className="mb-8">
                 <div className="flex items-center text-sm text-gray-500 mb-4">
                   <time>{publishDate}</time>
-                  {formData.tags && formData.tags[selectedLang] && (
+                  {formData.tags && (
                     <>
                       <span className="mx-2">•</span>
-                      <span>{formData.tags[selectedLang]}</span>
+                      <span>{formData.tags}</span>
                     </>
                   )}
                 </div>
