@@ -27,11 +27,35 @@ interface SonaverseStory {
   };
 }
 
+/**
+ * 언어별 콘텐츠를 가져오되, 영어 콘텐츠가 없거나 비어있을 경우 한국어로 fallback
+ * @param content 다국어 콘텐츠 객체
+ * @param lang 요청된 언어 ('ko' 또는 'en')
+ * @returns 해당 언어의 콘텐츠 또는 한국어 콘텐츠 (fallback)
+ */
 function getLocalizedContent(
   content: { ko: SonaverseStoryContent; en: SonaverseStoryContent },
   lang: string
 ): SonaverseStoryContent {
-  return content?.[lang as keyof typeof content] || content?.ko;
+  const requestedContent = content?.[lang as keyof typeof content];
+  const koContent = content?.ko;
+  
+  // 요청된 언어가 영어인 경우
+  if (lang === 'en') {
+    // 영어 콘텐츠가 있고 제목과 본문이 모두 있는 경우에만 영어 콘텐츠 반환
+    if (requestedContent && 
+        requestedContent.title && 
+        requestedContent.title.trim() !== '' &&
+        requestedContent.body && 
+        requestedContent.body.trim() !== '') {
+      return requestedContent;
+    }
+    // 영어 콘텐츠가 없거나 비어있으면 한국어로 fallback
+    return koContent || { title: '', subtitle: '', body: '' };
+  }
+  
+  // 한국어 요청이거나 다른 언어인 경우 한국어 콘텐츠 반환
+  return koContent || { title: '', subtitle: '', body: '' };
 }
 
 export default function ClientStoryDetail({ slug }: { slug: string }) {

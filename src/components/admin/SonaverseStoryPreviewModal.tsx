@@ -43,7 +43,28 @@ const SonaverseStoryPreviewModal: React.FC<SonaverseStoryPreviewModalProps> = ({
 
   if (!isOpen) return null;
 
-  const currentContent = formData.content[selectedLang];
+  // 영어 콘텐츠가 없거나 비어있을 경우 한국어로 fallback
+  const getCurrentContent = (lang: 'ko' | 'en') => {
+    const requestedContent = formData.content[lang];
+    const koContent = formData.content.ko;
+    
+    if (lang === 'en') {
+      // 영어 콘텐츠가 있고 제목과 본문이 모두 있는 경우에만 영어 콘텐츠 반환
+      if (requestedContent && 
+          requestedContent.title && 
+          requestedContent.title.trim() !== '' &&
+          requestedContent.body && 
+          requestedContent.body.trim() !== '') {
+        return requestedContent;
+      }
+      // 영어 콘텐츠가 없거나 비어있으면 한국어로 fallback
+      return koContent;
+    }
+    
+    return requestedContent;
+  };
+
+  const currentContent = getCurrentContent(selectedLang);
   const thumbnailUrl = currentContent.thumbnail_url || '/logo/nonImage_logo.png';
   const publishDate = formData.created_at ? new Date(formData.created_at).toLocaleDateString('ko-KR') : new Date().toLocaleDateString('ko-KR');
 
@@ -83,6 +104,9 @@ const SonaverseStoryPreviewModal: React.FC<SonaverseStoryPreviewModalProps> = ({
                 }`}
               >
                 English
+                {selectedLang === 'en' && !getCurrentContent('en').title && (
+                  <span className="ml-1 text-xs text-orange-600">(한국어 표시)</span>
+                )}
               </button>
             </div>
           </div>

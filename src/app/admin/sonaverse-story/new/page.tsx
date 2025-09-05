@@ -449,16 +449,17 @@ const NewSonaverseStoryPage: React.FC = () => {
 
           {/* 영어 콘텐츠 */}
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border">
-            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">영어 콘텐츠</h2>
+            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">영어 콘텐츠</h2>            
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  제목 *
+                  제목
                 </label>
                 <input
                   type="text"
                   value={formData.content.en.title}
                   onChange={(e) => handleContentChange('en', 'title', e.target.value)}
+                  placeholder="영어 제목을 입력하세요"
                   className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                 />
               </div>
@@ -470,12 +471,13 @@ const NewSonaverseStoryPage: React.FC = () => {
                   type="text"
                   value={formData.content.en.subtitle}
                   onChange={(e) => handleContentChange('en', 'subtitle', e.target.value)}
+                  placeholder="영어 부제목을 입력하세요"
                   className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  본문 *
+                  본문
                 </label>
                 <TiptapEditor
                   ref={enEditorRef}

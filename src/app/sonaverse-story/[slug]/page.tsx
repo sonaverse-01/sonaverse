@@ -43,18 +43,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  // Use Korean as default for SEO, but support both languages
+  // 콘텐츠 fallback 로직: 영어 콘텐츠가 없거나 비어있으면 한국어로 fallback
   const koContent = story.content.ko;
   const enContent = story.content.en;
   
+  // 영어 콘텐츠가 완전한지 확인 (제목과 본문이 모두 있어야 함)
+  const hasCompleteEnContent = enContent && 
+    enContent.title && 
+    enContent.title.trim() !== '' &&
+    enContent.body && 
+    enContent.body.trim() !== '';
+  
+  // SEO용 콘텐츠 선택 (한국어 우선)
+  const seoContent = koContent || { title: '', subtitle: '', body: '' };
+  
   return {
-    title: `${koContent?.title || enContent?.title || 'Story'} - SONAVERSE`,
-    description: koContent?.subtitle || koContent?.title || enContent?.subtitle || enContent?.title || 'SONAVERSE Story',
-    keywords: ['소나버스 스토리', koContent?.title, '시니어 라이프', '헬스케어', 'SONAVERSE Story', enContent?.title].filter(Boolean),
+    title: `${seoContent?.title || 'Story'} - SONAVERSE`,
+    description: seoContent?.subtitle || seoContent?.title || 'SONAVERSE Story',
+    keywords: ['소나버스 스토리', seoContent?.title, '시니어 라이프', '헬스케어', 'SONAVERSE Story'].filter(Boolean),
     authors: [{ name: 'SONAVERSE' }],
     openGraph: {
-      title: koContent?.title || enContent?.title || 'Story',
-      description: koContent?.subtitle || koContent?.title || enContent?.subtitle || enContent?.title || 'SONAVERSE Story',
+      title: seoContent?.title || 'Story',
+      description: seoContent?.subtitle || seoContent?.title || 'SONAVERSE Story',
       url: `https://sonaverse.kr/sonaverse-story/${slug}`,
       siteName: 'SONAVERSE',
       type: 'article',
@@ -63,31 +73,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [{
         url: (() => {
           // 본문 첫 이미지 -> 썸네일 -> 기본 로고 순으로 선택
-          const koBody = koContent?.body || '';
-          const enBody = enContent?.body || '';
-          const bodyHtml = koBody || enBody;
+          const bodyHtml = seoContent?.body || '';
           const match = bodyHtml.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
           if (match?.[1]) return match[1];
-          if (koContent?.thumbnail_url || enContent?.thumbnail_url) return koContent?.thumbnail_url || enContent?.thumbnail_url || '';
+          if (seoContent?.thumbnail_url) return seoContent.thumbnail_url;
           return '/logo/symbol_logo.png';
         })(),
         width: 1200,
         height: 630,
-        alt: koContent?.title || enContent?.title || 'Story',
+        alt: seoContent?.title || 'Story',
       }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: koContent?.title || enContent?.title || 'Story',
-      description: koContent?.subtitle || koContent?.title || enContent?.subtitle || enContent?.title || 'SONAVERSE Story',
+      title: seoContent?.title || 'Story',
+      description: seoContent?.subtitle || seoContent?.title || 'SONAVERSE Story',
       images: [(() => {
         // 본문 첫 이미지 -> 썸네일 -> 기본 로고 순으로 선택
-        const koBody = koContent?.body || '';
-        const enBody = enContent?.body || '';
-        const bodyHtml = koBody || enBody;
+        const bodyHtml = seoContent?.body || '';
         const match = bodyHtml.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
         if (match?.[1]) return match[1];
-        if (koContent?.thumbnail_url || enContent?.thumbnail_url) return koContent?.thumbnail_url || enContent?.thumbnail_url || '';
+        if (seoContent?.thumbnail_url) return seoContent.thumbnail_url;
         return '/logo/symbol_logo.png';
       })()],
     },

@@ -350,13 +350,13 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-gray-500 mb-1">
-                      영어 태그
+                      영어 태그 (선택사항)
                     </label>
                     <input
                       type="text"
                       value={formData.tags.en}
                       onChange={(e) => handleNestedInputChange('tags', 'en', e.target.value)}
-                      placeholder="e.g. sonaverse, story, innovation"
+                      placeholder="e.g. sonaverse, story, innovation (선택사항)"
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
@@ -500,32 +500,39 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
           {/* 영어 콘텐츠 */}
           <div className="bg-white p-6 rounded-lg shadow-sm border">
             <h2 className="text-lg font-semibold mb-4 text-gray-800">영어 콘텐츠</h2>
+            <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <strong>💡 안내:</strong> 영어 콘텐츠는 선택사항입니다. 영어 콘텐츠가 없을 경우 사용자 화면에서는 한국어 버전이 표시됩니다.
+              </p>
+            </div>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  제목 *
+                  제목 (선택사항)
                 </label>
                 <input
                   type="text"
                   value={formData.content.en.title}
                   onChange={(e) => handleContentChange('en', 'title', e.target.value)}
+                  placeholder="영어 제목을 입력하세요 (선택사항)"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  부제목
+                  부제목 (선택사항)
                 </label>
                 <input
                   type="text"
                   value={formData.content.en.subtitle}
                   onChange={(e) => handleContentChange('en', 'subtitle', e.target.value)}
+                  placeholder="영어 부제목을 입력하세요 (선택사항)"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  본문 *
+                  본문 (선택사항)
                 </label>
                 <TiptapEditor
                   ref={enEditorRef}
@@ -533,7 +540,7 @@ const EditSonaverseStoryPage: React.FC<EditSonaverseStoryPageProps> = ({ params 
                   onChange={(value: string) => handleContentChange('en', 'body', value)}
                   slug={formData.slug}
                   folder={formData.slug ? `sonaverseStory/${formData.slug}` : "sonaverseStory"}
-                  placeholder="영어 본문을 입력하세요..."
+                  placeholder="영어 본문을 입력하세요 (선택사항)..."
                   images={formData.content.en.images}
                   onImagesChange={(images) => handleImagesChange('en', images)}
                   onEditorFocus={() => setActiveEditor(enEditorRef.current?.getEditor())}
